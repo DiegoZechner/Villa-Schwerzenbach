@@ -8,7 +8,7 @@ const contactSchema = z.object({
   message: z.string().min(10),
 });
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || 're_placeholder_for_build');
 
 export async function POST(request: Request) {
   try {

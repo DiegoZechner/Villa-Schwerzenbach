@@ -11,9 +11,9 @@ if (isVercel) {
   // On Vercel, the filesystem is read-only except for /tmp.
   // We copy the bundled seeded database to /tmp so the app can read/write during the mockup.
   dbPath = path.join('/tmp', 'villa.db');
-  if (!fs.existsSync(dbPath)) {
+  if (!fs.existsSync(/*turbopackIgnore: true*/ dbPath)) {
     const bundledDbPath = path.join(process.cwd(), 'data', 'villa.db');
-    if (fs.existsSync(bundledDbPath)) {
+    if (fs.existsSync(/*turbopackIgnore: true*/ bundledDbPath)) {
       fs.copyFileSync(bundledDbPath, dbPath);
     }
   }
