@@ -10,9 +10,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
+        // Fallbacks so it works out-of-the-box on Vercel without environment variables
+        const expectedEmail = process.env.ADMIN_EMAIL || 'admin@villa-schwerzenbach.ch';
+        const expectedPassword = process.env.ADMIN_PASSWORD || 'VillaAdmin2024!';
+
         if (
-          credentials?.email === process.env.ADMIN_EMAIL &&
-          credentials?.password === process.env.ADMIN_PASSWORD
+          credentials?.email === expectedEmail &&
+          credentials?.password === expectedPassword
         ) {
           return { id: 'admin', email: credentials.email as string, name: 'Admin' };
         }
@@ -23,7 +27,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
     strategy: 'jwt',
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  // Fallback secret for Vercel mockup
+  secret: process.env.NEXTAUTH_SECRET || 'fallback-secret-for-vercel-mockup-do-not-use-in-prod-12345',
   pages: {
     signIn: '/admin/login',
   },

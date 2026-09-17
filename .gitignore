@@ -41,10 +41,4 @@ yarn-error.log*
 next-env.d.ts
 
 # database
-/data/*.db
-/data/*.db-journal
-/data/*.sqlite
-/data/*.sqlite3
-/data/*.db-shm
-/data/*.db-wal
 drizzle/
