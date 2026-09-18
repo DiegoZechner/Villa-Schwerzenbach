@@ -20,7 +20,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="de">
-      <body className={`${montserrat.variable} ${playfair.variable} ${dancingScript.variable} font-sans min-h-screen flex flex-col`}>
+      <body className={`${montserrat.variable} ${playfair.variable} ${dancingScript.variable} font-sans min-h-screen flex flex-col relative`}>
+        {/* Subtle Background Pattern Overlay */}
+        <div 
+          className="fixed inset-0 pointer-events-none z-[-1] opacity-[0.05]" 
+          style={{ backgroundImage: "url('/images/pattern.png')", backgroundRepeat: 'repeat', backgroundSize: '400px' }}
+        ></div>
+        
         <Header />
         <main className="flex-grow">
           {children}

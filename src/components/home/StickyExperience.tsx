@@ -29,8 +29,8 @@ export default function StickyExperience() {
       <div ref={containerRef} className="h-[400vh] relative bg-background">
         <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-background">
           
-          {/* 2x2 Grid über den ganzen Bildschirm */}
-          <div className="w-full h-full grid grid-cols-1 md:grid-cols-2 grid-rows-4 md:grid-rows-2">
+          {/* Grid with spacing and max-width instead of fullscreen */}
+          <div className="w-full h-full max-w-6xl max-h-[70vh] grid grid-cols-1 md:grid-cols-2 grid-rows-4 md:grid-rows-2 gap-4 md:gap-8 px-4">
              {items.map((item, index) => {
                const start = index * 0.25;
                
@@ -45,7 +45,7 @@ export default function StickyExperience() {
                  <motion.div 
                    key={item.title}
                    style={{ opacity }}
-                   className="relative w-full h-full border-[8px] border-background overflow-hidden"
+                   className="relative w-full h-full rounded-md overflow-hidden shadow-2xl"
                  >
                    <Image 
                      src={item.image} 
