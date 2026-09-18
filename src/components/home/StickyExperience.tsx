@@ -19,10 +19,15 @@ export default function StickyExperience() {
 
   return (
     <>
-      {/* Intro Text vor den 4 Bildern */}
-      <div className="py-24 text-center bg-background relative z-10">
-        <h2 className="font-script text-6xl md:text-8xl text-bordeaux">Villa Schwerzenbach</h2>
-        <p className="font-sans text-sm md:text-base tracking-[0.4em] uppercase mt-4 text-espresso">by MIVA</p>
+      {/* Intro Logo vor den 4 Bildern */}
+      <div className="py-24 flex justify-center items-center bg-background relative z-10">
+        <Image 
+          src="/images/logos/villa-logo-text.png" 
+          alt="Villa Schwerzenbach by MIVA" 
+          width={600} 
+          height={200} 
+          className="w-4/5 md:w-1/2 h-auto object-contain"
+        />
       </div>
 
       {/* Scroll-Jacking Bereich für die 4 Bilder */}
