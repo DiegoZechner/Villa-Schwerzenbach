@@ -3,9 +3,9 @@ import RoomGrid from '@/components/booking/RoomGrid';
 
 export default function RoomsPage() {
   const rooms = [
-    { id: '1', slug: 'salon-bordeaux', name: 'Top 04 - Salon Bordeaux', category: 'Comfort', price: 180, capacity: 2, size: 24, image: '/images/rooms/top-04.jpg' },
-    { id: '2', slug: 'belle-epoque', name: 'Top 10 - Belle Époque', category: 'Deluxe', price: 280, capacity: 2, size: 38, image: '/images/rooms/top-10.jpg' },
-    { id: '3', slug: 'villa-suite', name: 'Top 12 - Villa Suite', category: 'Suite', price: 380, capacity: 4, size: 65, image: '/images/rooms/top-12.jpg' },
+    { id: '1', slug: 'salon-bordeaux', name: 'Top 04 - Salon Bordeaux', category: 'Comfort', price: 180, capacity: 2, size: 24, image: '/images/rooms/top-04.jpg', description: 'Ein elegantes Apartment in warmen Bordeaux-Tönen. Hochwertige Stoffe und klassische Details schaffen einen intimen Rückzugsort.' },
+    { id: '2', slug: 'belle-epoque', name: 'Top 10 - Belle Époque', category: 'Deluxe', price: 280, capacity: 2, size: 38, image: '/images/rooms/top-10.jpg', description: 'Opulenter Charme der Belle Époque. Freuen Sie sich auf historische Elemente, großzügigen Raum und unvergleichlichen Luxus.' },
+    { id: '3', slug: 'villa-suite', name: 'Top 12 - Villa Suite', category: 'Suite', price: 380, capacity: 4, size: 65, image: '/images/rooms/top-12.jpg', description: 'Die Krönung der Villa. Eine lichtdurchflutete Suite mit Panoramablick, privatem Wohnbereich und feinstem Design für höchste Ansprüche.' },
   ];
 
   return (

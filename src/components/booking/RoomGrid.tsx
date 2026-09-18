@@ -1,8 +1,6 @@
 'use client';
-import { useState } from 'react';
 import Link from 'next/link';
-import { Card, CardContent } from '@/components/ui/Card';
-import { Badge } from '@/components/ui/Badge';
+import Image from 'next/image';
 
 type Room = {
   id: string;
@@ -13,75 +11,57 @@ type Room = {
   capacity: number;
   size: number;
   image: string;
+  description?: string;
 };
 
 export default function RoomGrid({ initialRooms }: { initialRooms: Room[] }) {
-  const [filter, setFilter] = useState('Alle');
-  const categories = ['Alle', 'Classic', 'Comfort', 'Superior', 'Deluxe', 'Suite'];
-
-  const filteredRooms = filter === 'Alle' 
-    ? initialRooms 
-    : initialRooms.filter(r => r.category === filter);
-
   return (
-    <div>
-      {/* Filter */}
-      <div className="flex flex-wrap justify-center gap-2 mb-12">
-        {categories.map(cat => (
-          <button
-            key={cat}
-            onClick={() => setFilter(cat)}
-            className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
-              filter === cat 
-                ? 'bg-bordeaux text-cream' 
-                : 'bg-white border border-cream text-espresso hover:bg-cream-light'
-            }`}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
-
-      {/* Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {filteredRooms.map((room) => (
-          <Card key={room.id} className="group cursor-pointer flex flex-col">
-            <Link href={`/rooms/${room.slug}`} className="flex-grow flex flex-col">
-              <div className="relative h-64 overflow-hidden">
-                <div 
-                  className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" 
-                  style={{ backgroundImage: `url(${room.image})` }} 
+    <div className="flex flex-col gap-32">
+      {initialRooms.map((room, index) => (
+        <div key={room.id} className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-10 lg:gap-20 items-center`}>
+          
+          {/* Image Half */}
+          <div className="w-full lg:w-3/5">
+            <Link href={`/rooms/${room.slug}`}>
+              <div className="relative h-[50vh] lg:h-[75vh] w-full overflow-hidden group">
+                <Image 
+                  src={room.image} 
+                  alt={room.name}
+                  fill 
+                  className="object-cover group-hover:scale-105 transition-transform duration-1000 ease-out" 
                 />
               </div>
-              <CardContent className="flex-grow flex flex-col">
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="font-serif text-2xl text-bordeaux">{room.name}</h3>
-                  <Badge category={room.category} />
-                </div>
-                
-                <div className="flex gap-4 text-sm text-espresso/70 mb-6">
-                  <div className="flex items-center gap-1">
-                    <span>👥</span> {room.capacity} Personen
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <span>📐</span> {room.size} m²
-                  </div>
-                </div>
-
-                <div className="mt-auto flex justify-between items-center border-t border-cream/30 pt-4">
-                  <span className="text-lg font-medium text-espresso">ab CHF {room.price} / Nacht</span>
-                  <span className="text-villa-blue font-medium group-hover:text-bordeaux transition-colors">Details &rarr;</span>
-                </div>
-              </CardContent>
             </Link>
-          </Card>
-        ))}
-        {filteredRooms.length === 0 && (
-          <div className="col-span-full text-center py-12 text-espresso/60">
-            Keine Zimmer in dieser Kategorie gefunden.
           </div>
-        )}
-      </div>
+
+          {/* Text Half */}
+          <div className="w-full lg:w-2/5 flex flex-col justify-center text-center lg:text-left px-4 lg:px-0">
+            <h2 className="font-serif text-4xl lg:text-5xl text-espresso mb-6 uppercase tracking-widest leading-tight">
+              {room.name}
+            </h2>
+            
+            <div className="font-mono text-xs lg:text-sm tracking-[0.2em] uppercase text-espresso/60 mb-8 flex justify-center lg:justify-start items-center gap-4">
+              <span>{room.capacity} GUESTS</span>
+              <span className="w-1 h-1 bg-espresso/30 rounded-full"></span>
+              <span>{room.size} SQM</span>
+            </div>
+            
+            <p className="text-espresso/80 leading-relaxed mb-10 max-w-md mx-auto lg:mx-0">
+              {room.description || "Ein luxuriöses Erlebnis mit Liebe zum Detail und modernem Komfort."}
+            </p>
+            
+            <div>
+              <Link 
+                href={`/rooms/${room.slug}`} 
+                className="inline-block border-b border-espresso pb-1 font-bold text-sm tracking-widest uppercase hover:text-bordeaux hover:border-bordeaux transition-colors"
+              >
+                EXPLORE ROOM
+              </Link>
+            </div>
+          </div>
+
+        </div>
+      ))}
     </div>
   );
 }
