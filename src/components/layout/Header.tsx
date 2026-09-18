@@ -31,7 +31,7 @@ export default function Header() {
         <div className="flex-1 flex justify-center">
           <Link href="/">
             <Image 
-              src="/images/logos/villa-logo-primary.png" 
+              src="/images/logos/header-logo.png" 
               alt="Villa Schwerzenbach" 
               width={160} 
               height={80} 

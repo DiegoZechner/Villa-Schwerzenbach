@@ -35,7 +35,7 @@ export default function HeroZoom() {
         {/* Fixiertes Logo im Zentrum (bewegt sich nicht, skaliert nicht) */}
         <div className="relative z-10 flex items-center justify-center pointer-events-none">
           <Image 
-            src="/images/logos/villa-logo-secondary.png"
+            src="/images/logos/hero-logo.svg"
             alt="Villa Schwerzenbach"
             width={800}
             height={400}
