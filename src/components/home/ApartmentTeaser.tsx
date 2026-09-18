@@ -2,9 +2,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const apartments = [
-  { slug: 'salon-bordeaux', name: 'Salon Bordeaux', desc: 'Elegantes Apartment in warmen Bordeaux-Tönen', image: '/images/home/lobby.jpg' }, // Temporary fallback images if actual don't exist
-  { slug: 'belle-epoque', name: 'Belle Époque', desc: 'Opulentes Apartment mit Pracht der Belle Époque', image: '/images/home/meet.jpg' },
-  { slug: 'villa-suite', name: 'Villa Suite', desc: 'Die Krönung der Villa mit Panoramablick', image: '/images/home/stay.jpg' },
+  { slug: 'salon-bordeaux', name: 'Top 04 - Salon Bordeaux', desc: 'Elegantes Apartment in warmen Bordeaux-Tönen', image: '/images/rooms/top-04.jpg' },
+  { slug: 'belle-epoque', name: 'Top 10 - Belle Époque', desc: 'Opulentes Apartment mit Pracht der Belle Époque', image: '/images/rooms/top-10.jpg' },
+  { slug: 'villa-suite', name: 'Top 12 - Villa Suite', desc: 'Die Krönung der Villa mit Panoramablick', image: '/images/rooms/top-12.jpg' },
 ];
 
 export default function ApartmentTeaser() {
@@ -34,3 +34,4 @@ export default function ApartmentTeaser() {
     </section>
   );
 }
+

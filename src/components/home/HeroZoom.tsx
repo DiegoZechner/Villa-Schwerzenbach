@@ -13,8 +13,8 @@ export default function HeroZoom() {
     offset: ["start start", "end start"]
   });
 
-  // Nur das Hintergrundbild zoomt auf 20%
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.2]);
+  // Hintergrundbild zoomt nur bis 70% (capping)
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.7]);
 
   useEffect(() => {
     // Show prompt after 2 seconds if user hasn't scrolled
@@ -38,7 +38,7 @@ export default function HeroZoom() {
   }, []);
 
   return (
-    <div ref={containerRef} className="h-[200vh] relative bg-background">
+    <div ref={containerRef} className="h-[150vh] relative bg-background">
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center bg-espresso">
         
         {/* Skalierender Hintergrund */}
