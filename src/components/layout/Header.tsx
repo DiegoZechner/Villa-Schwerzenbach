@@ -10,14 +10,16 @@ export default function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > window.innerHeight * 0.5);
     };
     window.addEventListener('scroll', handleScroll);
+    // Initial check
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <header className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-background/90 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'}`}>
+    <header className={`fixed w-full z-50 transition-all duration-500 ease-in-out ${isScrolled ? 'translate-y-0 opacity-100 bg-background/90 backdrop-blur-md shadow-sm py-3' : '-translate-y-full opacity-0'}`}>
       <div className="container mx-auto px-4 md:px-8 flex justify-between items-center">
         
         {/* Left: Hamburger Menu */}
