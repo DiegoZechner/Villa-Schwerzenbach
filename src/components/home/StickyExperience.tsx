@@ -4,10 +4,10 @@ import { useRef } from 'react';
 import Image from 'next/image';
 
 const items = [
-  { title: "STAY", image: "/images/home/stay.jpg", textColor: "text-villa-blue" },
-  { title: "EAT", image: "/images/home/eat.jpg", textColor: "text-villa-red" },
-  { title: "MEET", image: "/images/home/meet.jpg", textColor: "text-villa-red" },
-  { title: "CELEBRATE", image: "/images/home/celebrate.jpg", textColor: "text-villa-blue" },
+  { title: "STAY", image: "/images/home/stay.jpg", textColor: "text-villa-blue", textSize: "text-6xl md:text-8xl lg:text-[8rem]" },
+  { title: "EAT", image: "/images/home/eat.jpg", textColor: "text-villa-red", textSize: "text-6xl md:text-8xl lg:text-[8rem]" },
+  { title: "MEET", image: "/images/home/meet.jpg", textColor: "text-villa-red", textSize: "text-6xl md:text-8xl lg:text-[8rem]" },
+  { title: "CELEBRATE", image: "/images/home/celebrate.jpg", textColor: "text-villa-blue", textSize: "text-4xl md:text-5xl lg:text-7xl" },
 ];
 
 export default function StickyExperience() {
@@ -63,7 +63,7 @@ export default function StickyExperience() {
                    
                    {/* Text über dem Bild */}
                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                     <h3 className={`text-6xl md:text-8xl lg:text-[9rem] font-serif tracking-widest uppercase ${item.textColor} drop-shadow-md`}>
+                     <h3 className={`${item.textSize} font-serif tracking-widest uppercase ${item.textColor} drop-shadow-md`}>
                        {item.title}
                      </h3>
                    </div>
