@@ -2,36 +2,35 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import BookingWidget from '@/components/booking/BookingWidget';
 
+const allRooms = [
+  { id: '1', slug: 'rosengarten', name: 'Top 02 - Rosengarten', category: 'Classic', price: 159, capacity: 2, size: 18, image: '/images/rooms/top-02.jpg', description: 'Gemütliches Zimmer mit Blick auf den hauseigenen Rosengarten. Warme Farben und stilvolles Interieur laden zum Verweilen ein.' },
+  { id: '2', slug: 'parkblick', name: 'Top 03 - Parkblick', category: 'Classic', price: 169, capacity: 2, size: 20, image: '/images/rooms/top-03.jpg', description: 'Helles Zimmer mit Panoramablick auf den umliegenden Park. Der ideale Rückzugsort nach einem ereignisreichen Tag.' },
+  { id: '3', slug: 'salon-bordeaux', name: 'Top 04 - Salon Bordeaux', category: 'Comfort', price: 189, capacity: 2, size: 24, image: '/images/rooms/top-04.jpg', description: 'Elegantes Zimmer in warmen Bordeaux-Tönen mit einem gemütlichen Sitzbereich. Stilvolle Details und hochwertige Stoffe prägen das Ambiente.' },
+  { id: '4', slug: 'beletage', name: 'Top 05 - Beletage', category: 'Comfort', price: 199, capacity: 2, size: 26, image: '/images/rooms/top-05.jpg', description: 'Grosszügiges Zimmer im ersten Obergeschoss mit hohen Decken und historischem Charme. Klassische Eleganz trifft auf modernen Komfort.' },
+  { id: '5', slug: 'orangerie', name: 'Top 06 - Orangerie', category: 'Comfort', price: 199, capacity: 3, size: 28, image: '/images/rooms/top-06.jpg', description: 'Lichtdurchflutetes Zimmer mit verspielten botanischen Akzenten. Ideal für Familien oder Gäste, die etwas mehr Platz schätzen.' },
+  { id: '6', slug: 'bibliothek', name: 'Top 07 - Bibliothek', category: 'Superior', price: 229, capacity: 2, size: 30, image: '/images/rooms/top-07.jpg', description: 'Ruhiges Refugium mit edlen Holzmöbeln und einer kuratierte Bücherauswahl. Perfekt für Gäste, die Ruhe und Inspiration suchen.' },
+  { id: '7', slug: 'villa-blau', name: 'Top 08 - Villa Blau', category: 'Superior', price: 239, capacity: 2, size: 32, image: '/images/rooms/top-08.jpg', description: 'Stilvolles Zimmer in den charakteristischen Blautönen der Villa. Ein harmonisches Zusammenspiel aus Farbe, Licht und Design.' },
+  { id: '8', slug: 'dachterrasse', name: 'Top 09 - Dachterrasse', category: 'Superior', price: 249, capacity: 3, size: 35, image: '/images/rooms/top-09.jpg', description: 'Exklusives Zimmer mit privatem Zugang zur Dachterrasse und Blick über die Dächer von Schwerzenbach.' },
+  { id: '9', slug: 'belle-epoque', name: 'Top 10 - Belle Époque', category: 'Deluxe', price: 279, capacity: 2, size: 38, image: '/images/rooms/top-10.jpg', description: 'Opulentes Zimmer, das die Pracht der Belle Époque einfängt. Hohe Stuckdecken, Kronleuchter und edle Materialien schaffen ein unvergessliches Erlebnis.' },
+  { id: '10', slug: 'grand-suite', name: 'Top 11 - Grand Suite', category: 'Suite', price: 329, capacity: 4, size: 50, image: '/images/rooms/top-11.jpg', description: 'Geräumige Suite mit separatem Wohnbereich und luxuriöser Ausstattung. Der perfekte Rahmen für besondere Anlässe.' },
+  { id: '11', slug: 'villa-suite', name: 'Top 12 - Villa Suite', category: 'Suite', price: 379, capacity: 4, size: 65, image: '/images/rooms/top-12.jpg', description: 'Die Krönung der Villa – unsere grösste Suite mit Panoramablick, freistehender Badewanne und einem eigenen Loungebereich.' },
+];
+
 export function generateStaticParams() {
-  return [
-    { slug: 'salon-bordeaux' },
-    { slug: 'belle-epoque' },
-    { slug: 'villa-suite' },
-  ];
+  return allRooms.map(r => ({ slug: r.slug }));
 }
 
 export default function RoomDetailPage({ params }: { params: { slug: string } }) {
-  // Generiere dynamisch korrekte Mock-Daten basierend auf dem Slug
-  const getRoomData = () => {
-    if (params.slug === 'salon-bordeaux') {
-      return { name: 'Top 04 - Salon Bordeaux', image: '/images/rooms/top-04.jpg', price: 180, capacity: 2, size: 24 };
-    }
-    if (params.slug === 'belle-epoque') {
-      return { name: 'Top 10 - Belle Époque', image: '/images/rooms/top-10.jpg', price: 280, capacity: 2, size: 38 };
-    }
-    return { name: 'Top 12 - Villa Suite', image: '/images/rooms/top-12.jpg', price: 380, capacity: 4, size: 65 };
-  };
-
-  const roomBase = getRoomData();
+  const roomBase = allRooms.find(r => r.slug === params.slug) || allRooms[0];
 
   const room = {
-    id: params.slug,
+    id: roomBase.slug,
     name: roomBase.name,
     category: 'Apartment',
     price: roomBase.price,
     capacity: roomBase.capacity,
     size: roomBase.size,
-    description: 'Erleben Sie luxuriösen Komfort in unserem exklusiven Apartment. Ausgestattet mit hochwertigen Betten, einem grosszügigen Bad mit Regendusche und erlesenen Details. Grosse Fenster sorgen für viel natürliches Licht und bieten einen wunderbaren Blick auf die ruhige Umgebung der Villa.',
+    description: roomBase.description,
     amenities: ['Kingsize-Bett', 'Regendusche', 'Espressomaschine', 'High-Speed WLAN', 'Klimaanlage', 'Safe', 'Premium Pflegeprodukte'],
     images: [
       roomBase.image, 
