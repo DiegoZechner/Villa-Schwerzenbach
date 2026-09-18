@@ -1,54 +1,70 @@
 import Link from 'next/link';
+import Image from 'next/image';
+import { Instagram, MapPin } from 'lucide-react'; 
 
 export default function Footer() {
   return (
-    <footer className="bg-espresso text-cream py-12 border-t-4 border-bordeaux">
-      <div className="container mx-auto px-4 md:px-8 grid grid-cols-1 md:grid-cols-3 gap-10">
+    <footer className="bg-[#f6f4ed] pt-20 relative z-10">
+      <div className="container mx-auto px-4 text-center">
         
-        {/* Column 1: Kontakt */}
-        <div>
-          <h3 className="font-serif text-xl mb-4 text-cream-light">Kontakt</h3>
-          <address className="not-italic text-cream/80 space-y-2">
-            <p>Villa Schwerzenbach by MIVA</p>
-            <p>Römerstrasse 23</p>
-            <p>8603 Schwerzenbach</p>
-            <p>Schweiz</p>
-            <p className="pt-2">Tel: +41 44 825 XX XX</p>
-            <p>Email: <a href="mailto:info@villa-schwerzenbach.ch" className="hover:text-white transition-colors">info@villa-schwerzenbach.ch</a></p>
-          </address>
+        {/* Address & Phone */}
+        <div className="font-mono text-sm tracking-wider text-espresso mb-10 leading-relaxed">
+          <p>Römerstrasse 23, 6900 Bregenz, Österreich</p>
+          <p className="mt-2">+43 5574 123456</p>
         </div>
 
-        {/* Column 2: Navigation */}
-        <div>
-          <h3 className="font-serif text-xl mb-4 text-cream-light">Navigation</h3>
-          <ul className="space-y-2 text-cream/80">
-            <li><Link href="/rooms" className="hover:text-white transition-colors">Zimmer</Link></li>
-            <li><Link href="/events" className="hover:text-white transition-colors">Events</Link></li>
-            <li><Link href="/cafe" className="hover:text-white transition-colors">Café</Link></li>
-            <li><Link href="/gallery" className="hover:text-white transition-colors">Galerie</Link></li>
-            <li><Link href="/contact" className="hover:text-white transition-colors">Kontakt</Link></li>
-          </ul>
+        {/* Links */}
+        <div className="flex justify-center items-center gap-4 text-sm font-bold tracking-widest text-espresso mb-12">
+          <Link href="/faqs" className="hover:text-bordeaux transition-colors">FAQS</Link>
+          <span className="text-gray-400 font-light">|</span>
+          <Link href="/contact" className="hover:text-bordeaux transition-colors">CONTACT</Link>
+          <span className="text-gray-400 font-light">|</span>
+          <Link href="/careers" className="hover:text-bordeaux transition-colors">CAREERS</Link>
         </div>
 
-        {/* Column 3: Social & Branding */}
-        <div>
-          <div className="flex items-center gap-3 mb-4">
-            <svg width="24" height="24" viewBox="0 0 100 100" fill="currentColor" className="text-cream">
-              <path d="M10 90 L10 50 A20 20 0 0 1 30 30 L30 30 A20 20 0 0 1 50 50 L50 90 M30 90 L30 50 A20 20 0 0 1 50 30 L50 30 A20 20 0 0 1 70 50 L70 90 M50 90 L50 50 A20 20 0 0 1 70 30 L70 30 A20 20 0 0 1 90 50 L90 90" stroke="currentColor" strokeWidth="4" fill="none" />
-            </svg>
-            <span className="font-serif font-bold text-lg tracking-wider">VILLA SCHWERZENBACH</span>
-          </div>
-          <p className="font-script text-xl mb-6 text-cream-light opacity-80">A House Full of Life</p>
-          <div className="space-x-4 text-sm text-cream/60">
-            <Link href="/datenschutz" className="hover:text-white transition-colors">Datenschutz</Link>
-            <span>|</span>
-            <Link href="/impressum" className="hover:text-white transition-colors">Impressum</Link>
-          </div>
+        {/* Social Icons */}
+        <div className="flex justify-center gap-4 mb-12">
+          <a href="#" className="w-10 h-10 rounded-full bg-[#cb6b57] flex items-center justify-center hover:bg-bordeaux transition-colors">
+            <Instagram className="w-5 h-5 text-white" />
+          </a>
+          <a href="#" className="w-10 h-10 rounded-full bg-[#cb6b57] flex items-center justify-center hover:bg-bordeaux transition-colors">
+            <MapPin className="w-5 h-5 text-white" />
+          </a>
         </div>
+
+        {/* Logo */}
+        <div className="flex justify-center mb-10">
+          <Image 
+            src="/images/logos/header-logo.png" 
+            alt="Villa Schwerzenbach" 
+            width={300} 
+            height={120} 
+            className="w-48 md:w-64 h-auto object-contain"
+          />
+        </div>
+
+        {/* Credit */}
+        <div className="mb-16">
+          <p className="font-mono text-xs tracking-widest text-espresso/70">
+            Built by <a href="#" className="underline hover:text-bordeaux">MIVA</a>
+          </p>
+        </div>
+
       </div>
-      
-      <div className="container mx-auto px-4 md:px-8 mt-10 pt-6 border-t border-cream/20 text-center text-sm text-cream/50">
-        <p>&copy; {new Date().getFullYear()} Villa Schwerzenbach by MIVA. Alle Rechte vorbehalten.</p>
+
+      {/* Bottom Black Bar */}
+      <div className="bg-black py-6 text-center text-xs text-gray-400 font-sans">
+        <div className="container mx-auto px-4 flex flex-wrap justify-center gap-x-4 gap-y-3">
+          <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+          <span className="hidden md:inline">|</span>
+          <Link href="/terms" className="hover:text-white transition-colors">Terms & Conditions</Link>
+          <span className="hidden md:inline">|</span>
+          <Link href="/cookies" className="hover:text-white transition-colors">Cookie Center</Link>
+          <span className="hidden md:inline">|</span>
+          <Link href="/security" className="hover:text-white transition-colors">Security & Safety</Link>
+          <span className="hidden md:inline">|</span>
+          <span>© {new Date().getFullYear()} Villa Schwerzenbach</span>
+        </div>
       </div>
     </footer>
   );
