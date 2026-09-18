@@ -1,23 +1,15 @@
-import { SectionHeading } from '@/components/ui/SectionHeading';
+import PageHero from '@/components/ui/PageHero';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
 
 export default function CafePage() {
   return (
-    <div className="flex flex-col min-h-screen">
-      <section className="relative h-[60vh] flex items-center justify-center">
-        <div className="absolute inset-0 bg-espresso/50 z-10" />
-        <div 
-          className="absolute inset-0 bg-cover bg-center" 
-          style={{ backgroundImage: "url('/images/hero/hero-1.jpg')" }}
-        />
-        <div className="relative z-20 text-center px-4">
-          <h1 className="font-serif text-5xl md:text-7xl text-cream mb-4 drop-shadow-md">
-            Café Schwerzenbach
-          </h1>
-          <p className="font-script text-3xl text-cream-light opacity-90">Kaffee, Kuchen & Begegnungen</p>
-        </div>
-      </section>
+    <div className="flex flex-col min-h-screen relative z-10">
+      <PageHero 
+        title="Café Schwerzenbach" 
+        subtitle="Kaffee, Kuchen & Begegnungen" 
+        image="/images/home/eat.jpg" 
+      />
 
       <section className="py-24 bg-background">
         <div className="container mx-auto px-4 max-w-4xl text-center">

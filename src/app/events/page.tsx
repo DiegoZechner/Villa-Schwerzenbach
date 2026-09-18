@@ -1,4 +1,4 @@
-import { SectionHeading } from '@/components/ui/SectionHeading';
+import PageHero from '@/components/ui/PageHero';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
@@ -10,46 +10,38 @@ export default function EventsPage() {
       title: 'Sounds from the Villa',
       subtitle: 'Live-Musik-Abende jeden Freitag',
       description: 'Lassen Sie die Woche bei entspannten Klängen ausklingen. Jeden Freitagabend begrüssen wir lokale Künstler in unserer Lounge.',
-      image: '/images/hero/hero-1.jpg'
+      image: '/images/home/celebrate.jpg'
     },
     {
       id: 2,
       title: 'Wine & Dine',
       subtitle: 'Kulinarische Weinabende',
       description: 'Ein exklusives 5-Gänge-Menü, perfekt abgestimmt mit erlesenen Weinen aus der Region und darüber hinaus.',
-      image: '/images/gallery/gallery-1.jpg'
+      image: '/images/home/eat.jpg'
     },
     {
       id: 3,
       title: 'Private Celebrations',
       subtitle: 'Feiern in exklusivem Rahmen',
       description: 'Ob Hochzeit, runder Geburtstag oder Jubiläum – die Villa bietet den perfekten Rahmen für Ihre unvergesslichen Momente.',
-      image: '/images/hero/hero-1.jpg'
+      image: '/images/home/celebrate.jpg'
     },
     {
       id: 4,
       title: 'Corporate Events',
       subtitle: 'Meetings und Teambuilding',
       description: 'Inspirierende Räumlichkeiten für produktive Meetings, Workshops oder das nächste Firmenfest.',
-      image: '/images/gallery/gallery-1.jpg'
+      image: '/images/home/meet.jpg'
     }
   ];
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <section className="relative h-[60vh] flex items-center justify-center">
-        <div className="absolute inset-0 bg-espresso/50 z-10" />
-        <div 
-          className="absolute inset-0 bg-cover bg-center" 
-          style={{ backgroundImage: "url('/images/gallery/gallery-1.jpg')" }}
-        />
-        <div className="relative z-20 text-center px-4">
-          <h1 className="font-serif text-5xl md:text-7xl text-cream mb-4 drop-shadow-md">
-            Events & Veranstaltungen
-          </h1>
-          <p className="font-script text-3xl text-cream-light opacity-90">Momente, die bleiben</p>
-        </div>
-      </section>
+    <div className="flex flex-col min-h-screen relative z-10">
+      <PageHero 
+        title="Events" 
+        subtitle="Momente, die bleiben" 
+        image="/images/home/celebrate.jpg" 
+      />
 
       <section className="py-24 bg-background">
         <div className="container mx-auto px-4 max-w-6xl">
