@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
-import Image from 'next/image';
 import BookingWidget from '@/components/booking/BookingWidget';
+import RoomGallery from '@/components/rooms/RoomGallery';
 
 const allRooms = [
   { id: '1', slug: 'rosengarten', name: 'Top 02 - Rosengarten', category: 'Classic', price: 159, capacity: 2, size: 18, image: '/images/rooms/top-02.jpg', description: 'Gemütliches Zimmer mit Blick auf den hauseigenen Rosengarten. Warme Farben und stilvolles Interieur laden zum Verweilen ein.' },
@@ -23,82 +23,78 @@ export function generateStaticParams() {
 export default function RoomDetailPage({ params }: { params: { slug: string } }) {
   const roomBase = allRooms.find(r => r.slug === params.slug) || allRooms[0];
 
+  // Helper to resolve specific images if they exist, otherwise fallback to the single main image
+  const getGalleryImages = (slug: string, mainImage: string) => {
+    if (slug === 'salon-bordeaux') return ['/images/rooms/top-04-1.jpg', '/images/rooms/top-04-2.jpg', '/images/rooms/top-04-3.jpg', '/images/rooms/top-04-4.jpg'];
+    if (slug === 'belle-epoque') return ['/images/rooms/top-10-1.jpg', '/images/rooms/top-10-2.jpg', '/images/rooms/top-10-3.jpg', '/images/rooms/top-10-4.jpg'];
+    if (slug === 'villa-suite') return ['/images/rooms/top-12-1.jpg', '/images/rooms/top-12-2.jpg', '/images/rooms/top-12-3.jpg', '/images/rooms/top-12-4.jpg'];
+    
+    // Fallback for rooms without extra gallery images yet
+    return [mainImage, '/images/home/stay.jpg', '/images/home/lobby.jpg'];
+  };
+
   const room = {
     id: roomBase.slug,
     name: roomBase.name,
-    category: 'Apartment',
     price: roomBase.price,
     capacity: roomBase.capacity,
     size: roomBase.size,
     description: roomBase.description,
     amenities: ['Kingsize-Bett', 'Regendusche', 'Espressomaschine', 'High-Speed WLAN', 'Klimaanlage', 'Safe', 'Premium Pflegeprodukte'],
-    images: [
-      roomBase.image, 
-      '/images/home/stay.jpg', 
-      '/images/home/lobby.jpg'
-    ] // Using fallback images for the grid since we only have 1 per room currently
+    images: getGalleryImages(roomBase.slug, roomBase.image)
   };
 
   return (
-    <div className="bg-background min-h-screen relative z-10">
-      
-      {/* Huge Hero Image */}
-      <div className="relative h-[70vh] md:h-[85vh] w-full">
-        <Image src={room.images[0]} alt={room.name} fill className="object-cover" priority />
-      </div>
-
-      <div className="container mx-auto px-4 md:px-8 py-16 md:py-24">
-        <div className="flex flex-col lg:flex-row gap-16">
+    <div className="bg-background min-h-screen pt-32 pb-24 relative z-10">
+      <div className="container mx-auto px-4 md:px-8">
+        
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
           
-          {/* Main Editorial Content */}
-          <div className="flex-1 lg:w-2/3">
+          {/* Left: Sticky Image Gallery */}
+          <div className="w-full lg:w-[55%]">
+            <div className="lg:sticky lg:top-28">
+              <RoomGallery images={room.images} />
+            </div>
+          </div>
+
+          {/* Right: Content & Booking Form */}
+          <div className="w-full lg:w-[45%] flex flex-col pt-4">
             
-            <div className="mb-16 text-center lg:text-left">
-              <h1 className="font-serif text-5xl md:text-6xl text-espresso mb-6 uppercase tracking-widest leading-tight">{room.name}</h1>
-              <div className="font-mono text-sm tracking-[0.2em] uppercase text-espresso/60 flex flex-wrap justify-center lg:justify-start items-center gap-4">
-                <span>{room.capacity} GUESTS</span>
-                <span className="w-1 h-1 bg-espresso/30 rounded-full"></span>
-                <span>{room.size} SQM</span>
-                <span className="w-1 h-1 bg-espresso/30 rounded-full"></span>
-                <span>1 KING BED</span>
-              </div>
+            <h1 className="font-serif text-4xl lg:text-5xl text-espresso mb-4 uppercase tracking-widest leading-tight">
+              {room.name}
+            </h1>
+            
+            <div className="font-mono text-xs md:text-sm tracking-[0.2em] uppercase text-espresso/60 flex flex-wrap items-center gap-3 mb-10">
+              <span>{room.capacity} GUESTS</span>
+              <span className="w-1 h-1 bg-espresso/30 rounded-full"></span>
+              <span>{room.size} SQM</span>
+              <span className="w-1 h-1 bg-espresso/30 rounded-full"></span>
+              <span>1 KING BED</span>
             </div>
 
-            <div className="text-lg md:text-xl text-espresso/80 leading-relaxed mb-16 font-serif">
+            <div className="text-lg text-espresso/80 leading-relaxed mb-12 font-serif">
               <p>{room.description}</p>
-            </div>
-
-            {/* Editorial Image Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-16">
-              <div className="relative h-[40vh] md:h-96">
-                <Image src={room.images[1]} alt={`${room.name} Detail`} fill className="object-cover" />
-              </div>
-              <div className="relative h-[40vh] md:h-96">
-                <Image src={room.images[2]} alt={`${room.name} Bathroom`} fill className="object-cover" />
-              </div>
             </div>
 
             {/* Amenities */}
             <div className="mb-12">
-              <h2 className="font-mono text-sm tracking-[0.2em] text-espresso uppercase mb-8 border-b border-cream/50 pb-4">Room Features</h2>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8">
+              <h2 className="font-mono text-xs tracking-[0.2em] text-espresso uppercase mb-6 border-b border-cream/50 pb-2">Amenities</h2>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-4">
                 {room.amenities.map((amenity, i) => (
-                  <li key={i} className="flex items-center gap-4 text-espresso/80 font-sans">
-                    <span className="w-1.5 h-1.5 rounded-full bg-bordeaux"></span>
+                  <li key={i} className="flex items-center gap-3 text-espresso/80 font-sans text-sm">
+                    <span className="w-1 h-1 rounded-full bg-bordeaux"></span>
                     {amenity}
                   </li>
                 ))}
               </ul>
             </div>
-          </div>
 
-          {/* Sidebar / Booking Widget */}
-          <div className="w-full lg:w-1/3">
-            <div className="sticky top-28">
-              <BookingWidget roomId={room.id} roomName={room.name} price={room.price} />
+            {/* Inline Booking Widget (No longer sidebar, integrates perfectly into the page flow) */}
+            <div className="mt-auto border-t border-cream/50 pt-10">
+               <BookingWidget roomId={room.id} roomName={room.name} price={room.price} />
             </div>
-          </div>
 
+          </div>
         </div>
       </div>
     </div>
