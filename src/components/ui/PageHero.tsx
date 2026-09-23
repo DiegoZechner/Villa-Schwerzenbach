@@ -22,3 +22,4 @@ export default function PageHero({ title, subtitle, image }: PageHeroProps) {
     </section>
   );
 }
+

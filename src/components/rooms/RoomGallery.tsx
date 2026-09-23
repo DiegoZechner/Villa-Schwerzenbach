@@ -39,3 +39,4 @@ export default function RoomGallery({ images }: { images: string[] }) {
     </div>
   );
 }
+

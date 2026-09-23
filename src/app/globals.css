@@ -9,6 +9,13 @@
   --color-cream-light: #f5f0eb;
   --color-background: #faf8f5;
   --color-foreground: #35271f;
+  
+  /* Ashby Editorial Palette */
+  --color-ashby-olive: #6c7052;
+  --color-ashby-blue: #4f5a7a;
+  --color-ashby-brown: #3f3630;
+  --color-ashby-sand: #f2efe9;
+  
   --font-sans: 'Montserrat', sans-serif;
   --font-serif: 'Playfair Display', serif;
   --font-script: 'Dancing Script', cursive;

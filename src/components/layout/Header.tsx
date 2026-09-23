@@ -2,76 +2,146 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { Menu } from 'lucide-react';
 
 export default function Header() {
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isLangOpen, setIsLangOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > window.innerHeight * 0.5);
+      const currentScrollY = window.scrollY;
+      
+      // If scrolling DOWN and past 100px, hide header
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsVisible(false);
+      } 
+      // If scrolling UP, show header
+      else if (currentScrollY < lastScrollY) {
+        setIsVisible(true);
+      }
+      
+      setLastScrollY(currentScrollY);
     };
-    window.addEventListener('scroll', handleScroll);
-    // Initial check
-    handleScroll();
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [lastScrollY]);
+
+  const navLinks = [
+    { name: 'APARTMENTS', href: '/rooms' },
+    { name: 'EVENTS', href: '/events' },
+    { name: 'DISCOVER', href: '/gallery' },
+    { name: 'CONTACT', href: '/contact' },
+  ];
 
   return (
-    <header className={`fixed w-full z-50 transition-all duration-500 ease-in-out ${isScrolled ? 'translate-y-0 opacity-100 bg-background/90 backdrop-blur-md shadow-sm py-3' : '-translate-y-full opacity-0'}`}>
-      <div className="container mx-auto px-4 md:px-8 flex justify-between items-center">
+    <header 
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out ${
+        isVisible ? 'translate-y-0' : '-translate-y-full'
+      } ${lastScrollY > 10 ? 'bg-background/95 backdrop-blur-md shadow-sm' : 'bg-transparent'}`}
+    >
+      <div className="container mx-auto px-4 md:px-8 py-5 flex justify-between items-center">
         
-        {/* Left: Hamburger Menu */}
+        {/* Left: Main Logo */}
         <div className="flex-1">
-          <button className="text-bordeaux hover:text-villa-red transition-colors" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-            <Menu className="w-8 h-8" />
-          </button>
-        </div>
-        
-        {/* Center: Villa Logo */}
-        <div className="flex-1 flex justify-center">
-          <Link href="/">
+          <Link href="/" className="inline-block">
+            {/* Fallback to text if logo image is not strictly required, but user said "Hauptlogo" */}
             <Image 
               src="/images/logos/header-logo.png" 
               alt="Villa Schwerzenbach" 
-              width={160} 
-              height={80} 
-              className="h-10 md:h-14 w-auto object-contain transition-all duration-300"
+              width={200} 
+              height={40} 
+              className={`h-6 md:h-8 w-auto object-contain transition-all duration-300 ${lastScrollY > 10 ? 'opacity-100' : 'brightness-0 invert'}`}
             />
           </Link>
         </div>
         
-        {/* Right: Language + Book Now */}
-        <div className="flex-1 flex justify-end items-center gap-4">
-          <div className={`hidden md:flex gap-3 text-sm font-medium uppercase tracking-widest ${isScrolled ? 'text-espresso' : 'text-white'}`}>
-            <span className="cursor-pointer font-bold text-bordeaux border-b-2 border-bordeaux">DE</span>
-            <span className="cursor-pointer hover:text-bordeaux transition-colors">EN</span>
-            <span className="cursor-pointer hover:text-bordeaux transition-colors">ES</span>
-            <span className="cursor-pointer hover:text-bordeaux transition-colors">FR</span>
+        {/* Center: Navigation (Desktop) */}
+        <nav className="hidden lg:flex flex-1 justify-center items-center gap-10">
+          {navLinks.map(link => (
+            <Link 
+              key={link.name} 
+              href={link.href} 
+              className={`font-mono text-xs tracking-[0.25em] uppercase hover:opacity-50 transition-opacity ${lastScrollY > 10 ? 'text-espresso' : 'text-white'}`}
+            >
+              {link.name}
+            </Link>
+          ))}
+        </nav>
+        
+        {/* Right: Language & Secondary Icon */}
+        <div className="flex-1 flex justify-end items-center gap-6">
+          
+          {/* Language Dropdown */}
+          <div className="relative hidden md:block">
+            <button 
+              onClick={() => setIsLangOpen(!isLangOpen)}
+              className={`font-mono text-xs tracking-widest uppercase hover:opacity-50 transition-opacity flex items-center gap-1 ${lastScrollY > 10 ? 'text-espresso' : 'text-white'}`}
+            >
+              DE ▾
+            </button>
+            {isLangOpen && (
+              <div className="absolute top-full right-0 mt-4 w-24 bg-background shadow-md border border-cream rounded-sm py-2 flex flex-col">
+                {['EN', 'FR', 'ESP', 'IT'].map(lang => (
+                  <button 
+                    key={lang}
+                    onClick={() => setIsLangOpen(false)}
+                    className="text-left px-4 py-2 text-xs font-mono tracking-widest uppercase text-espresso hover:bg-cream-light transition-colors"
+                  >
+                    {lang}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
-          <Link href="/rooms" className="bg-bordeaux text-cream px-6 py-2 rounded-sm hover:bg-villa-red transition-colors font-medium text-sm md:text-base whitespace-nowrap">
-            Book Now
+
+          {/* Secondary Logo/Icon */}
+          <Link href="/">
+             <Image 
+                src="/images/logos/5.png" 
+                alt="Brand Mark" 
+                width={30} 
+                height={30} 
+                className={`w-6 h-6 object-contain transition-all ${lastScrollY > 10 ? 'opacity-100' : 'brightness-0 invert'}`}
+              />
           </Link>
+
+          {/* Mobile Menu Toggle */}
+          <button 
+            className="lg:hidden ml-4 p-2"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            <div className={`w-6 h-px mb-1.5 transition-all ${lastScrollY > 10 ? 'bg-espresso' : 'bg-white'}`}></div>
+            <div className={`w-6 h-px mb-1.5 transition-all ${lastScrollY > 10 ? 'bg-espresso' : 'bg-white'}`}></div>
+            <div className={`w-6 h-px transition-all ${lastScrollY > 10 ? 'bg-espresso' : 'bg-white'}`}></div>
+          </button>
         </div>
       </div>
 
       {/* Mobile Drawer */}
-      {isMobileMenuOpen && (
-        <div className="absolute top-full left-0 w-full bg-background shadow-lg">
-          <nav className="flex flex-col py-4">
-            <Link href="/rooms" className="px-6 py-4 border-b border-cream text-espresso hover:bg-cream-light font-serif text-lg" onClick={() => setIsMobileMenuOpen(false)}>Apartments</Link>
-            <Link href="/events" className="px-6 py-4 border-b border-cream text-espresso hover:bg-cream-light font-serif text-lg" onClick={() => setIsMobileMenuOpen(false)}>Events</Link>
-            <Link href="/gallery" className="px-6 py-4 border-b border-cream text-espresso hover:bg-cream-light font-serif text-lg" onClick={() => setIsMobileMenuOpen(false)}>Galerie</Link>
-            <div className="px-6 py-6 flex gap-6 text-base font-medium">
-              <span className="text-bordeaux font-bold border-b-2 border-bordeaux">DE</span>
-              <span className="text-espresso">EN</span>
-              <span className="text-espresso">ES</span>
-              <span className="text-espresso">FR</span>
+      <div className={`lg:hidden fixed inset-0 bg-background z-40 transition-transform duration-500 ${isMobileMenuOpen ? 'translate-y-0' : '-translate-y-full'}`} style={{ top: '70px' }}>
+         <nav className="flex flex-col items-center justify-center h-full gap-8 pb-32">
+            {navLinks.map(link => (
+              <Link 
+                key={link.name} 
+                href={link.href} 
+                className="font-serif text-3xl tracking-widest text-espresso uppercase"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {link.name}
+              </Link>
+            ))}
+            <div className="flex gap-4 mt-8">
+              {['DE', 'EN', 'FR', 'ESP', 'IT'].map(lang => (
+                <span key={lang} className={`font-mono text-sm tracking-widest ${lang === 'DE' ? 'text-bordeaux border-b border-bordeaux' : 'text-espresso/60'}`}>
+                  {lang}
+                </span>
+              ))}
             </div>
-          </nav>
-        </div>
-      )}
+         </nav>
+      </div>
     </header>
   );
 }
