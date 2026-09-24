@@ -19,22 +19,22 @@ export default function Home() {
               playsInline 
               className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
            ></video>
-          {/* Overlay: transparent by default, darkens on hover */}
-          <div className="absolute inset-0 bg-transparent group-hover:bg-black/40 transition-colors duration-700 pointer-events-none"></div>
-          {/* Text: hidden by default, appears on hover */}
-          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
-            <h2 className="text-white font-serif text-4xl md:text-5xl tracking-wider">Our Apartments</h2>
+          {/* Overlay: permanent dark on mobile, darkens on hover on desktop */}
+          <div className="absolute inset-0 bg-black/30 md:bg-transparent md:group-hover:bg-black/40 transition-colors duration-700 pointer-events-none"></div>
+          {/* Text: pulsing on mobile, appears on hover on desktop */}
+          <div className="absolute inset-0 flex items-center justify-center opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
+            <h2 className="text-white font-serif text-4xl md:text-5xl tracking-wider animate-[pulse_3s_ease-in-out_infinite] md:animate-none">Our Apartments</h2>
           </div>
         </Link>
         
         {/* Right */}
-        <Link href="/events" className="relative w-full md:w-1/2 h-1/2 md:h-full group overflow-hidden cursor-pointer">
+        <Link href="/events" className="relative w-full md:w-1/2 h-1/2 md:h-full group overflow-hidden cursor-pointer block">
           <Image src="/images/home/celebrate.jpg" alt="Events" fill className="object-cover transition-transform duration-1000 group-hover:scale-105" priority />
-          {/* Overlay: transparent by default, darkens on hover */}
-          <div className="absolute inset-0 bg-transparent group-hover:bg-black/40 transition-colors duration-700"></div>
-          {/* Text: hidden by default, appears on hover */}
-          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-            <h2 className="text-white font-serif text-4xl md:text-5xl tracking-wider">Events</h2>
+          {/* Overlay: permanent dark on mobile, darkens on hover on desktop */}
+          <div className="absolute inset-0 bg-black/30 md:bg-transparent md:group-hover:bg-black/40 transition-colors duration-700 pointer-events-none"></div>
+          {/* Text: pulsing on mobile, appears on hover on desktop */}
+          <div className="absolute inset-0 flex items-center justify-center opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
+            <h2 className="text-white font-serif text-4xl md:text-5xl tracking-wider animate-[pulse_3s_ease-in-out_infinite] md:animate-none">Events</h2>
           </div>
         </Link>
       </section>

@@ -13,9 +13,9 @@ export default function DiscoverPage() {
   }, []);
 
   const getWidths = () => {
-    if (activeSeason === 'none') return { summer: 'w-1/2', winter: 'w-1/2' };
-    if (activeSeason === 'summer') return { summer: 'w-[95%]', winter: 'w-[5%]' };
-    return { summer: 'w-[5%]', winter: 'w-[95%]' };
+    if (activeSeason === 'none') return { summer: 'w-full lg:w-1/2', winter: 'hidden lg:block lg:w-1/2' };
+    if (activeSeason === 'summer') return { summer: 'w-full lg:w-[95%]', winter: 'hidden lg:block lg:w-[5%]' };
+    return { summer: 'hidden lg:block lg:w-[5%]', winter: 'w-full lg:w-[95%]' };
   };
 
   const widths = getWidths();
@@ -71,11 +71,27 @@ export default function DiscoverPage() {
   ];
 
   return (
-    <main className="w-full h-screen flex overflow-hidden bg-espresso text-cream pt-20 lg:pt-0">
+    <main className="w-full h-screen flex overflow-hidden bg-espresso text-cream lg:pt-0">
       
+      {/* Mobile Top Tab Navigation */}
+      <div className="lg:hidden absolute top-20 left-0 w-full z-[100] flex justify-center gap-2 px-4 pointer-events-auto">
+         <button 
+           onClick={() => setActiveSeason(activeSeason === 'winter' ? 'summer' : 'summer')} 
+           className={`px-8 py-3 font-mono text-[10px] tracking-[0.25em] border transition-colors ${activeSeason !== 'winter' ? 'bg-cream text-espresso border-cream' : 'border-white/50 text-white backdrop-blur-sm'}`}
+         >
+           SOMMER
+         </button>
+         <button 
+           onClick={() => setActiveSeason('winter')} 
+           className={`px-8 py-3 font-mono text-[10px] tracking-[0.25em] border transition-colors ${activeSeason === 'winter' ? 'bg-cream text-espresso border-cream' : 'border-white/50 text-white backdrop-blur-sm'}`}
+         >
+           WINTER
+         </button>
+      </div>
+
       {/* Summer Section */}
       <div 
-        className={`${widths.summer} relative h-full transition-all duration-1000 ease-[cubic-bezier(0.76,0,0.24,1)] border-r border-white/20 cursor-pointer group flex-shrink-0`}
+        className={`${widths.summer} relative h-full transition-all duration-1000 ease-[cubic-bezier(0.76,0,0.24,1)] lg:border-r border-white/20 cursor-pointer group flex-shrink-0`}
         onClick={(e) => {
           // Only trigger split if not already active or clicking the background
           if (activeSeason !== 'summer') setActiveSeason('summer');

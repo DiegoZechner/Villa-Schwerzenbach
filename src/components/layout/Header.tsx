@@ -72,7 +72,7 @@ export default function Header() {
         </nav>
         
         {/* Right: Language & Secondary Icon */}
-        <div className="flex-1 flex justify-end items-center gap-6">
+        <div className="flex-1 flex justify-end items-center gap-4 md:gap-6">
           
           {/* Language Dropdown */}
           <div className="relative hidden md:block">
@@ -97,8 +97,8 @@ export default function Header() {
             )}
           </div>
 
-          {/* Secondary Logo/Icon */}
-          <Link href="/">
+          {/* Secondary Logo/Icon (Hidden on Mobile) */}
+          <Link href="/" className="hidden md:block">
              <Image 
                 src="/images/logos/brand-6.svg" 
                 alt="Brand Mark" 
@@ -110,7 +110,7 @@ export default function Header() {
 
           {/* Mobile Menu Toggle */}
           <button 
-            className="lg:hidden ml-4 p-2"
+            className="lg:hidden p-2 ml-2"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             <div className={`w-6 h-px mb-1.5 transition-all ${lastScrollY > 10 ? 'bg-espresso' : 'bg-white'}`}></div>
