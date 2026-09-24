@@ -112,13 +112,6 @@ export default function DiscoverPage() {
 
         {/* Expanded Content (Blog Layout) */}
         <div className={`absolute inset-0 bg-cream overflow-y-auto hide-scrollbar transition-all duration-1000 ${activeSeason === 'summer' ? 'opacity-100 z-10' : 'opacity-0 pointer-events-none z-[-1]'}`}>
-          
-          <button 
-            onClick={(e) => { e.stopPropagation(); setActiveSeason('none'); }} 
-            className="fixed top-24 right-8 lg:top-8 lg:right-12 text-espresso font-mono tracking-widest text-xs border border-espresso/20 px-4 py-2 hover:bg-espresso hover:text-cream transition-colors z-50"
-          >
-            CLOSE
-          </button>
 
           <div className="container mx-auto px-6 md:px-12 max-w-5xl py-32">
             <h2 className="font-serif text-5xl md:text-7xl tracking-widest uppercase text-bordeaux mb-24 text-center">
@@ -174,13 +167,6 @@ export default function DiscoverPage() {
 
         {/* Expanded Content (Blog Layout) */}
         <div className={`absolute inset-0 bg-espresso overflow-y-auto hide-scrollbar transition-all duration-1000 ${activeSeason === 'winter' ? 'opacity-100 z-10' : 'opacity-0 pointer-events-none z-[-1]'}`}>
-          
-          <button 
-            onClick={(e) => { e.stopPropagation(); setActiveSeason('none'); }} 
-            className="fixed top-24 right-8 lg:top-8 lg:right-12 text-cream font-mono tracking-widest text-xs border border-cream/20 px-4 py-2 hover:bg-cream hover:text-espresso transition-colors z-50"
-          >
-            CLOSE
-          </button>
 
           <div className="container mx-auto px-6 md:px-12 max-w-5xl py-32">
             <h2 className="font-serif text-5xl md:text-7xl tracking-widest uppercase text-cream mb-24 text-center">

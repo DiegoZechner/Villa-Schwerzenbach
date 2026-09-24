@@ -38,6 +38,7 @@ export default function Header() {
   ];
 
   return (
+    <>
     <header 
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out ${
         isVisible ? 'translate-y-0' : '-translate-y-full'
@@ -110,19 +111,20 @@ export default function Header() {
 
           {/* Mobile Menu Toggle */}
           <button 
-            className="lg:hidden p-2 ml-2"
+            className="lg:hidden p-2 ml-2 relative z-50"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            <div className={`w-6 h-px mb-1.5 transition-all ${lastScrollY > 10 ? 'bg-espresso' : 'bg-white'}`}></div>
-            <div className={`w-6 h-px mb-1.5 transition-all ${lastScrollY > 10 ? 'bg-espresso' : 'bg-white'}`}></div>
-            <div className={`w-6 h-px transition-all ${lastScrollY > 10 ? 'bg-espresso' : 'bg-white'}`}></div>
+            <div className={`w-6 h-px mb-1.5 transition-all ${isMobileMenuOpen || lastScrollY > 10 ? 'bg-espresso' : 'bg-white'} ${isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></div>
+            <div className={`w-6 h-px mb-1.5 transition-all ${isMobileMenuOpen || lastScrollY > 10 ? 'bg-espresso' : 'bg-white'} ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`}></div>
+            <div className={`w-6 h-px transition-all ${isMobileMenuOpen || lastScrollY > 10 ? 'bg-espresso' : 'bg-white'} ${isMobileMenuOpen ? '-rotate-45 -translate-y-1' : ''}`}></div>
           </button>
         </div>
       </div>
+    </header>
 
       {/* Mobile Drawer */}
       <div 
-        className={`lg:hidden fixed inset-0 bg-background z-40 transition-all duration-500 overflow-y-auto ${isMobileMenuOpen ? 'translate-y-0 opacity-100 pointer-events-auto' : '-translate-y-full opacity-0 pointer-events-none'}`} 
+        className={`lg:hidden fixed inset-0 bg-background transition-all duration-500 overflow-y-auto ${isMobileMenuOpen ? 'translate-y-0 opacity-100 pointer-events-auto z-40' : '-translate-y-full opacity-0 pointer-events-none z-[-1]'}`} 
         style={{ top: '70px' }}
       >
          <nav className="flex flex-col items-center justify-start min-h-full gap-8 py-12">
@@ -145,6 +147,6 @@ export default function Header() {
             </div>
          </nav>
       </div>
-    </header>
+    </>
   );
 }
