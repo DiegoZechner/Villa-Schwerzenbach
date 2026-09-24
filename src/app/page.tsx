@@ -1,14 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import ApartmentSlider from '@/components/home/ApartmentSlider';
 
 export default function Home() {
-  // Mock data for apartments grid (Section 4)
-  const apartments = [
-    { name: "Top 04 - Salon Bordeaux", img: "/images/rooms/top-04.jpg", slug: "salon-bordeaux" },
-    { name: "Top 05 - Beletage", img: "/images/rooms/top-05.jpg", slug: "beletage" },
-    { name: "Top 10 - Belle Époque", img: "/images/rooms/top-10.jpg", slug: "belle-epoque" },
-    { name: "Top 12 - Villa Suite", img: "/images/rooms/top-12.jpg", slug: "villa-suite" },
-  ];
 
   return (
     <main className="w-full relative overflow-x-hidden">
@@ -75,45 +69,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Section 4: Apartments Grid */}
-      <section className="w-full bg-cream border-t-[3px] border-white">
-        
-        {/* Top Bar */}
-        <div className="flex justify-between items-center px-6 md:px-12 py-10 md:py-14">
-          <h2 className="font-sans text-xs md:text-sm tracking-[0.25em] uppercase text-espresso/90 font-medium">
-            Apartments
-          </h2>
-          <span className="text-espresso/80 text-xl font-light">›</span>
-        </div>
-
-        {/* Image Grid */}
-        <div className="flex overflow-x-auto lg:grid lg:grid-cols-4 snap-x snap-mandatory hide-scrollbar gap-[2px] bg-white">
-          {apartments.map((apt, i) => (
-            <Link 
-              key={i} 
-              href={`/rooms/${apt.slug}`} 
-              className="group shrink-0 snap-center w-[85vw] sm:w-[50vw] md:w-[33vw] lg:w-full flex flex-col bg-cream"
-            >
-               {/* Image */}
-               <div className="relative h-[55vh] md:h-[65vh] w-full overflow-hidden">
-                 <Image 
-                   src={apt.img} 
-                   alt={apt.name} 
-                   fill 
-                   className="object-cover transition-transform duration-1000 group-hover:scale-105" 
-                 />
-               </div>
-               
-               {/* Text below image */}
-               <div className="py-8 md:py-10 px-4">
-                 <p className="text-center font-sans text-[10px] md:text-xs tracking-[0.25em] uppercase text-espresso/80 group-hover:text-bordeaux transition-colors">
-                   {apt.name}
-                 </p>
-               </div>
-            </Link>
-          ))}
-        </div>
-      </section>
+      {/* Section 4: Apartments Slider */}
+      <ApartmentSlider />
 
     </main>
   );
