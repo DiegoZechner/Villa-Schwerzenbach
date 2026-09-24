@@ -34,6 +34,7 @@ export default function Header() {
     { name: 'EVENTS', href: '/events' },
     { name: 'DISCOVER', href: '/gallery' },
     { name: 'CONTACT', href: '/contact' },
+    { name: 'BOOK NOW', href: '/rooms' },
   ];
 
   return (
