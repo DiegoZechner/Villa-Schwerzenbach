@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
-import { Montserrat, Playfair_Display, Dancing_Script } from 'next/font/google';
+import { DM_Sans, Bodoni_Moda, Dancing_Script } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 
-const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-sans' });
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-serif' });
+const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-sans' });
+const bodoni = Bodoni_Moda({ subsets: ['latin'], variable: '--font-serif', style: ['normal', 'italic'] });
 const dancingScript = Dancing_Script({ subsets: ['latin'], variable: '--font-script' });
 
 export const metadata: Metadata = {
@@ -20,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="de">
-      <body className={`${montserrat.variable} ${playfair.variable} ${dancingScript.variable} font-sans min-h-screen flex flex-col relative`}>
+      <body className={`${dmSans.variable} ${bodoni.variable} ${dancingScript.variable} font-sans min-h-screen flex flex-col relative`}>
         {/* Subtle Background Pattern Overlay */}
         <div 
           className="fixed inset-0 pointer-events-none z-[-1] opacity-[0.05]" 

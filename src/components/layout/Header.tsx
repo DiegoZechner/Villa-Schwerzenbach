@@ -47,9 +47,8 @@ export default function Header() {
         {/* Left: Main Logo */}
         <div className="flex-1">
           <Link href="/" className="inline-block">
-            {/* Fallback to text if logo image is not strictly required, but user said "Hauptlogo" */}
             <Image 
-              src="/images/logos/header-logo.png" 
+              src="/images/logos/secondary-3.svg" 
               alt="Villa Schwerzenbach" 
               width={200} 
               height={40} 
@@ -100,7 +99,7 @@ export default function Header() {
           {/* Secondary Logo/Icon */}
           <Link href="/">
              <Image 
-                src="/images/logos/5.png" 
+                src="/images/logos/brand-6.svg" 
                 alt="Brand Mark" 
                 width={30} 
                 height={30} 

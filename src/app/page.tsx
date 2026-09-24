@@ -15,42 +15,46 @@ export default function Home() {
       
       {/* Section 1: Hero Split */}
       <section className="h-screen w-full flex flex-col md:flex-row">
-        {/* Left */}
-        <Link href="/rooms" className="relative w-full md:w-1/2 h-1/2 md:h-full group overflow-hidden border-b-[3px] md:border-b-0 md:border-r-[3px] border-white">
-          <Image src="/images/home/stay.jpg" alt="Our Apartments" fill className="object-cover transition-transform duration-1000 group-hover:scale-105" priority />
-          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <h2 className="text-white font-serif text-4xl md:text-5xl tracking-wider">Our Apartments</h2>
-          </div>
-        </Link>
-        {/* Right */}
-        <Link href="/events" className="relative w-full md:w-1/2 h-1/2 md:h-full group overflow-hidden">
-          <Image src="/images/home/celebrate.jpg" alt="Events" fill className="object-cover transition-transform duration-1000 group-hover:scale-105" priority />
-          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <h2 className="text-white font-serif text-4xl md:text-5xl tracking-wider">Events</h2>
-          </div>
-        </Link>
-      </section>
-
-      {/* Section 2: About Us Video Split */}
-      <section className="h-screen w-full flex flex-col md:flex-row border-t-[3px] border-white">
-        {/* Left: Solid Color Block */}
-        <div className="w-full md:w-1/2 h-1/2 md:h-full bg-[var(--color-ashby-olive)] flex flex-col justify-center items-center text-center p-8 border-b-[3px] md:border-b-0 md:border-r-[3px] border-white text-white">
-          <h2 className="font-serif text-4xl md:text-5xl tracking-widest uppercase mb-4 leading-tight">Villa<br/>Schwerzenbach</h2>
-          <p className="font-script text-3xl md:text-4xl opacity-80 mt-6">A House Full of Life</p>
-        </div>
-        {/* Right: Video */}
-        <div className="relative w-full md:w-1/2 h-1/2 md:h-full">
-           <video 
+        {/* Left: Our Apartments */}
+        <Link href="/rooms" className="relative w-full md:w-1/2 h-1/2 md:h-full group overflow-hidden border-b-[3px] md:border-b-0 md:border-r-[3px] border-white cursor-pointer block">
+          <video 
               src="/video/Lobbyvideo.mp4" 
               autoPlay 
               muted 
               loop 
               playsInline 
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
            ></video>
-        </div>
+          {/* Overlay: transparent by default, darkens on hover */}
+          <div className="absolute inset-0 bg-transparent group-hover:bg-black/40 transition-colors duration-700 pointer-events-none"></div>
+          {/* Text: hidden by default, appears on hover */}
+          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
+            <h2 className="text-white font-serif text-4xl md:text-5xl tracking-wider">Our Apartments</h2>
+          </div>
+        </Link>
+        
+        {/* Right */}
+        <Link href="/events" className="relative w-full md:w-1/2 h-1/2 md:h-full group overflow-hidden cursor-pointer">
+          <Image src="/images/home/celebrate.jpg" alt="Events" fill className="object-cover transition-transform duration-1000 group-hover:scale-105" priority />
+          {/* Overlay: transparent by default, darkens on hover */}
+          <div className="absolute inset-0 bg-transparent group-hover:bg-black/40 transition-colors duration-700"></div>
+          {/* Text: hidden by default, appears on hover */}
+          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+            <h2 className="text-white font-serif text-4xl md:text-5xl tracking-wider">Events</h2>
+          </div>
+        </Link>
+      </section>
+
+      {/* Section 2: Text Block */}
+      <section className="w-full bg-bordeaux border-t-[3px] border-white py-24 md:py-32 flex flex-col justify-center items-center text-center text-white px-6 md:px-12">
+        <h2 className="font-serif text-3xl md:text-5xl tracking-widest uppercase mb-10">
+          VILLA SCHWERZENBACH
+        </h2>
+        <p className="font-serif italic text-lg md:text-2xl max-w-4xl leading-relaxed opacity-90">
+          Die Villa Schwerzenbach schafft Räume mit einer unverwechselbaren, authentischen Identität. Jeder Bereich wird mit tiefgreifender Sorgfalt und kreativer Präzision zum Leben erweckt.
+          <br /><br />
+          <span className="font-sans text-sm tracking-[0.2em] not-italic uppercase mt-4 block opacity-80">Same Space. Different Stories.</span>
+        </p>
       </section>
 
       {/* Section 3: Book Now Split */}
@@ -60,10 +64,10 @@ export default function Home() {
           <Image src="/images/home/lobby.jpg" alt="Lobby" fill className="object-cover" />
         </div>
         {/* Right: Color Block & Text */}
-        <div className="w-full md:w-1/2 h-1/2 md:h-full bg-[var(--color-ashby-blue)] flex flex-col justify-center items-center text-center p-12 lg:p-24 text-white">
+        <div className="w-full md:w-1/2 h-1/2 md:h-full bg-villa-blue flex flex-col justify-center items-center text-center p-12 lg:p-24 text-white">
           <h2 className="font-serif text-4xl md:text-5xl tracking-widest uppercase mb-8 leading-tight">Our<br/>Apartments</h2>
           <p className="font-sans text-sm md:text-base leading-loose max-w-md opacity-90 mb-12">
-            Discover a home away from home. Carefully curated spaces that blend historical charm with contemporary luxury.
+            A house full of life. Carefully curated spaces that blend historical charm with contemporary luxury. Good people. Better days.
           </p>
           <Link href="/rooms" className="border-b border-white pb-1 font-mono text-xs tracking-[0.25em] uppercase hover:opacity-70 transition-opacity">
             Book Now
@@ -71,18 +75,41 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Section 4: Apartments Grid (Studio Ashby Projects Style) */}
-      <section className="w-full pt-16 pb-32 bg-background border-t-[3px] border-white">
-        <h2 className="text-center font-mono text-xs tracking-[0.25em] uppercase text-espresso/50 mb-16">Explore</h2>
-        <div className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-1 md:gap-2 px-1">
+      {/* Section 4: Apartments Grid */}
+      <section className="w-full bg-cream border-t-[3px] border-white">
+        
+        {/* Top Bar */}
+        <div className="flex justify-between items-center px-6 md:px-12 py-10 md:py-14">
+          <h2 className="font-sans text-xs md:text-sm tracking-[0.25em] uppercase text-espresso/90 font-medium">
+            Apartments
+          </h2>
+          <span className="text-espresso/80 text-xl font-light">›</span>
+        </div>
+
+        {/* Image Grid */}
+        <div className="flex overflow-x-auto lg:grid lg:grid-cols-4 snap-x snap-mandatory hide-scrollbar gap-[2px] bg-white">
           {apartments.map((apt, i) => (
-            <Link key={i} href={`/rooms/${apt.slug}`} className="group shrink-0 snap-center w-[85vw] sm:w-[50vw] md:w-[33vw] lg:w-[25vw] flex flex-col">
-               <div className="relative h-[60vh] md:h-[70vh] w-full overflow-hidden mb-6">
-                 <Image src={apt.img} alt={apt.name} fill className="object-cover transition-transform duration-1000 group-hover:scale-105" />
+            <Link 
+              key={i} 
+              href={`/rooms/${apt.slug}`} 
+              className="group shrink-0 snap-center w-[85vw] sm:w-[50vw] md:w-[33vw] lg:w-full flex flex-col bg-cream"
+            >
+               {/* Image */}
+               <div className="relative h-[55vh] md:h-[65vh] w-full overflow-hidden">
+                 <Image 
+                   src={apt.img} 
+                   alt={apt.name} 
+                   fill 
+                   className="object-cover transition-transform duration-1000 group-hover:scale-105" 
+                 />
                </div>
-               <p className="text-center font-serif text-sm tracking-widest uppercase text-espresso group-hover:text-[var(--color-ashby-olive)] transition-colors">
-                 {apt.name}
-               </p>
+               
+               {/* Text below image */}
+               <div className="py-8 md:py-10 px-4">
+                 <p className="text-center font-sans text-[10px] md:text-xs tracking-[0.25em] uppercase text-espresso/80 group-hover:text-bordeaux transition-colors">
+                   {apt.name}
+                 </p>
+               </div>
             </Link>
           ))}
         </div>

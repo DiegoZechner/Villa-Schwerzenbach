@@ -11,14 +11,14 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-[#5b4a42] text-cream-light py-16 border-t border-[#4a3a33]">
+    <footer className="bg-espresso text-cream-light py-16 border-t border-[#1a100d]">
       <div className="container mx-auto px-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-12 md:gap-4">
         
         {/* Left: Logo */}
         <div className="flex-1 flex justify-center md:justify-start">
           <Link href="/">
              <Image 
-                src="/images/logos/3.png" 
+                src="/images/logos/primary-1.svg" 
                 alt="Villa Schwerzenbach" 
                 width={250} 
                 height={80} 
