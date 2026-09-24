@@ -32,7 +32,7 @@ export default function Header() {
   const navLinks = [
     { name: 'APARTMENTS', href: '/rooms' },
     { name: 'EVENTS', href: '/events' },
-    { name: 'DISCOVER', href: '/gallery' },
+    { name: 'DISCOVER', href: '/discover' },
     { name: 'CONTACT', href: '/contact' },
     { name: 'BOOK NOW', href: '/rooms' },
   ];
@@ -59,12 +59,12 @@ export default function Header() {
         </div>
         
         {/* Center: Navigation (Desktop) */}
-        <nav className="hidden lg:flex flex-1 justify-center items-center gap-10">
+        <nav className="hidden lg:flex flex-[1.5] justify-center items-center gap-8 xl:gap-12">
           {navLinks.map(link => (
             <Link 
               key={link.name} 
               href={link.href} 
-              className={`font-mono text-xs tracking-[0.25em] uppercase hover:opacity-50 transition-opacity ${lastScrollY > 10 ? 'text-espresso' : 'text-white'}`}
+              className={`font-mono text-[10px] xl:text-xs tracking-[0.25em] uppercase whitespace-nowrap hover:opacity-50 transition-opacity ${lastScrollY > 10 ? 'text-espresso' : 'text-white'}`}
             >
               {link.name}
             </Link>
