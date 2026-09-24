@@ -121,8 +121,11 @@ export default function Header() {
       </div>
 
       {/* Mobile Drawer */}
-      <div className={`lg:hidden fixed inset-0 bg-background z-40 transition-transform duration-500 ${isMobileMenuOpen ? 'translate-y-0' : '-translate-y-full'}`} style={{ top: '70px' }}>
-         <nav className="flex flex-col items-center justify-center h-full gap-8 pb-32">
+      <div 
+        className={`lg:hidden fixed inset-0 bg-background z-40 transition-all duration-500 overflow-y-auto ${isMobileMenuOpen ? 'translate-y-0 opacity-100 pointer-events-auto' : '-translate-y-full opacity-0 pointer-events-none'}`} 
+        style={{ top: '70px' }}
+      >
+         <nav className="flex flex-col items-center justify-start min-h-full gap-8 py-12">
             {navLinks.map(link => (
               <Link 
                 key={link.name} 
