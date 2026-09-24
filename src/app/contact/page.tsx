@@ -53,7 +53,7 @@ export default function ContactPage() {
           </div>
 
           {/* Map */}
-          <div className="flex-1 h-[500px] lg:h-auto border border-espresso/10 p-2 bg-white">
+          <div className="flex-1 h-[500px] lg:h-auto border border-espresso/10 p-2 bg-white shadow-sm">
             <iframe 
               width="100%" 
               height="100%" 
@@ -62,7 +62,7 @@ export default function ContactPage() {
               marginHeight={0} 
               marginWidth={0} 
               src="https://maps.google.com/maps?q=R%C3%B6merstra%C3%9Fe%2023,%20Bregenz&t=&z=15&ie=UTF8&iwloc=&output=embed"
-              className="grayscale contrast-125 opacity-90 w-full h-full"
+              className="w-full h-full"
             ></iframe>
           </div>
         </div>
