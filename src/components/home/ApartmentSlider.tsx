@@ -69,13 +69,13 @@ export default function ApartmentSlider() {
           >
              {/* Image */}
              <div className="relative h-[55vh] md:h-[65vh] w-full overflow-hidden">
-               {/* Using fallback to stay.jpg for missing images in local dev if any, but they are all there */}
                <Image 
                  src={apt.img} 
                  alt={apt.name} 
                  fill 
-                 className="object-cover transition-transform duration-1000 group-hover:scale-105" 
+                 className="object-cover" 
                />
+               <div className="absolute inset-0 bg-transparent group-hover:bg-espresso/20 transition-colors duration-500"></div>
              </div>
              
              {/* Text below image */}
