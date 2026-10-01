@@ -40,7 +40,7 @@ export default function Home() {
       </section>
 
       {/* Section 2: Text Block */}
-      <section className="w-full bg-bordeaux border-t-[3px] border-white py-16 md:py-20 flex flex-col justify-center items-center text-center text-white px-6 md:px-12">
+      <section className="w-full bg-bordeaux border-t-[3px] border-white py-12 md:py-14 flex flex-col justify-center items-center text-center text-white px-6 md:px-12">
         <Image 
           src="/images/logos/brand-6.svg" 
           alt="Villa Schwerzenbach Brand Mark" 

@@ -65,9 +65,10 @@ export default function Header() {
             <Link 
               key={link.name} 
               href={link.href} 
-              className={`font-mono text-[10px] xl:text-xs tracking-[0.25em] uppercase whitespace-nowrap hover:opacity-50 transition-opacity ${lastScrollY > 10 ? 'text-espresso' : 'text-white'}`}
+              className={`group relative font-mono text-[10px] xl:text-xs tracking-[0.25em] uppercase whitespace-nowrap transition-colors duration-300 ${lastScrollY > 10 ? 'text-espresso' : 'text-white'}`}
             >
               {link.name}
+              <span className="absolute -bottom-2 left-0 w-full h-px bg-current origin-center scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
             </Link>
           ))}
         </nav>

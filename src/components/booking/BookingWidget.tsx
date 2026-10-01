@@ -36,7 +36,7 @@ export default function BookingWidget({ roomId, roomName, price }: { roomId: str
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md border border-cream sticky top-24">
+    <div className="bg-transparent pt-4">
       <h3 className="font-serif text-2xl text-bordeaux mb-2">Buchen</h3>
       <div className="flex items-end gap-2 mb-6">
         <span className="text-3xl font-bold text-espresso">CHF {price}</span>

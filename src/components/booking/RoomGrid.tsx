@@ -36,13 +36,43 @@ export default function RoomGrid({ initialRooms }: { initialRooms: Room[] }) {
   return (
     <div>
       {/* Filter Bar */}
-      <div className="flex flex-col md:flex-row justify-center items-center gap-6 mb-24 border-b border-cream/50 pb-8">
-        <div className="flex items-center gap-4">
-          <span className="font-mono text-xs tracking-widest text-espresso/60 uppercase">Category:</span>
+      <div className="bg-white p-6 md:p-8 rounded-sm shadow-sm border border-espresso/10 mb-24 max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-end md:items-center gap-6">
+        
+        <div className="flex-1 w-full flex flex-col gap-2">
+          <label className="font-mono text-[10px] tracking-[0.2em] uppercase text-espresso/50">Check-In</label>
+          <input 
+            type="date" 
+            className="w-full bg-transparent border-b border-espresso/20 pb-2 font-sans text-sm text-espresso focus:outline-none focus:border-bordeaux transition-colors"
+          />
+        </div>
+
+        <div className="flex-1 w-full flex flex-col gap-2">
+          <label className="font-mono text-[10px] tracking-[0.2em] uppercase text-espresso/50">Check-Out</label>
+          <input 
+            type="date" 
+            className="w-full bg-transparent border-b border-espresso/20 pb-2 font-sans text-sm text-espresso focus:outline-none focus:border-bordeaux transition-colors"
+          />
+        </div>
+
+        <div className="flex-1 w-full flex flex-col gap-2">
+          <label className="font-mono text-[10px] tracking-[0.2em] uppercase text-espresso/50">Guests</label>
+          <select 
+            value={filterGuests === null ? '' : filterGuests} 
+            onChange={(e) => setFilterGuests(e.target.value ? Number(e.target.value) : null)}
+            className="w-full bg-transparent border-b border-espresso/20 pb-2 font-sans text-sm text-espresso focus:outline-none focus:border-bordeaux transition-colors cursor-pointer appearance-none"
+          >
+            {guestOptions.map(opt => (
+              <option key={opt.label} value={opt.value ?? ''}>{opt.label}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex-1 w-full flex flex-col gap-2">
+          <label className="font-mono text-[10px] tracking-[0.2em] uppercase text-espresso/50">Category</label>
           <select 
             value={filterCategory} 
             onChange={(e) => setFilterCategory(e.target.value)}
-            className="bg-transparent border-none font-serif text-lg text-espresso focus:ring-0 cursor-pointer outline-none"
+            className="w-full bg-transparent border-b border-espresso/20 pb-2 font-sans text-sm text-espresso focus:outline-none focus:border-bordeaux transition-colors cursor-pointer appearance-none"
           >
             {categories.map(cat => (
               <option key={cat} value={cat}>{cat}</option>
@@ -50,20 +80,6 @@ export default function RoomGrid({ initialRooms }: { initialRooms: Room[] }) {
           </select>
         </div>
 
-        <div className="hidden md:block w-px h-6 bg-cream/50"></div>
-
-        <div className="flex items-center gap-4">
-          <span className="font-mono text-xs tracking-widest text-espresso/60 uppercase">Capacity:</span>
-          <select 
-            value={filterGuests === null ? '' : filterGuests} 
-            onChange={(e) => setFilterGuests(e.target.value ? Number(e.target.value) : null)}
-            className="bg-transparent border-none font-serif text-lg text-espresso focus:ring-0 cursor-pointer outline-none"
-          >
-            {guestOptions.map(opt => (
-              <option key={opt.label} value={opt.value ?? ''}>{opt.label}</option>
-            ))}
-          </select>
-        </div>
       </div>
 
       {/* Room List */}

@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import Link from 'next/link';
 import BookingWidget from '@/components/booking/BookingWidget';
 import RoomGallery from '@/components/rooms/RoomGallery';
 
@@ -45,57 +46,59 @@ export default function RoomDetailPage({ params }: { params: { slug: string } })
   };
 
   return (
-    <div className="bg-background min-h-screen pt-32 pb-24 relative z-10">
-      <div className="container mx-auto px-4 md:px-8">
+    <div className="bg-cream h-[100dvh] w-full overflow-hidden relative z-10 flex flex-col lg:flex-row">
+      
+      {/* Back Button */}
+      <Link href="/rooms" className="absolute top-20 lg:top-8 left-6 lg:left-8 z-50 text-white mix-blend-difference font-mono text-[10px] tracking-widest uppercase hover:opacity-50 transition-opacity flex items-center gap-2">
+        <span>←</span> BACK TO ROOMS
+      </Link>
+
+      {/* Left: Full Height Image Gallery */}
+      <div className="w-full lg:w-[60%] h-[40vh] lg:h-full relative bg-espresso shrink-0">
+        <RoomGallery images={room.images} fullHeight />
+      </div>
+
+      {/* Right: Content & Booking Form (Strictly sized to fit screen without page scrolling) */}
+      <div className="w-full lg:w-[40%] h-[60vh] lg:h-full flex flex-col px-6 lg:px-12 pt-8 lg:pt-24 pb-8 overflow-y-auto hide-scrollbar bg-cream">
         
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
+        <div className="flex-1 flex flex-col max-w-md mx-auto w-full justify-center">
+          <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-espresso/50 mb-4">
+            {room.category}
+          </div>
           
-          {/* Left: Sticky Image Gallery */}
-          <div className="w-full lg:w-[55%]">
-            <div className="lg:sticky lg:top-28">
-              <RoomGallery images={room.images} />
-            </div>
+          <h1 className="font-serif text-3xl lg:text-5xl text-espresso mb-6 uppercase tracking-widest leading-tight">
+            {room.name}
+          </h1>
+          
+          <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-espresso/60 flex items-center gap-3 mb-8 border-y border-espresso/10 py-3">
+            <span>{room.capacity} GUESTS</span>
+            <span className="w-1 h-1 bg-espresso/30 rounded-full"></span>
+            <span>{room.size} SQM</span>
           </div>
 
-          {/* Right: Content & Booking Form */}
-          <div className="w-full lg:w-[45%] flex flex-col pt-4">
-            
-            <h1 className="font-serif text-4xl lg:text-5xl text-espresso mb-4 uppercase tracking-widest leading-tight">
-              {room.name}
-            </h1>
-            
-            <div className="font-mono text-xs md:text-sm tracking-[0.2em] uppercase text-espresso/60 flex flex-wrap items-center gap-3 mb-10">
-              <span>{room.capacity} GUESTS</span>
-              <span className="w-1 h-1 bg-espresso/30 rounded-full"></span>
-              <span>{room.size} SQM</span>
-              <span className="w-1 h-1 bg-espresso/30 rounded-full"></span>
-              <span>1 KING BED</span>
-            </div>
+          <p className="text-sm lg:text-base text-espresso/80 leading-relaxed mb-8 font-serif">
+            {room.description}
+          </p>
 
-            <div className="text-lg text-espresso/80 leading-relaxed mb-12 font-serif">
-              <p>{room.description}</p>
-            </div>
+          {/* Compact Amenities */}
+          <div className="mb-auto">
+            <ul className="flex flex-wrap gap-x-6 gap-y-2">
+              {room.amenities.slice(0, 4).map((amenity, i) => (
+                <li key={i} className="flex items-center gap-2 text-espresso/80 font-sans text-xs">
+                  <span className="w-1 h-1 rounded-full bg-bordeaux"></span>
+                  {amenity}
+                </li>
+              ))}
+              <li className="text-xs text-espresso/50 italic">+ more</li>
+            </ul>
+          </div>
 
-            {/* Amenities */}
-            <div className="mb-12">
-              <h2 className="font-mono text-xs tracking-[0.2em] text-espresso uppercase mb-6 border-b border-cream/50 pb-2">Amenities</h2>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-4">
-                {room.amenities.map((amenity, i) => (
-                  <li key={i} className="flex items-center gap-3 text-espresso/80 font-sans text-sm">
-                    <span className="w-1 h-1 rounded-full bg-bordeaux"></span>
-                    {amenity}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Inline Booking Widget (No longer sidebar, integrates perfectly into the page flow) */}
-            <div className="mt-auto border-t border-cream/50 pt-10">
-               <BookingWidget roomId={room.id} roomName={room.name} price={room.price} />
-            </div>
-
+          {/* Booking Widget (now integrated seamlessly at the bottom) */}
+          <div className="mt-8">
+             <BookingWidget roomId={room.id} roomName={room.name} price={room.price} />
           </div>
         </div>
+
       </div>
     </div>
   );
