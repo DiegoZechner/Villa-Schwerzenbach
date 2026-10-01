@@ -34,14 +34,21 @@ export default function RoomDetailPage({ params }: { params: { slug: string } })
       if (match) {
         const topNumber = match[1];
         const folderName = `top-${topNumber}`;
-        const folderPath = path.join(process.cwd(), 'public', 'images', 'rooms', folderName);
+        const nestedFolderName = `Top ${topNumber}`;
+        let folderPath = path.join(process.cwd(), 'public', 'images', 'rooms', folderName);
+        
+        // Check if PowerShell nested the folder during copy
+        if (fs.existsSync(path.join(folderPath, nestedFolderName))) {
+          folderPath = path.join(folderPath, nestedFolderName);
+        }
         
         if (fs.existsSync(folderPath)) {
           const files = fs.readdirSync(folderPath);
           const imageFiles = files.filter(file => file.toLowerCase().endsWith('.jpg') || file.toLowerCase().endsWith('.png') || file.toLowerCase().endsWith('.jpeg'));
           
           if (imageFiles.length > 0) {
-            return imageFiles.map(file => `/images/rooms/${folderName}/${file}`);
+            const urlPath = folderPath.includes(nestedFolderName) ? `${folderName}/${nestedFolderName}` : folderName;
+            return imageFiles.map(file => `/images/rooms/${urlPath}/${file}`);
           }
         }
       }
