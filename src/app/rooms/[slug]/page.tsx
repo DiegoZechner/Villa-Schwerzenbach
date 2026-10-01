@@ -75,33 +75,34 @@ export default function RoomDetailPage({ params }: { params: { slug: string } })
   return (
     <div className="bg-background min-h-screen relative z-10 font-sans">
       
-      {/* Cinematic Hero */}
-      <div className="relative w-full h-[60vh] lg:h-[85vh]">
-        <Image src={room.images[0]} alt={room.name} fill className="object-cover" priority />
-        <div className="absolute inset-0 bg-black/40"></div>
-        
-        {/* Back Button */}
-        <Link href="/rooms" className="absolute top-28 lg:top-32 left-6 lg:left-12 z-50 text-white font-mono text-[10px] tracking-[0.2em] uppercase hover:opacity-50 transition-opacity flex items-center gap-2">
+      {/* Clean Header */}
+      <div className="pt-32 pb-12 px-6 md:px-12 max-w-6xl mx-auto flex flex-col items-center text-center">
+        <Link href="/rooms" className="text-espresso/60 font-mono text-[10px] tracking-[0.2em] uppercase hover:text-espresso transition-colors flex items-center gap-2 mb-8">
           <span>←</span> Back to Apartments
         </Link>
+        <div className="font-mono text-[10px] tracking-[0.3em] uppercase text-bordeaux mb-4">
+          {room.category}
+        </div>
+        <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-espresso uppercase tracking-[0.15em] leading-tight">
+          {room.name}
+        </h1>
+      </div>
 
-        {/* Room Title */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-          <div className="font-mono text-[10px] tracking-[0.3em] uppercase text-white/80 mb-6">
-            {room.category}
-          </div>
-          <h1 className="font-serif text-5xl md:text-7xl text-white uppercase tracking-[0.15em] leading-tight drop-shadow-md">
-            {room.name}
-          </h1>
+      {/* Interactive Gallery */}
+      <div className="container mx-auto px-6 md:px-12 max-w-7xl mb-8">
+        <RoomGallery images={room.images} />
+      </div>
+
+      {/* Booking/Filter Bar */}
+      <div className="container mx-auto px-6 md:px-12 max-w-7xl mb-16">
+        <div className="border border-espresso/10 rounded-sm overflow-hidden">
+          <BookingWidget roomId={room.id} roomName={room.name} price={room.price} />
         </div>
       </div>
 
-      {/* Sticky Booking/Filter Bar */}
-      <BookingWidget roomId={room.id} roomName={room.name} price={room.price} />
-
       {/* Detailed Content */}
       <div className="bg-cream">
-        <div className="container mx-auto px-6 md:px-12 max-w-6xl py-24 md:py-32">
+        <div className="container mx-auto px-6 md:px-12 max-w-6xl py-24">
           <div className="flex flex-col lg:flex-row gap-16 lg:gap-32">
             
             {/* Left: Description */}
@@ -138,16 +139,6 @@ export default function RoomDetailPage({ params }: { params: { slug: string } })
           </div>
         </div>
       </div>
-
-      {/* Gallery Section */}
-      {room.images.length > 1 && (
-        <div className="w-full bg-espresso py-24 md:py-32">
-          <div className="container mx-auto px-6 md:px-12">
-            <h2 className="font-serif text-3xl md:text-4xl text-cream mb-16 text-center uppercase tracking-widest">Gallery</h2>
-            <RoomGallery images={room.images.slice(1)} />
-          </div>
-        </div>
-      )}
 
     </div>
   );
