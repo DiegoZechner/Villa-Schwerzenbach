@@ -75,26 +75,25 @@ export default function RoomDetailPage({ params }: { params: { slug: string } })
   return (
     <div className="bg-background min-h-screen relative z-10 font-sans">
       
-      {/* Clean Header */}
-      <div className="pt-32 pb-12 px-6 md:px-12 max-w-6xl mx-auto flex flex-col items-center text-center">
-        <Link href="/rooms" className="text-espresso/60 font-mono text-[10px] tracking-[0.2em] uppercase hover:text-espresso transition-colors flex items-center gap-2 mb-8">
-          <span>←</span> Back to Apartments
-        </Link>
-        <div className="font-mono text-[10px] tracking-[0.3em] uppercase text-bordeaux mb-4">
-          {room.category}
+      {/* Dark Banner Header */}
+      <div className="w-full bg-espresso pt-36 pb-16 px-6 md:px-12">
+        <div className="container mx-auto max-w-7xl flex flex-col items-start">
+          <Link href="/rooms" className="text-cream/60 hover:text-cream transition-colors font-mono text-[10px] tracking-[0.2em] uppercase flex items-center gap-2 mb-4 w-fit">
+            <span>←</span> Back to Apartments
+          </Link>
+          <h1 className="font-serif text-2xl md:text-3xl lg:text-4xl text-cream uppercase tracking-[0.15em] leading-tight">
+            {room.name}
+          </h1>
         </div>
-        <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-espresso uppercase tracking-[0.15em] leading-tight">
-          {room.name}
-        </h1>
       </div>
 
       {/* Interactive Gallery */}
-      <div className="container mx-auto px-6 md:px-12 max-w-7xl mb-8">
+      <div className="container mx-auto px-6 md:px-12 max-w-7xl mt-8 mb-8">
         <RoomGallery images={room.images} />
       </div>
 
       {/* Booking/Filter Bar */}
-      <div className="container mx-auto px-6 md:px-12 max-w-7xl mb-16">
+      <div className="container mx-auto px-6 md:px-12 max-w-7xl mb-0">
         <div className="border border-espresso/10 rounded-sm overflow-hidden">
           <BookingWidget roomId={room.id} roomName={room.name} price={room.price} />
         </div>
@@ -102,7 +101,7 @@ export default function RoomDetailPage({ params }: { params: { slug: string } })
 
       {/* Detailed Content */}
       <div className="bg-cream">
-        <div className="container mx-auto px-6 md:px-12 max-w-6xl py-24">
+        <div className="container mx-auto px-6 md:px-12 max-w-6xl pt-12 pb-24">
           <div className="flex flex-col lg:flex-row gap-16 lg:gap-32">
             
             {/* Left: Description */}
