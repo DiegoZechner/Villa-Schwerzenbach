@@ -56,7 +56,7 @@ export default function RoomDetailPage({ params }: { params: { slug: string } })
         <div className="absolute inset-0 bg-black/40"></div>
         
         {/* Back Button */}
-        <Link href="/rooms" className="absolute top-24 lg:top-8 left-6 lg:left-12 z-50 text-white font-mono text-[10px] tracking-[0.2em] uppercase hover:opacity-50 transition-opacity flex items-center gap-2">
+        <Link href="/rooms" className="absolute top-28 lg:top-32 left-6 lg:left-12 z-50 text-white font-mono text-[10px] tracking-[0.2em] uppercase hover:opacity-50 transition-opacity flex items-center gap-2">
           <span>←</span> Back to Apartments
         </Link>
 
