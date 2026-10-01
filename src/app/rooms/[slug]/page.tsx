@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import BookingWidget from '@/components/booking/BookingWidget';
 import RoomGallery from '@/components/rooms/RoomGallery';
 
