@@ -25,8 +25,9 @@ export function generateStaticParams() {
   return allRooms.map(r => ({ slug: r.slug }));
 }
 
-export default function RoomDetailPage({ params }: { params: { slug: string } }) {
-  const roomBase = allRooms.find(r => r.slug === params.slug) || allRooms[0];
+export default async function RoomDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = await params;
+  const roomBase = allRooms.find(r => r.slug === resolvedParams.slug) || allRooms[0];
 
   const getGalleryImages = (roomName: string, mainImage: string) => {
     try {
