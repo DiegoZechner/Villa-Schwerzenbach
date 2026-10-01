@@ -18,6 +18,9 @@ const allRooms = [
   { id: '11', slug: 'villa-suite', name: 'Top 12 - Villa Suite', category: 'Suite', price: 379, capacity: 4, size: 65, image: '/images/rooms/top-12.jpg', description: 'Die Krönung der Villa – unsere grösste Suite mit Panoramablick, freistehender Badewanne und einem eigenen Loungebereich.' },
 ];
 
+import fs from 'fs';
+import path from 'path';
+
 export function generateStaticParams() {
   return allRooms.map(r => ({ slug: r.slug }));
 }
@@ -25,11 +28,26 @@ export function generateStaticParams() {
 export default function RoomDetailPage({ params }: { params: { slug: string } }) {
   const roomBase = allRooms.find(r => r.slug === params.slug) || allRooms[0];
 
-  // Helper to resolve specific images if they exist, otherwise fallback to the single main image
-  const getGalleryImages = (slug: string, mainImage: string) => {
-    if (slug === 'salon-bordeaux') return ['/images/rooms/top-04-1.jpg', '/images/rooms/top-04-2.jpg', '/images/rooms/top-04-3.jpg', '/images/rooms/top-04-4.jpg'];
-    if (slug === 'belle-epoque') return ['/images/rooms/top-10-1.jpg', '/images/rooms/top-10-2.jpg', '/images/rooms/top-10-3.jpg', '/images/rooms/top-10-4.jpg'];
-    if (slug === 'villa-suite') return ['/images/rooms/top-12-1.jpg', '/images/rooms/top-12-2.jpg', '/images/rooms/top-12-3.jpg', '/images/rooms/top-12-4.jpg'];
+  const getGalleryImages = (roomName: string, mainImage: string) => {
+    try {
+      const match = roomName.match(/Top\s(\d{2})/i);
+      if (match) {
+        const topNumber = match[1];
+        const folderName = `top-${topNumber}`;
+        const folderPath = path.join(process.cwd(), 'public', 'images', 'rooms', folderName);
+        
+        if (fs.existsSync(folderPath)) {
+          const files = fs.readdirSync(folderPath);
+          const imageFiles = files.filter(file => file.toLowerCase().endsWith('.jpg') || file.toLowerCase().endsWith('.png') || file.toLowerCase().endsWith('.jpeg'));
+          
+          if (imageFiles.length > 0) {
+            return imageFiles.map(file => `/images/rooms/${folderName}/${file}`);
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error reading gallery images:', error);
+    }
     
     // Fallback for rooms without extra gallery images yet
     return [mainImage, '/images/home/stay.jpg', '/images/home/lobby.jpg'];
@@ -44,7 +62,7 @@ export default function RoomDetailPage({ params }: { params: { slug: string } })
     size: roomBase.size,
     description: roomBase.description,
     amenities: ['Kingsize-Bett', 'Regendusche', 'Espressomaschine', 'High-Speed WLAN', 'Klimaanlage', 'Safe', 'Premium Pflegeprodukte'],
-    images: getGalleryImages(roomBase.slug, roomBase.image)
+    images: getGalleryImages(roomBase.name, roomBase.image)
   };
 
   return (
