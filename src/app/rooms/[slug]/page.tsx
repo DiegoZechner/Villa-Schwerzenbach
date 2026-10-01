@@ -37,6 +37,7 @@ export default function RoomDetailPage({ params }: { params: { slug: string } })
   const room = {
     id: roomBase.slug,
     name: roomBase.name,
+    category: roomBase.category,
     price: roomBase.price,
     capacity: roomBase.capacity,
     size: roomBase.size,
