@@ -47,60 +47,82 @@ export default function RoomDetailPage({ params }: { params: { slug: string } })
   };
 
   return (
-    <div className="bg-cream h-[100dvh] w-full overflow-hidden relative z-10 flex flex-col lg:flex-row">
+    <div className="bg-background min-h-screen relative z-10 font-sans">
       
-      {/* Back Button */}
-      <Link href="/rooms" className="absolute top-20 lg:top-8 left-6 lg:left-8 z-50 text-white mix-blend-difference font-mono text-[10px] tracking-widest uppercase hover:opacity-50 transition-opacity flex items-center gap-2">
-        <span>←</span> BACK TO ROOMS
-      </Link>
-
-      {/* Left: Full Height Image Gallery */}
-      <div className="w-full lg:w-[60%] h-[40vh] lg:h-full relative bg-espresso shrink-0">
-        <RoomGallery images={room.images} fullHeight />
-      </div>
-
-      {/* Right: Content & Booking Form (Strictly sized to fit screen without page scrolling) */}
-      <div className="w-full lg:w-[40%] h-[60vh] lg:h-full flex flex-col px-6 lg:px-12 pt-8 lg:pt-24 pb-8 overflow-y-auto hide-scrollbar bg-cream">
+      {/* Cinematic Hero */}
+      <div className="relative w-full h-[60vh] lg:h-[85vh]">
+        <Image src={room.images[0]} alt={room.name} fill className="object-cover" priority />
+        <div className="absolute inset-0 bg-black/40"></div>
         
-        <div className="flex-1 flex flex-col max-w-md mx-auto w-full justify-center">
-          <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-espresso/50 mb-4">
+        {/* Back Button */}
+        <Link href="/rooms" className="absolute top-24 lg:top-8 left-6 lg:left-12 z-50 text-white font-mono text-[10px] tracking-[0.2em] uppercase hover:opacity-50 transition-opacity flex items-center gap-2">
+          <span>←</span> Back to Apartments
+        </Link>
+
+        {/* Room Title */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+          <div className="font-mono text-[10px] tracking-[0.3em] uppercase text-white/80 mb-6">
             {room.category}
           </div>
-          
-          <h1 className="font-serif text-3xl lg:text-5xl text-espresso mb-6 uppercase tracking-widest leading-tight">
+          <h1 className="font-serif text-5xl md:text-7xl text-white uppercase tracking-[0.15em] leading-tight drop-shadow-md">
             {room.name}
           </h1>
-          
-          <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-espresso/60 flex items-center gap-3 mb-8 border-y border-espresso/10 py-3">
-            <span>{room.capacity} GUESTS</span>
-            <span className="w-1 h-1 bg-espresso/30 rounded-full"></span>
-            <span>{room.size} SQM</span>
-          </div>
+        </div>
+      </div>
 
-          <p className="text-sm lg:text-base text-espresso/80 leading-relaxed mb-8 font-serif">
-            {room.description}
-          </p>
+      {/* Sticky Booking/Filter Bar */}
+      <BookingWidget roomId={room.id} roomName={room.name} price={room.price} />
 
-          {/* Compact Amenities */}
-          <div className="mb-auto">
-            <ul className="flex flex-wrap gap-x-6 gap-y-2">
-              {room.amenities.slice(0, 4).map((amenity, i) => (
-                <li key={i} className="flex items-center gap-2 text-espresso/80 font-sans text-xs">
-                  <span className="w-1 h-1 rounded-full bg-bordeaux"></span>
-                  {amenity}
-                </li>
-              ))}
-              <li className="text-xs text-espresso/50 italic">+ more</li>
-            </ul>
-          </div>
+      {/* Detailed Content */}
+      <div className="bg-cream">
+        <div className="container mx-auto px-6 md:px-12 max-w-6xl py-24 md:py-32">
+          <div className="flex flex-col lg:flex-row gap-16 lg:gap-32">
+            
+            {/* Left: Description */}
+            <div className="w-full lg:w-3/5">
+              <h2 className="font-serif text-3xl md:text-4xl text-espresso mb-8 uppercase tracking-widest">The Experience</h2>
+              <p className="text-lg text-espresso/80 leading-loose font-serif mb-12">
+                {room.description}
+              </p>
+              
+              <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-espresso/60 flex flex-wrap items-center gap-6 border-y border-espresso/10 py-6">
+                <span className="flex flex-col"><strong className="text-espresso text-sm font-sans mb-1">{room.size}</strong> SQM</span>
+                <span className="w-px h-8 bg-espresso/20"></span>
+                <span className="flex flex-col"><strong className="text-espresso text-sm font-sans mb-1">{room.capacity}</strong> GUESTS MAX</span>
+                <span className="w-px h-8 bg-espresso/20"></span>
+                <span className="flex flex-col"><strong className="text-espresso text-sm font-sans mb-1">1</strong> KING BED</span>
+              </div>
+            </div>
 
-          {/* Booking Widget (now integrated seamlessly at the bottom) */}
-          <div className="mt-8">
-             <BookingWidget roomId={room.id} roomName={room.name} price={room.price} />
+            {/* Right: Amenities */}
+            <div className="w-full lg:w-2/5">
+              <div className="bg-white p-8 md:p-12 border border-espresso/5 shadow-sm">
+                <h3 className="font-serif text-2xl text-espresso mb-8 uppercase tracking-widest">Room Amenities</h3>
+                <ul className="flex flex-col gap-4">
+                  {room.amenities.map((amenity, i) => (
+                    <li key={i} className="flex items-center gap-4 text-espresso/80 font-sans text-sm">
+                      <div className="w-1.5 h-1.5 rounded-full bg-bordeaux/60 shrink-0"></div>
+                      {amenity}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
           </div>
         </div>
-
       </div>
+
+      {/* Gallery Section */}
+      {room.images.length > 1 && (
+        <div className="w-full bg-espresso py-24 md:py-32">
+          <div className="container mx-auto px-6 md:px-12">
+            <h2 className="font-serif text-3xl md:text-4xl text-cream mb-16 text-center uppercase tracking-widest">Gallery</h2>
+            <RoomGallery images={room.images.slice(1)} />
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

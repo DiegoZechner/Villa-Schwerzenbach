@@ -36,43 +36,49 @@ export default function BookingWidget({ roomId, roomName, price }: { roomId: str
   };
 
   return (
-    <div className="bg-transparent pt-4">
-      <h3 className="font-serif text-2xl text-bordeaux mb-2">Buchen</h3>
-      <div className="flex items-end gap-2 mb-6">
-        <span className="text-3xl font-bold text-espresso">CHF {price}</span>
-        <span className="text-espresso/60 mb-1">/ Nacht</span>
+    <div className="w-full bg-white border-b border-espresso/10 shadow-sm sticky top-0 lg:top-[70px] z-[60] py-4 px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-6">
+      
+      {/* Price Info */}
+      <div className="flex items-baseline gap-2 shrink-0">
+        <span className="font-serif text-2xl text-espresso">CHF {price}</span>
+        <span className="font-mono text-[10px] tracking-widest uppercase text-espresso/50">/ Night</span>
       </div>
 
-      <div className="space-y-4 mb-6">
-        <CalendarPicker onDatesSelected={handleDatesSelected} />
-        
-        <div>
-          <label className="block text-xs text-espresso/60 uppercase font-medium mb-1">Gäste</label>
+      {/* Date & Guest Selectors (The "Filter") */}
+      <div className="flex-1 flex flex-col md:flex-row w-full md:w-auto gap-4 md:gap-8 items-center max-w-2xl">
+        <div className="w-full flex-1">
+          <label className="block font-mono text-[9px] tracking-[0.2em] uppercase text-espresso/50 mb-1">Check-in</label>
+          <input 
+            type="date" 
+            onChange={(e) => setCheckIn(e.target.value ? new Date(e.target.value) : null)}
+            className="w-full bg-transparent border-b border-espresso/20 pb-1 font-sans text-sm focus:outline-none focus:border-bordeaux transition-colors text-espresso" 
+          />
+        </div>
+        <div className="w-full flex-1">
+          <label className="block font-mono text-[9px] tracking-[0.2em] uppercase text-espresso/50 mb-1">Check-out</label>
+          <input 
+            type="date" 
+            onChange={(e) => setCheckOut(e.target.value ? new Date(e.target.value) : null)}
+            className="w-full bg-transparent border-b border-espresso/20 pb-1 font-sans text-sm focus:outline-none focus:border-bordeaux transition-colors text-espresso" 
+          />
+        </div>
+        <div className="w-full flex-[0.7]">
+          <label className="block font-mono text-[9px] tracking-[0.2em] uppercase text-espresso/50 mb-1">Guests</label>
           <select 
             value={guests} 
             onChange={(e) => setGuests(Number(e.target.value))}
-            className="w-full p-3 border border-cream rounded-sm bg-white focus:outline-none focus:ring-1 focus:ring-bordeaux"
+            className="w-full bg-transparent border-b border-espresso/20 pb-1 font-sans text-sm focus:outline-none focus:border-bordeaux transition-colors text-espresso cursor-pointer"
           >
-            {[1, 2, 3, 4].map(n => (
-              <option key={n} value={n}>{n} {n === 1 ? 'Gast' : 'Gäste'}</option>
-            ))}
+            {[1, 2, 3, 4].map(n => <option key={n} value={n}>{n}</option>)}
           </select>
         </div>
       </div>
 
-      {checkIn && checkOut && (
-        <div className="flex justify-between items-center mb-6 pt-4 border-t border-cream">
-          <span className="font-medium text-espresso">Total</span>
-          <span className="font-bold text-lg text-bordeaux">CHF {calculateTotal()}</span>
-        </div>
-      )}
+      {/* Book Button */}
+      <button onClick={handleBook} className="w-full md:w-auto bg-bordeaux text-cream font-mono text-[10px] tracking-[0.25em] uppercase px-12 py-4 hover:bg-espresso transition-colors shrink-0">
+        Book Now
+      </button>
 
-      <Button onClick={handleBook} className="w-full py-4 text-lg">
-        Jetzt buchen
-      </Button>
-      <p className="text-center text-xs text-espresso/50 mt-4">
-        Sie werden zur sicheren Zahlung weitergeleitet.
-      </p>
     </div>
   );
 }
