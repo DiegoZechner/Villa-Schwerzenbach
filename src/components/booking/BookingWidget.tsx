@@ -36,7 +36,7 @@ export default function BookingWidget({ roomId, roomName, price }: { roomId: str
   };
 
   return (
-    <div className="w-full bg-white border-b border-espresso/10 shadow-sm sticky top-0 lg:top-[70px] z-[60] py-4 px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-6">
+    <div className="w-full bg-white border-b border-espresso/10 shadow-sm relative z-20 py-4 px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-6">
       
       {/* Price Info */}
       <div className="flex items-baseline gap-2 shrink-0">
