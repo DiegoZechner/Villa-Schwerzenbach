@@ -3,11 +3,11 @@ import { useState, useRef } from 'react';
 import Image from 'next/image';
 
 const eventCategories = [
-  { id: 'hochzeit', title: 'Hochzeiten', desc: 'Der schönste Tag im perfekten Rahmen.', img: '/images/home/celebrate.jpg' },
-  { id: 'apero', title: 'Apéros & Treffen', desc: 'Stilvolles Beisammensein für besondere Momente.', img: '/images/home/eat.jpg' },
-  { id: 'firmenparty', title: 'Firmenpartys', desc: 'Erfolge feiern in exklusiver Atmosphäre.', img: '/images/home/celebrate.jpg' },
-  { id: 'seminar', title: 'Meetingräume & Seminare', desc: 'Inspirierende Räume für produktives Arbeiten.', img: '/images/home/meet.jpg' },
-  { id: 'andere', title: 'Individuelle Anfragen', desc: 'Ihre ganz persönliche Event-Idee.', img: '/images/home/lobby.jpg' },
+  { id: 'hochzeit', title: 'Hochzeiten', desc: 'Der schönste Tag im perfekten Rahmen.', img: '/images/events/Screenshot 2026-10-01 154804.png' },
+  { id: 'apero', title: 'Apéros & Treffen', desc: 'Stilvolles Beisammensein für besondere Momente.', img: '/images/events/Screenshot 2026-10-01 154830.png' },
+  { id: 'firmenparty', title: 'Firmenpartys', desc: 'Erfolge feiern in exklusiver Atmosphäre.', img: '/images/events/Screenshot 2026-10-01 154836.png' },
+  { id: 'seminar', title: 'Meetingräume & Seminare', desc: 'Inspirierende Räume für produktives Arbeiten.', img: '/images/events/Screenshot 2026-10-01 154744.png' },
+  { id: 'andere', title: 'Individuelle Anfragen', desc: 'Ihre ganz persönliche Event-Idee.', img: '/images/events/Screenshot 2026-10-01 154804.png' },
 ];
 
 export default function EventInquiry() {
