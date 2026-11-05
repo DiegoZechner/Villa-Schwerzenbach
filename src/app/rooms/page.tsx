@@ -13,7 +13,9 @@ export default function RoomsPage() {
       
       <section className="pb-24">
         <div className="container mx-auto px-4 md:px-8">
-          <RoomGrid initialRooms={allRooms} />
+          <div className="bg-cream/95 backdrop-blur-sm px-6 md:px-12 pb-20 rounded-sm shadow-lg">
+            <RoomGrid initialRooms={allRooms} />
+          </div>
         </div>
       </section>
     </div>

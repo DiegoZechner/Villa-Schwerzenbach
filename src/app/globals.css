@@ -18,9 +18,17 @@
 }
 
 body {
-  background: var(--color-background);
+  background-color: #6a131f;
+  background-image: url('/images/miva-pattern.jpg');
+  background-repeat: repeat;
+  background-size: 360px;
+  background-attachment: fixed;
   color: var(--color-foreground);
   font-family: var(--font-sans);
+}
+
+.bg-background {
+  background-color: transparent !important;
 }
 
 /* Smooth scrolling */

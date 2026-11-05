@@ -99,17 +99,6 @@ export default function Header() {
             )}
           </div>
 
-          {/* Secondary Logo/Icon (Hidden on Mobile) */}
-          <Link href="/" className="hidden md:block">
-             <Image 
-                src="/images/logos/brand-6.svg" 
-                alt="Brand Mark" 
-                width={30} 
-                height={30} 
-                className={`w-6 h-6 object-contain transition-all ${lastScrollY > 10 ? 'opacity-100' : 'brightness-0 invert'}`}
-              />
-          </Link>
-
           {/* Mobile Menu Toggle */}
           <button 
             className="lg:hidden p-2 ml-2 relative z-50"

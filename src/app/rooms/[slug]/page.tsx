@@ -80,8 +80,8 @@ export default async function RoomDetailPage({ params }: { params: Promise<{ slu
       </div>
 
       {/* Detailed Content */}
-      <div className="bg-cream">
-        <div className="container mx-auto px-6 md:px-12 max-w-6xl pt-12 pb-24">
+      <div className="container mx-auto px-6 md:px-12 max-w-7xl pb-24 mt-8">
+        <div className="bg-cream/95 backdrop-blur-sm p-8 md:p-16 rounded-sm shadow-lg">
           <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
             
             {/* Left: Description & Key Facts */}

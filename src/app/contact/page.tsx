@@ -2,11 +2,12 @@
 
 export default function ContactPage() {
   return (
-    <main className="min-h-screen bg-cream pt-32 pb-24">
+    <main className="min-h-screen pt-32 pb-24">
       <div className="container mx-auto px-6 md:px-12 max-w-6xl">
-        <h1 className="font-serif text-4xl md:text-5xl tracking-widest uppercase text-espresso mb-16 text-center">
-          Contact
-        </h1>
+        <div className="bg-cream/95 backdrop-blur-sm p-8 md:p-16 rounded-sm shadow-lg">
+          <h1 className="font-serif text-4xl md:text-5xl tracking-widest uppercase text-espresso mb-16 text-center">
+            Contact
+          </h1>
 
         <div className="flex flex-col lg:flex-row gap-16">
           {/* Form & Info */}
@@ -65,6 +66,7 @@ export default function ContactPage() {
               className="w-full h-full"
             ></iframe>
           </div>
+        </div>
         </div>
       </div>
     </main>
