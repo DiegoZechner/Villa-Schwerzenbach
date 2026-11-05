@@ -1,39 +1,73 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* Brand Palette from Brand Board */
-  --color-bordeaux: #5a1818;
-  --color-villa-red: #c44439;
-  --color-villa-blue: #7fa6c9;
-  --color-cream: #f0e6db;
-  --color-espresso: #2b1e1a;
-  
-  --color-cream-light: #f8f3ef;
-  --color-background: #f0e6db;
-  --color-foreground: #2b1e1a;
-  
-  --font-sans: 'DM Sans', sans-serif;
-  --font-serif: 'Bodoni Moda', serif;
-  --font-script: 'Dancing Script', cursive;
+  /* Villa Schwerzenbach Brand Palette */
+  --color-bordeaux: #4b1716;
+  --color-villa-red: #932b28;
+  --color-villa-blue: #6b889f;
+  --color-cream: #d9c8b9;
+  --color-cream-light: #efe7df;
+  --color-espresso: #35271f;
+
+  /* MIVA Brand Palette */
+  --color-miva-lilac: #e8b4f4;
+  --color-miva-purple: #4e041c;
+  --color-miva-red: #ea2d39;
+  --color-miva-gray: #f4f4f4;
+
+  --color-background: #d9c8b9;
+  --color-foreground: #35271f;
+
+  /* Typography */
+  --font-sans: var(--font-sans), 'Montserrat', sans-serif;
+  --font-serif: var(--font-serif), 'Pendory Condense', 'Bodoni Moda', serif;
+  --font-miva: var(--font-miva), 'Playfair Display', serif;
+  --font-script: var(--font-script), 'Eyesome Script', cursive;
 }
 
 body {
-  background-color: #6a131f;
-  background-image: url('/images/miva-pattern.jpg');
+  background-color: #4e041c;
+  background-image: url('/images/backgrounddesign.jpg');
   background-repeat: repeat;
-  background-size: 360px;
+  background-size: 420px auto;
   background-attachment: fixed;
   color: var(--color-foreground);
   font-family: var(--font-sans);
 }
 
-.bg-background {
-  background-color: transparent !important;
+/* Villa Editorial Headings (Condensed luxury serif look matching Pendory Condense) */
+.font-villa-editorial {
+  font-family: var(--font-serif);
+  letter-spacing: 0.14em;
+  font-stretch: condensed;
+}
+
+/* MIVA Headings (Playfair Display) */
+.font-miva-display {
+  font-family: var(--font-miva);
+}
+
+/* Villa Arch Mask (flat bottom, semi-circular top) */
+.arch-mask {
+  border-top-left-radius: 9999px;
+  border-top-right-radius: 9999px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  overflow: hidden;
 }
 
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+}
+
+/* Hide scrollbar utility */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* Custom scrollbar */

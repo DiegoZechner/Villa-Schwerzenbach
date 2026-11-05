@@ -3,11 +3,11 @@ import { useState, useRef } from 'react';
 import Image from 'next/image';
 
 const eventCategories = [
-  { id: 'hochzeit', title: 'Hochzeiten', desc: 'Der schönste Tag im perfekten Rahmen.', img: '/images/events/Screenshot 2026-10-01 154804.png' },
-  { id: 'apero', title: 'Apéros & Treffen', desc: 'Stilvolles Beisammensein für besondere Momente.', img: '/images/events/Screenshot 2026-10-01 154830.png' },
-  { id: 'firmenparty', title: 'Firmenpartys', desc: 'Erfolge feiern in exklusiver Atmosphäre.', img: '/images/events/Screenshot 2026-10-01 154836.png' },
-  { id: 'seminar', title: 'Meetingräume & Seminare', desc: 'Inspirierende Räume für produktives Arbeiten.', img: '/images/events/Screenshot 2026-10-01 154744.png' },
-  { id: 'andere', title: 'Individuelle Anfragen', desc: 'Ihre ganz persönliche Event-Idee.', img: '/images/events/Screenshot 2026-10-01 154804.png' },
+  { id: 'hochzeit', badge: 'CELEBRATE', title: 'Hochzeiten', desc: 'Der schönste Tag in einer unvergesslichen, lebendigen Kulisse.', img: '/images/events/Screenshot 2026-10-01 154804.png' },
+  { id: 'apero', badge: 'CONNECT', title: 'Apéros & Treffen', desc: 'Stilvolles Beisammensein, spontane Begegnungen & gute Gespräche.', img: '/images/events/Screenshot 2026-10-01 154830.png' },
+  { id: 'firmenparty', badge: 'DANCE', title: 'Firmenpartys', desc: 'Erfolge feiern in pulsierender, exklusiver MIVA-Atmosphäre.', img: '/images/events/Screenshot 2026-10-01 154836.png' },
+  { id: 'seminar', badge: 'MEET', title: 'Meetingräume & Seminare', desc: 'Inspirierende Räume für Visionäre, Workshops und neue Ideen.', img: '/images/events/Screenshot 2026-10-01 154744.png' },
+  { id: 'andere', badge: 'CREATE', title: 'Individuelle Anfragen', desc: 'Ihre ganz persönliche Event-Vision – wir machen sie möglich.', img: '/images/events/Screenshot 2026-10-01 154804.png' },
 ];
 
 export default function EventInquiry() {
@@ -22,129 +22,167 @@ export default function EventInquiry() {
   };
 
   return (
-    <div className="w-full">
-      {/* Event Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">
-        {eventCategories.map((category) => (
-          <button 
-            key={category.id}
-            onClick={() => handleSelect(category.id)}
-            className={`group text-left relative overflow-hidden h-80 flex flex-col justify-end p-8 transition-all duration-500 border ${selectedEvent === category.id ? 'border-bordeaux' : 'border-transparent'}`}
-          >
-            <Image src={category.img} alt={category.title} fill className="object-cover transition-transform duration-1000 group-hover:scale-105" />
-            <div className={`absolute inset-0 transition-colors duration-500 ${selectedEvent === category.id ? 'bg-black/60' : 'bg-black/40 group-hover:bg-black/50'}`}></div>
-            
-            <div className="relative z-10">
-              <h3 className="font-serif text-2xl text-white mb-2 tracking-widest uppercase">{category.title}</h3>
-              <p className="font-sans text-white/80 text-sm">{category.desc}</p>
-            </div>
-            
-            {/* Highlight Indicator */}
-            {selectedEvent === category.id && (
-              <div className="absolute top-6 right-6 w-3 h-3 rounded-full bg-bordeaux shadow-[0_0_10px_rgba(180,40,40,0.8)]"></div>
-            )}
-          </button>
-        ))}
+    <div className="w-full font-sans">
+      {/* MIVA Event Grid (Circular Masks, Asymmetrical/Modern Cards, Lilac/Purple/Tomate Red Palette) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+        {eventCategories.map((category, idx) => {
+          const isSelected = selectedEvent === category.id;
+          return (
+            <button 
+              key={category.id}
+              onClick={() => handleSelect(category.id)}
+              className={`group text-center relative rounded-3xl p-8 transition-all duration-500 flex flex-col items-center border-2 ${
+                isSelected 
+                  ? 'bg-miva-purple text-white border-miva-red shadow-2xl -translate-y-1' 
+                  : idx % 2 === 1
+                    ? 'bg-white text-miva-purple border-miva-lilac/60 hover:border-miva-red shadow-md hover:-translate-y-1'
+                    : 'bg-miva-lilac/25 text-miva-purple border-transparent hover:border-miva-purple shadow-md hover:-translate-y-1'
+              }`}
+            >
+              {/* Circular Badge */}
+              <span className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[10px] font-semibold tracking-[0.2em] uppercase mb-6 ${
+                isSelected ? 'bg-miva-red text-white' : 'bg-miva-purple text-miva-lilac'
+              }`}>
+                <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
+                {category.badge}
+              </span>
+
+              {/* Circular Image Mask (MIVA core visual element) */}
+              <div className={`relative w-44 h-44 md:w-48 md:h-48 rounded-full overflow-hidden mb-6 border-4 transition-transform duration-700 group-hover:scale-105 ${
+                isSelected ? 'border-miva-lilac' : 'border-miva-red'
+              }`}>
+                <Image src={category.img} alt={category.title} fill className="object-cover" />
+              </div>
+              
+              <h3 className={`font-miva-display text-2xl md:text-3xl mb-3 ${
+                isSelected ? 'text-white' : 'text-miva-purple'
+              }`}>
+                {category.title}
+              </h3>
+              <p className={`font-sans text-sm leading-relaxed mb-6 ${
+                isSelected ? 'text-white/85' : 'text-miva-purple/75'
+              }`}>
+                {category.desc}
+              </p>
+
+              <span className={`mt-auto inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-[10px] font-semibold tracking-[0.2em] uppercase transition-colors ${
+                isSelected
+                  ? 'bg-miva-lilac text-miva-purple'
+                  : 'bg-miva-red text-white group-hover:bg-miva-purple'
+              }`}>
+                <span>{isSelected ? 'Ausgewählt' : 'Jetzt Anfragen'}</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
+              </span>
+            </button>
+          );
+        })}
       </div>
 
-      {/* Inquiry Form */}
+      {/* MIVA Inquiry Form */}
       <div 
         ref={formRef} 
-        className={`transition-all duration-1000 ease-in-out overflow-hidden ${selectedEvent ? 'opacity-100 max-h-[1500px]' : 'opacity-0 max-h-0'}`}
+        className={`transition-all duration-700 ease-in-out overflow-hidden ${selectedEvent ? 'opacity-100 max-h-[1600px]' : 'opacity-100 max-h-[1600px]'}`}
       >
-        <div className="bg-white p-8 md:p-16 border border-espresso/10 shadow-sm max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="font-serif text-3xl md:text-4xl text-espresso mb-4 uppercase tracking-widest">
-              Event Anfragen
+        <div className="bg-miva-purple text-white p-8 md:p-16 rounded-3xl shadow-2xl max-w-4xl mx-auto relative overflow-hidden">
+          <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-miva-red/20 pointer-events-none" />
+          
+          <div className="text-center mb-12 relative z-10">
+            <span className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-miva-lilac text-miva-purple font-sans font-semibold text-[10px] tracking-[0.25em] uppercase mb-4">
+              <span className="w-2 h-2 rounded-full bg-miva-red"></span>
+              MIVA EVENT CONCIERGE
+            </span>
+            <h2 className="font-miva-display text-3xl md:text-5xl text-white mb-3">
+              Event <span className="italic text-miva-lilac">Anfragen</span>
             </h2>
-            <p className="font-sans text-espresso/60 text-sm tracking-wider uppercase">
-              Lassen Sie uns gemeinsam etwas Besonderes planen.
+            <p className="font-sans text-white/75 text-xs md:text-sm tracking-wider uppercase">
+              Lassen Sie uns gemeinsam einen unvergesslichen Moment gestalten.
             </p>
           </div>
 
-          <form className="space-y-8" onSubmit={(e) => { e.preventDefault(); alert('Vielen Dank für Ihre Anfrage! Wir melden uns in Kürze.'); setSelectedEvent(null); }}>
+          <form className="space-y-8 relative z-10" onSubmit={(e) => { e.preventDefault(); alert('Vielen Dank für Ihre Anfrage! Unser MIVA Event-Team meldet sich in Kürze.'); setSelectedEvent(null); }}>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
-                <label className="block font-mono text-[10px] tracking-[0.2em] uppercase text-espresso/60 mb-2">Event Art</label>
+                <label className="block font-sans font-medium text-[10px] tracking-[0.2em] uppercase text-miva-lilac mb-2">Event Art</label>
                 <select 
                   value={selectedEvent || ''}
                   onChange={(e) => setSelectedEvent(e.target.value)}
-                  className="w-full bg-transparent border-b border-espresso/20 pb-2 font-sans text-espresso focus:outline-none focus:border-bordeaux cursor-pointer"
+                  className="w-full bg-transparent border-b border-white/30 pb-2 font-sans text-white focus:outline-none focus:border-miva-lilac cursor-pointer"
                   required
                 >
-                  <option value="" disabled>Bitte wählen...</option>
-                  {eventCategories.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
+                  <option value="" disabled className="text-miva-purple">Bitte wählen...</option>
+                  {eventCategories.map(c => <option key={c.id} value={c.id} className="text-miva-purple">{c.title}</option>)}
                 </select>
               </div>
 
               <div>
-                <label className="block font-mono text-[10px] tracking-[0.2em] uppercase text-espresso/60 mb-2">Geschätzte Gästezahl</label>
+                <label className="block font-sans font-medium text-[10px] tracking-[0.2em] uppercase text-miva-lilac mb-2">Geschätzte Gästezahl</label>
                 <input 
                   type="number" 
                   min="1"
                   placeholder="z.B. 50"
-                  className="w-full bg-transparent border-b border-espresso/20 pb-2 font-sans text-espresso focus:outline-none focus:border-bordeaux" 
+                  className="w-full bg-transparent border-b border-white/30 pb-2 font-sans text-white placeholder:text-white/40 focus:outline-none focus:border-miva-lilac" 
                   required
                 />
               </div>
 
               <div>
-                <label className="block font-mono text-[10px] tracking-[0.2em] uppercase text-espresso/60 mb-2">Wunschdatum</label>
+                <label className="block font-sans font-medium text-[10px] tracking-[0.2em] uppercase text-miva-lilac mb-2">Wunschdatum</label>
                 <input 
                   type="date" 
-                  className="w-full bg-transparent border-b border-espresso/20 pb-2 font-sans text-espresso focus:outline-none focus:border-bordeaux" 
+                  className="w-full bg-transparent border-b border-white/30 pb-2 font-sans text-white focus:outline-none focus:border-miva-lilac" 
                 />
               </div>
               
               <div>
-                <label className="block font-mono text-[10px] tracking-[0.2em] uppercase text-espresso/60 mb-2">Telefon</label>
+                <label className="block font-sans font-medium text-[10px] tracking-[0.2em] uppercase text-miva-lilac mb-2">Telefon</label>
                 <input 
                   type="tel" 
-                  placeholder="+41 44 ..."
-                  className="w-full bg-transparent border-b border-espresso/20 pb-2 font-sans text-espresso focus:outline-none focus:border-bordeaux" 
+                  placeholder="+43 / +41 ..."
+                  className="w-full bg-transparent border-b border-white/30 pb-2 font-sans text-white placeholder:text-white/40 focus:outline-none focus:border-miva-lilac" 
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
-                <label className="block font-mono text-[10px] tracking-[0.2em] uppercase text-espresso/60 mb-2">Name / Firma</label>
+                <label className="block font-sans font-medium text-[10px] tracking-[0.2em] uppercase text-miva-lilac mb-2">Name / Firma</label>
                 <input 
                   type="text" 
                   placeholder="Vorname Nachname / Firmenname"
-                  className="w-full bg-transparent border-b border-espresso/20 pb-2 font-sans text-espresso focus:outline-none focus:border-bordeaux" 
+                  className="w-full bg-transparent border-b border-white/30 pb-2 font-sans text-white placeholder:text-white/40 focus:outline-none focus:border-miva-lilac" 
                   required
                 />
               </div>
 
               <div>
-                <label className="block font-mono text-[10px] tracking-[0.2em] uppercase text-espresso/60 mb-2">E-Mail</label>
+                <label className="block font-sans font-medium text-[10px] tracking-[0.2em] uppercase text-miva-lilac mb-2">E-Mail</label>
                 <input 
                   type="email" 
-                  placeholder="ihre.email@beispiel.ch"
-                  className="w-full bg-transparent border-b border-espresso/20 pb-2 font-sans text-espresso focus:outline-none focus:border-bordeaux" 
+                  placeholder="ihre.email@beispiel.com"
+                  className="w-full bg-transparent border-b border-white/30 pb-2 font-sans text-white placeholder:text-white/40 focus:outline-none focus:border-miva-lilac" 
                   required
                 />
               </div>
             </div>
 
             <div>
-              <label className="block font-mono text-[10px] tracking-[0.2em] uppercase text-espresso/60 mb-2">Ihre Idee / Beschreibung</label>
+              <label className="block font-sans font-medium text-[10px] tracking-[0.2em] uppercase text-miva-lilac mb-2">Ihre Idee / Beschreibung</label>
               <textarea 
-                rows={5}
+                rows={4}
                 placeholder="Erzählen Sie uns von Ihrer Vision, speziellen Wünschen oder Anforderungen..."
-                className="w-full bg-transparent border-b border-espresso/20 pb-2 font-sans text-espresso focus:outline-none focus:border-bordeaux resize-none" 
+                className="w-full bg-transparent border-b border-white/30 pb-2 font-sans text-white placeholder:text-white/40 focus:outline-none focus:border-miva-lilac resize-none" 
                 required
               ></textarea>
             </div>
 
-            <div className="pt-8 flex justify-center">
+            <div className="pt-6 flex justify-center">
               <button 
                 type="submit" 
-                className="bg-bordeaux text-cream font-mono text-[10px] tracking-[0.25em] uppercase px-16 py-5 hover:bg-espresso transition-colors"
+                className="inline-flex items-center gap-3 bg-miva-red text-white font-sans font-semibold text-xs tracking-[0.25em] uppercase px-14 py-4 rounded-full hover:bg-miva-lilac hover:text-miva-purple transition-colors shadow-lg cursor-pointer"
               >
-                Anfrage Senden
+                <span>Anfrage Senden</span>
+                <span className="w-2 h-2 rounded-full bg-current"></span>
               </button>
             </div>
             

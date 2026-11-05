@@ -1,16 +1,39 @@
 import type { Metadata } from 'next';
-import { DM_Sans, Bodoni_Moda, Dancing_Script } from 'next/font/google';
+import { Montserrat, Playfair_Display, Bodoni_Moda, Great_Vibes } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import BackgroundDesign from '@/components/layout/BackgroundDesign';
 
-const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-sans' });
-const bodoni = Bodoni_Moda({ subsets: ['latin'], variable: '--font-serif', style: ['normal', 'italic'] });
-const dancingScript = Dancing_Script({ subsets: ['latin'], variable: '--font-script' });
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-sans',
+});
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  weight: ['400', '600'],
+  style: ['normal', 'italic'],
+  variable: '--font-miva',
+});
+
+const bodoni = Bodoni_Moda({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  style: ['normal', 'italic'],
+  variable: '--font-serif',
+});
+
+const greatVibes = Great_Vibes({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-script',
+});
 
 export const metadata: Metadata = {
-  title: 'Villa Schwerzenbach by MIVA | A House Full of Life',
-  description: 'A beautiful boutique hotel located in Schwerzenbach. STAY · EAT · MEET · CELEBRATE · DANCE.',
+  title: 'Villa Schwerzenbach by MIVA | A Home Full of Life',
+  description: 'A beautiful boutique residence & event location in Bregenz. STAY · EAT · MEET · CELEBRATE · DANCE.',
 };
 
 export default function RootLayout({
@@ -20,7 +43,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="de">
-      <body className={`${dmSans.variable} ${bodoni.variable} ${dancingScript.variable} font-sans min-h-screen flex flex-col relative`}>
+      <body className={`${montserrat.variable} ${playfair.variable} ${bodoni.variable} ${greatVibes.variable} font-sans min-h-screen flex flex-col relative`}>
+        <BackgroundDesign />
         <Header />
         <main className="flex-grow">
           {children}

@@ -3,26 +3,39 @@ import EventInquiry from '@/components/events/EventInquiry';
 
 export default function EventsPage() {
   return (
-    <div className="flex flex-col min-h-screen relative z-10 bg-background">
+    <div className="flex flex-col min-h-screen relative z-10 font-sans">
       <PageHero 
-        title="Events" 
-        subtitle="Momente, die bleiben" 
-        image="/images/home/celebrate.jpg" 
+        title="Events & Experiences" 
+        subtitle="Ein farbenfroheres Morgen" 
+        image="/images/home/celebrate.jpg"
+        brand="miva"
       />
 
-      <section className="py-24">
+      {/* MIVA World Section: White Gray (#f4f4f4) background with Lilac, Dark Purple & Tomate Red accents */}
+      <section className="py-16 md:py-24">
         <div className="container mx-auto px-4 md:px-8 max-w-7xl">
-          <div className="bg-cream/95 backdrop-blur-sm p-8 md:p-16 rounded-sm shadow-lg">
-            <div className="text-center max-w-3xl mx-auto mb-16">
-              <h2 className="font-serif text-3xl md:text-4xl text-espresso mb-6 uppercase tracking-widest">
-                Feiern & Tagen in der Villa
+          <div className="bg-miva-gray p-8 md:p-16 rounded-3xl shadow-2xl border-2 border-miva-lilac/40 relative overflow-hidden">
+            
+            {/* Decorative MIVA Circles */}
+            <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-miva-lilac/35 pointer-events-none" />
+            <div className="absolute -bottom-24 -left-24 w-72 h-72 rounded-full bg-miva-red/10 pointer-events-none" />
+
+            <div className="relative z-10 text-center max-w-3xl mx-auto mb-16">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-miva-purple text-miva-lilac font-sans font-semibold text-[10px] tracking-[0.25em] uppercase mb-5">
+                <span className="w-2 h-2 rounded-full bg-miva-red"></span>
+                BY MIVA. • HOSPITALITY &amp; KONZEPTE
+              </div>
+              <h2 className="font-miva-display text-4xl md:text-6xl text-miva-purple mb-6 leading-tight">
+                Feiern, Tagen &amp; <span className="italic text-miva-red">Erleben</span>
               </h2>
-              <p className="font-serif text-lg text-espresso/80 leading-relaxed">
-                Die Villa Schwerzenbach bietet den perfekten Rahmen für besondere Anlässe. Wählen Sie die passende Kategorie oder teilen Sie uns Ihre ganz eigene, individuelle Idee mit.
+              <p className="font-sans text-base md:text-lg text-miva-purple/80 leading-relaxed">
+                MIVA steht für Lebendigkeit, Spontanität und erlebnisorientierte Momente in der Villa Schwerzenbach. Wählen Sie Ihr Event-Format – von Hochzeiten und Apéros über Firmenpartys und Seminare bis hin zu Ihrer ganz individuellen Idee.
               </p>
             </div>
             
-            <EventInquiry />
+            <div className="relative z-10">
+              <EventInquiry />
+            </div>
           </div>
         </div>
       </section>

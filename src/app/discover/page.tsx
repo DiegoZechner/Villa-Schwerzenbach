@@ -71,50 +71,52 @@ export default function DiscoverPage() {
   ];
 
   return (
-    <main className="w-full h-screen flex overflow-hidden bg-espresso text-cream lg:pt-0">
+    <main className="w-full h-screen flex overflow-hidden bg-espresso text-cream lg:pt-0 font-sans">
       
       {/* Mobile Top Tab Navigation */}
       <div className="lg:hidden absolute top-20 left-0 w-full z-[100] flex justify-center gap-2 px-4 pointer-events-auto">
-         <button 
-           onClick={() => setActiveSeason(activeSeason === 'winter' ? 'summer' : 'summer')} 
-           className={`px-8 py-3 font-mono text-[10px] tracking-[0.25em] border transition-colors ${activeSeason !== 'winter' ? 'bg-cream text-espresso border-cream' : 'border-white/50 text-white backdrop-blur-sm'}`}
-         >
-           SOMMER
-         </button>
-         <button 
-           onClick={() => setActiveSeason('winter')} 
-           className={`px-8 py-3 font-mono text-[10px] tracking-[0.25em] border transition-colors ${activeSeason === 'winter' ? 'bg-cream text-espresso border-cream' : 'border-white/50 text-white backdrop-blur-sm'}`}
-         >
-           WINTER
-         </button>
+        <button 
+          onClick={() => setActiveSeason('summer')} 
+          className={`px-8 py-3 font-sans text-[10px] tracking-[0.25em] border transition-colors ${activeSeason !== 'winter' ? 'bg-cream text-espresso border-cream' : 'border-white/50 text-white backdrop-blur-sm'}`}
+        >
+          SOMMER
+        </button>
+        <button 
+          onClick={() => setActiveSeason('winter')} 
+          className={`px-8 py-3 font-sans text-[10px] tracking-[0.25em] border transition-colors ${activeSeason === 'winter' ? 'bg-cream text-espresso border-cream' : 'border-white/50 text-white backdrop-blur-sm'}`}
+        >
+          WINTER
+        </button>
       </div>
 
       {/* Summer Section */}
       <div 
         className={`${widths.summer} relative h-full transition-all duration-1000 ease-[cubic-bezier(0.76,0,0.24,1)] lg:border-r border-white/20 cursor-pointer group flex-shrink-0`}
-        onClick={(e) => {
-          // Only trigger split if not already active or clicking the background
+        onClick={() => {
           if (activeSeason !== 'summer') setActiveSeason('summer');
         }}
       >
         <Image src="/images/home/stay.jpg" alt="Summer in Bregenz" fill className="object-cover" />
-        <div className={`absolute inset-0 bg-black transition-opacity duration-1000 ${activeSeason === 'winter' ? 'opacity-60' : 'opacity-20 group-hover:opacity-10'}`}></div>
+        <div className={`absolute inset-0 bg-[#35271f] transition-opacity duration-1000 ${activeSeason === 'winter' ? 'opacity-65' : 'opacity-30 group-hover:opacity-15'}`}></div>
         
         {/* Title */}
-        <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-500 ${activeSeason === 'summer' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+        <div className={`absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500 ${activeSeason === 'summer' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+          {activeSeason === 'none' && (
+            <span className="font-script text-3xl text-cream mb-2">A home full of life</span>
+          )}
           <h2 
-            className="text-white font-serif text-3xl md:text-5xl tracking-widest uppercase transition-transform duration-1000" 
+            className="text-white font-villa-editorial text-4xl md:text-6xl tracking-[0.2em] uppercase transition-transform duration-1000" 
             style={{ writingMode: activeSeason === 'winter' ? 'vertical-rl' : 'horizontal-tb' }}
           >
             Sommer
           </h2>
         </div>
 
-        {/* Expanded Content (Blog Layout) */}
+        {/* Expanded Content (Editorial Layout with Arch Masks) */}
         <div className={`absolute inset-0 bg-cream overflow-y-auto hide-scrollbar transition-all duration-1000 ${activeSeason === 'summer' ? 'opacity-100 z-10' : 'opacity-0 pointer-events-none z-[-1]'}`}>
-
           <div className="container mx-auto px-6 md:px-12 max-w-5xl py-32">
-            <h2 className="font-serif text-5xl md:text-7xl tracking-widest uppercase text-bordeaux mb-24 text-center">
+            <p className="font-script text-3xl text-villa-red text-center mb-2">Same space, different stories</p>
+            <h2 className="font-villa-editorial text-5xl md:text-7xl tracking-[0.2em] uppercase text-bordeaux mb-24 text-center">
               Sommer
             </h2>
             
@@ -122,17 +124,17 @@ export default function DiscoverPage() {
               {summerEvents.map((event, idx) => (
                 <div key={idx} className="flex flex-col border-t border-espresso/20 pt-12 gap-8 lg:flex-row lg:items-center">
                   <div className="flex-1 lg:pr-12">
-                    <div className="font-mono text-[10px] tracking-[0.25em] uppercase text-espresso/50 mb-4">
+                    <div className="font-sans font-semibold text-[10px] tracking-[0.25em] uppercase text-villa-blue mb-4">
                       {event.category} <span className="mx-2">|</span> {event.date}
                     </div>
-                    <h3 className="font-serif text-2xl md:text-3xl text-espresso mb-6">
+                    <h3 className="font-villa-editorial text-2xl md:text-4xl text-espresso uppercase tracking-[0.12em] mb-6">
                       {event.title}
                     </h3>
-                    <p className="font-sans text-sm leading-loose text-espresso/80">
+                    <p className="font-sans text-sm md:text-base leading-loose text-espresso/85">
                       {event.description}
                     </p>
                   </div>
-                  <div className="flex-1 w-full relative h-[400px]">
+                  <div className="flex-1 w-full relative h-[380px] max-w-sm mx-auto arch-mask border-4 border-cream-light shadow-lg">
                     <Image src={event.img} alt={event.title} fill className="object-cover" />
                   </div>
                 </div>
@@ -145,17 +147,20 @@ export default function DiscoverPage() {
       {/* Winter Section */}
       <div 
         className={`${widths.winter} relative h-full transition-all duration-1000 ease-[cubic-bezier(0.76,0,0.24,1)] cursor-pointer group flex-shrink-0`}
-        onClick={(e) => {
+        onClick={() => {
           if (activeSeason !== 'winter') setActiveSeason('winter');
         }}
       >
         <Image src="/images/home/celebrate.jpg" alt="Winter in Bregenz" fill className="object-cover" />
-        <div className={`absolute inset-0 bg-black transition-opacity duration-1000 ${activeSeason === 'summer' ? 'opacity-60' : 'opacity-20 group-hover:opacity-10'}`}></div>
+        <div className={`absolute inset-0 bg-[#35271f] transition-opacity duration-1000 ${activeSeason === 'summer' ? 'opacity-65' : 'opacity-30 group-hover:opacity-15'}`}></div>
         
         {/* Title */}
-        <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-500 ${activeSeason === 'winter' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+        <div className={`absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500 ${activeSeason === 'winter' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+          {activeSeason === 'none' && (
+            <span className="font-script text-3xl text-cream mb-2">Same space, different stories</span>
+          )}
           <h2 
-            className="text-white font-serif text-3xl md:text-5xl tracking-widest uppercase transition-transform duration-1000" 
+            className="text-white font-villa-editorial text-4xl md:text-6xl tracking-[0.2em] uppercase transition-transform duration-1000" 
             style={{ 
               writingMode: activeSeason === 'summer' ? 'vertical-rl' : 'horizontal-tb',
               transform: activeSeason === 'summer' ? 'rotate(180deg)' : 'none' 
@@ -165,11 +170,11 @@ export default function DiscoverPage() {
           </h2>
         </div>
 
-        {/* Expanded Content (Blog Layout) */}
+        {/* Expanded Content (Editorial Layout with Arch Masks) */}
         <div className={`absolute inset-0 bg-espresso overflow-y-auto hide-scrollbar transition-all duration-1000 ${activeSeason === 'winter' ? 'opacity-100 z-10' : 'opacity-0 pointer-events-none z-[-1]'}`}>
-
           <div className="container mx-auto px-6 md:px-12 max-w-5xl py-32">
-            <h2 className="font-serif text-5xl md:text-7xl tracking-widest uppercase text-cream mb-24 text-center">
+            <p className="font-script text-3xl text-villa-blue text-center mb-2">A home full of life</p>
+            <h2 className="font-villa-editorial text-5xl md:text-7xl tracking-[0.2em] uppercase text-cream mb-24 text-center">
               Winter
             </h2>
             
@@ -177,17 +182,17 @@ export default function DiscoverPage() {
               {winterEvents.map((event, idx) => (
                 <div key={idx} className="flex flex-col border-t border-cream/20 pt-12 gap-8 lg:flex-row lg:items-center">
                   <div className="flex-1 lg:pr-12">
-                    <div className="font-mono text-[10px] tracking-[0.25em] uppercase text-cream/50 mb-4">
+                    <div className="font-sans font-semibold text-[10px] tracking-[0.25em] uppercase text-villa-blue mb-4">
                       {event.category} <span className="mx-2">|</span> {event.date}
                     </div>
-                    <h3 className="font-serif text-2xl md:text-3xl text-cream mb-6">
+                    <h3 className="font-villa-editorial text-2xl md:text-4xl text-cream uppercase tracking-[0.12em] mb-6">
                       {event.title}
                     </h3>
-                    <p className="font-sans text-sm leading-loose text-cream/80">
+                    <p className="font-sans text-sm md:text-base leading-loose text-cream/85">
                       {event.description}
                     </p>
                   </div>
-                  <div className="flex-1 w-full relative h-[400px]">
+                  <div className="flex-1 w-full relative h-[380px] max-w-sm mx-auto arch-mask border-4 border-cream/30 shadow-lg">
                     <Image src={event.img} alt={event.title} fill className="object-cover" />
                   </div>
                 </div>
