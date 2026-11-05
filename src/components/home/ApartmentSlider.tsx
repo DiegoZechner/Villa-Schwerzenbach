@@ -2,20 +2,7 @@
 import { useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-
-const allRooms = [
-  { slug: 'rosengarten', name: 'Top 02 - Rosengarten', img: '/images/rooms/top-02.jpg' },
-  { slug: 'parkblick', name: 'Top 03 - Parkblick', img: '/images/rooms/top-03.jpg' },
-  { slug: 'salon-bordeaux', name: 'Top 04 - Salon Bordeaux', img: '/images/rooms/top-04.jpg' },
-  { slug: 'beletage', name: 'Top 05 - Beletage', img: '/images/rooms/top-05.jpg' },
-  { slug: 'orangerie', name: 'Top 06 - Orangerie', img: '/images/rooms/top-06.jpg' },
-  { slug: 'bibliothek', name: 'Top 07 - Bibliothek', img: '/images/rooms/top-07.jpg' },
-  { slug: 'villa-blau', name: 'Top 08 - Villa Blau', img: '/images/rooms/top-08.jpg' },
-  { slug: 'dachterrasse', name: 'Top 09 - Dachterrasse', img: '/images/rooms/top-09.jpg' },
-  { slug: 'belle-epoque', name: 'Top 10 - Belle Époque', img: '/images/rooms/top-10.jpg' },
-  { slug: 'grand-suite', name: 'Top 11 - Grand Suite', img: '/images/rooms/top-11.jpg' },
-  { slug: 'villa-suite', name: 'Top 12 - Villa Suite', img: '/images/rooms/top-12.jpg' },
-];
+import { allRooms } from '@/data/rooms';
 
 export default function ApartmentSlider() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -70,7 +57,7 @@ export default function ApartmentSlider() {
              {/* Image */}
              <div className="relative h-[55vh] md:h-[65vh] w-full overflow-hidden">
                <Image 
-                 src={apt.img} 
+                 src={apt.image} 
                  alt={apt.name} 
                  fill 
                  className="object-cover" 
@@ -79,9 +66,12 @@ export default function ApartmentSlider() {
              </div>
              
              {/* Text below image */}
-             <div className="py-8 md:py-10 px-4">
-               <p className="text-center font-sans text-[10px] md:text-xs tracking-[0.25em] uppercase text-espresso/80 group-hover:text-bordeaux transition-colors">
+             <div className="py-8 md:py-10 px-4 text-center">
+               <p className="font-sans text-[10px] md:text-xs tracking-[0.25em] uppercase text-espresso/80 group-hover:text-bordeaux transition-colors">
                  {apt.name}
+               </p>
+               <p className="font-serif italic text-xs text-espresso/60 mt-1">
+                 {apt.tagline}
                </p>
              </div>
           </Link>
@@ -90,4 +80,3 @@ export default function ApartmentSlider() {
     </section>
   );
 }
-

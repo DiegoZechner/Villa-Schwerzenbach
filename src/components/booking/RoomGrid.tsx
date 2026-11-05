@@ -2,29 +2,18 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { RoomData } from '@/data/rooms';
 
-type Room = {
-  id: string;
-  slug: string;
-  name: string;
-  category: string;
-  price: number;
-  capacity: number;
-  size: number;
-  image: string;
-  description?: string;
-};
-
-export default function RoomGrid({ initialRooms }: { initialRooms: Room[] }) {
+export default function RoomGrid({ initialRooms }: { initialRooms: RoomData[] }) {
   const [filterCategory, setFilterCategory] = useState<string>('All');
   const [filterGuests, setFilterGuests] = useState<number | null>(null);
 
-  const categories = ['All', 'Classic', 'Comfort', 'Superior', 'Deluxe', 'Suite'];
+  const categories = ['All', 'Studio', '1-Zimmer-Wohnung', '3-Zimmer-Wohnung'];
   const guestOptions = [
     { label: 'Any Guests', value: null },
     { label: '2 Guests', value: 2 },
     { label: '3 Guests', value: 3 },
-    { label: '4 Guests', value: 4 },
+    { label: '5 Guests', value: 5 },
   ];
 
   const filteredRooms = initialRooms.filter(room => {
@@ -68,14 +57,14 @@ export default function RoomGrid({ initialRooms }: { initialRooms: Room[] }) {
         </div>
 
         <div className="flex-1 w-full flex flex-col gap-2">
-          <label className="font-mono text-[10px] tracking-[0.2em] uppercase text-espresso/50">Category</label>
+          <label className="font-mono text-[10px] tracking-[0.2em] uppercase text-espresso/50">Typ</label>
           <select 
             value={filterCategory} 
             onChange={(e) => setFilterCategory(e.target.value)}
             className="w-full bg-transparent border-b border-espresso/20 pb-2 font-sans text-sm text-espresso focus:outline-none focus:border-bordeaux transition-colors cursor-pointer appearance-none"
           >
             {categories.map(cat => (
-              <option key={cat} value={cat}>{cat}</option>
+              <option key={cat} value={cat}>{cat === 'All' ? 'Alle Typen' : cat}</option>
             ))}
           </select>
         </div>
@@ -86,7 +75,7 @@ export default function RoomGrid({ initialRooms }: { initialRooms: Room[] }) {
       <div className="flex flex-col gap-32">
         {filteredRooms.length === 0 ? (
           <div className="text-center py-20 text-espresso/60 font-serif text-xl">
-            Für diese Filterkriterien wurden leider keine Zimmer gefunden.
+            Für diese Filterkriterien wurden leider keine Apartments gefunden.
           </div>
         ) : (
           filteredRooms.map((room, index) => (
@@ -108,20 +97,31 @@ export default function RoomGrid({ initialRooms }: { initialRooms: Room[] }) {
 
               {/* Text Half */}
               <div className="w-full lg:w-1/2 flex flex-col justify-center text-center lg:text-left px-4 lg:px-8">
+                <div className="font-mono text-[10px] tracking-[0.25em] uppercase text-bordeaux mb-2">
+                  {room.tagline}
+                </div>
                 <h2 className="font-serif text-3xl lg:text-4xl text-espresso mb-4 uppercase tracking-widest leading-tight">
                   {room.name}
                 </h2>
                 
-                <div className="font-mono text-xs tracking-[0.2em] uppercase text-espresso/60 mb-6 flex justify-center lg:justify-start items-center gap-4">
-                  <span>{room.capacity} GUESTS</span>
+                <div className="font-mono text-xs tracking-[0.15em] uppercase text-espresso/60 mb-6 flex flex-wrap justify-center lg:justify-start items-center gap-3">
+                  <span>{room.floor}</span>
                   <span className="w-1 h-1 bg-espresso/30 rounded-full"></span>
-                  <span>{room.size} SQM</span>
+                  <span>{room.size.toString().replace('.', ',')} M²</span>
                   <span className="w-1 h-1 bg-espresso/30 rounded-full"></span>
-                  <span>{room.category.toUpperCase()}</span>
+                  <span>{room.type.toUpperCase()}</span>
+                  <span className="w-1 h-1 bg-espresso/30 rounded-full"></span>
+                  <span>MAX. {room.capacity} PERS.</span>
+                  {room.balcony && (
+                    <>
+                      <span className="w-1 h-1 bg-espresso/30 rounded-full"></span>
+                      <span>BALKON ({room.balcony})</span>
+                    </>
+                  )}
                 </div>
                 
-                <p className="text-sm lg:text-base text-espresso/80 leading-relaxed mb-8 max-w-md mx-auto lg:mx-0">
-                  {room.description || "Ein luxuriöses Erlebnis mit Liebe zum Detail und modernem Komfort."}
+                <p className="text-sm lg:text-base text-espresso/80 leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0">
+                  {room.description}
                 </p>
                 
                 <div>
@@ -129,7 +129,7 @@ export default function RoomGrid({ initialRooms }: { initialRooms: Room[] }) {
                     href={`/rooms/${room.slug}`} 
                     className="inline-block border-b border-espresso pb-1 font-bold text-xs tracking-widest uppercase hover:text-bordeaux hover:border-bordeaux transition-colors"
                   >
-                    EXPLORE ROOM
+                    EXPLORE APARTMENT
                   </Link>
                 </div>
               </div>
