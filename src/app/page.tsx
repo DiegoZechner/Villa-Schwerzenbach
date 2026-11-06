@@ -87,63 +87,11 @@ export default function Home() {
         </Link>
       </section>
 
-      {/* Section 2: Villa Editorial Statement */}
-      <section className="w-full bg-bordeaux border-t-[3px] border-cream py-16 md:py-24 flex flex-col justify-center items-center text-center text-cream px-6 md:px-12">
-        <Image 
-          src="/images/logos/brand-6.svg" 
-          alt="Villa Schwerzenbach Brand Mark" 
-          width={48} 
-          height={48} 
-          className="mb-8 brightness-0 invert opacity-90 w-12 md:w-14 h-auto"
-        />
-        <h2 className="font-villa-editorial text-3xl md:text-5xl tracking-[0.2em] uppercase mb-6 text-white">
-          VILLA SCHWERZENBACH
-        </h2>
-        <p className="font-sans text-sm md:text-lg max-w-3xl leading-relaxed text-cream/90 mb-8">
-          Die Villa Schwerzenbach schafft Räume mit einer unverwechselbaren, authentischen Identität. Jeder Bereich wird mit tiefgreifender Sorgfalt und kreativer Präzision zum Leben erweckt – ein Ort zum Übernachten, Essen, Treffen, Feiern und Tanzen.
-        </p>
-        <span className="font-script text-3xl md:text-4xl text-cream">
-          Same space, different stories
-        </span>
-      </section>
-
-      {/* Section 3: Villa World Showcase */}
-      <section className="w-full bg-cream border-t-[3px] border-white py-20 md:py-28 px-6 md:px-12">
-        <div className="container mx-auto max-w-6xl flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-          
-          {/* Left: Arch-Masked Photo */}
-          <div className="w-full lg:w-1/2 flex justify-center">
-            <div className="relative w-full max-w-md h-[460px] md:h-[560px] arch-mask border-4 border-white shadow-xl">
-              <Image src="/images/home/lobby.jpg" alt="Villa Schwerzenbach Interior" fill className="object-cover" />
-            </div>
-          </div>
-
-          {/* Right: Editorial Text Block */}
-          <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left">
-            <span className="font-sans text-[10px] tracking-[0.3em] uppercase text-villa-red font-semibold mb-3">
-              STAY • RELAX • ENJOY
-            </span>
-            <h2 className="font-villa-editorial text-4xl md:text-6xl text-espresso uppercase tracking-[0.15em] mb-6 leading-tight">
-              Zeitlose Eleganz
-            </h2>
-            <p className="font-sans text-sm md:text-base text-espresso/80 leading-loose mb-10 max-w-lg">
-              Unsere 11 individuell gestalteten Suites &amp; Apartments (Top 02 bis Top 12) vereinen den historischen Glanz der Belle Époque mit zeitgenössischem Komfort. Warme Erdtöne, lichtdurchflutete Räume und die charakteristischen Rundbögen machen jeden Aufenthalt einzigartig.
-            </p>
-            <Link 
-              href="/rooms" 
-              className="bg-bordeaux text-white font-sans font-medium text-xs tracking-[0.25em] uppercase px-10 py-4 hover:bg-villa-red transition-colors"
-            >
-              Suites &amp; Apartments Entdecken
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Section 4:Unsere Suites & Apartments (Styled consistently with /rooms mosaic aesthetic) */}
+      {/* Section 2: Compact Suites & Apartments Slider */}
       <ApartmentSlider />
 
-      {/* Section 5: MIVA Events Teaser (Circles, Lilac, Dark Purple & Tomate Red) */}
-      <section className="w-full bg-miva-purple text-white py-20 md:py-28 px-6 md:px-12 border-t-[3px] border-white relative overflow-hidden">
+      {/* Section 3: MIVA Events Teaser (Circles, Lilac, Dark Purple & Tomate Red) */}
+      <section className="w-full bg-miva-purple text-white py-20 md:py-28 px-6 md:px-12 border-t-[3px] border-white/20 relative overflow-hidden">
         {/* Decorative MIVA Circles */}
         <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-miva-lilac/15 pointer-events-none" />
         <div className="absolute -bottom-20 -left-20 w-64 h-64 rounded-full bg-miva-red/15 pointer-events-none" />
@@ -178,6 +126,101 @@ export default function Home() {
               <Image src="/images/events/Screenshot 2026-10-01 154830.png" alt="MIVA Apéro" fill className="object-cover" />
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Section 4: Die Villa – Philosophie, Standort & Konzept Widget (Bottom of Homepage) */}
+      <section className="w-full py-16 md:py-24 px-4 sm:px-6 md:px-10 border-t-[3px] border-white/15">
+        <div className="w-[95%] max-w-6xl mx-auto bg-bordeaux text-cream rounded-3xl p-8 sm:p-12 md:p-16 shadow-2xl border border-cream/20">
+          
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-10 mb-12 border-b border-cream/20">
+            <div>
+              <span className="font-sans text-[10px] tracking-[0.35em] uppercase text-cream/75 block mb-3">
+                DIE VILLA • PHILOSOPHIE • STANDORT • KONZEPT
+              </span>
+              <h2 className="font-villa-editorial text-3xl sm:text-5xl md:text-6xl text-white uppercase tracking-[0.16em] leading-tight">
+                Villa Schwerzenbach
+              </h2>
+            </div>
+            <span className="font-script text-3xl md:text-4xl text-cream/90">
+              Same space, different stories
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+            {/* 1. Philosophie */}
+            <div className="bg-black/20 p-6 sm:p-8 rounded-2xl border border-cream/10 flex flex-col justify-between">
+              <div>
+                <span className="font-sans text-[10px] tracking-[0.3em] uppercase text-villa-blue font-semibold block mb-3">
+                  01 / UNSERE PHILOSOPHIE
+                </span>
+                <h3 className="font-villa-editorial text-2xl text-white uppercase tracking-[0.14em] mb-4">
+                  Historie &amp; Charakter
+                </h3>
+                <p className="font-sans text-xs sm:text-sm text-cream/85 leading-relaxed">
+                  Die Villa Schwerzenbach verbindet den geschichtsträchtigen Charme der Belle Époque mit zeitgemäßer Ästhetik. Jeder Raum wurde mit höchster Sorgfalt gestaltet, um Geborgenheit, Inspiration und echte Begegnungen zu schaffen.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-cream/10">
+                <span className="font-sans text-[10px] tracking-[0.22em] uppercase text-cream/60">
+                  Zeitlose Architektur
+                </span>
+              </div>
+            </div>
+
+            {/* 2. Standort */}
+            <div className="bg-black/20 p-6 sm:p-8 rounded-2xl border border-cream/10 flex flex-col justify-between">
+              <div>
+                <span className="font-sans text-[10px] tracking-[0.3em] uppercase text-villa-blue font-semibold block mb-3">
+                  02 / DER STANDORT
+                </span>
+                <h3 className="font-villa-editorial text-2xl text-white uppercase tracking-[0.14em] mb-4">
+                  Im Herzen von Bregenz
+                </h3>
+                <p className="font-sans text-xs sm:text-sm text-cream/85 leading-relaxed">
+                  Nur wenige Schritte vom Bodensee, den Bregenzer Festspielen und dem Pfänder entfernt: Unsere Lage in der Schwerzenbachstraße 9 vereint ruhige Rückzugsmöglichkeiten mit direkter Nähe zu Kultur, Natur und dem Dreiländereck.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-cream/10">
+                <Link
+                  href="/discover"
+                  className="font-sans text-[10px] tracking-[0.22em] uppercase text-cream hover:text-white transition-colors"
+                >
+                  Umgebung Entdecken →
+                </Link>
+              </div>
+            </div>
+
+            {/* 3. Das Konzept */}
+            <div className="bg-black/20 p-6 sm:p-8 rounded-2xl border border-cream/10 flex flex-col justify-between">
+              <div>
+                <span className="font-sans text-[10px] tracking-[0.3em] uppercase text-villa-blue font-semibold block mb-3">
+                  03 / DAS KONZEPT
+                </span>
+                <h3 className="font-villa-editorial text-2xl text-white uppercase tracking-[0.14em] mb-4">
+                  Stay • Meet • Celebrate
+                </h3>
+                <p className="font-sans text-xs sm:text-sm text-cream/85 leading-relaxed">
+                  Ein Haus, zwei perfekt harmonierende Welten: Oben bieten 11 individuelle Suites &amp; Apartments ein stilvolles Zuhause auf Zeit – im Erdgeschoss und Garten schafft MIVA den Rahmen für Events, Apéros, Seminare und besondere Feiern.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-cream/10 flex items-center justify-between">
+                <Link
+                  href="/rooms"
+                  className="font-sans text-[10px] tracking-[0.22em] uppercase text-cream hover:text-white transition-colors"
+                >
+                  Suites &amp; Apartments →
+                </Link>
+                <Link
+                  href="/events"
+                  className="font-sans text-[10px] tracking-[0.22em] uppercase text-miva-lilac hover:text-white transition-colors"
+                >
+                  MIVA Events →
+                </Link>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 

@@ -1,9 +1,15 @@
 import type { Metadata } from 'next';
-import { Montserrat, Playfair_Display, Bodoni_Moda, Great_Vibes } from 'next/font/google';
+import { Montserrat, Playfair_Display, Bodoni_Moda, Great_Vibes, EB_Garamond } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import BackgroundDesign from '@/components/layout/BackgroundDesign';
+
+const ebGaramond = EB_Garamond({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-garamond',
+});
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -43,7 +49,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="de">
-      <body className={`${montserrat.variable} ${playfair.variable} ${bodoni.variable} ${greatVibes.variable} font-sans min-h-screen flex flex-col relative`}>
+      <body className={`${montserrat.variable} ${playfair.variable} ${bodoni.variable} ${greatVibes.variable} ${ebGaramond.variable} font-sans min-h-screen flex flex-col relative`}>
         <BackgroundDesign />
         <Header />
         <main className="flex-grow">

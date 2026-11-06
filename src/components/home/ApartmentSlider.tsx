@@ -15,13 +15,13 @@ export default function ApartmentSlider() {
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -window.innerWidth * 0.42, behavior: 'smooth' });
+      scrollContainerRef.current.scrollBy({ left: -window.innerWidth * 0.4, behavior: 'smooth' });
     }
   };
 
   const scrollRight = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: window.innerWidth * 0.42, behavior: 'smooth' });
+      scrollContainerRef.current.scrollBy({ left: window.innerWidth * 0.4, behavior: 'smooth' });
     }
   };
 
@@ -31,7 +31,7 @@ export default function ApartmentSlider() {
 
   return (
     <section
-      className="w-full border-t-[3px] border-white/20 pb-20 pt-14 relative overflow-hidden"
+      className="w-full border-t-[3px] border-white/20 py-10 md:py-12 relative overflow-hidden"
       style={{
         backgroundColor: '#08090a',
         backgroundImage:
@@ -42,21 +42,21 @@ export default function ApartmentSlider() {
     >
       <CursorTooltip visible={isHoveringPhoto} x={mousePos.x} y={mousePos.y} label="Book Now" />
 
-      <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 px-6 md:px-12 pb-8">
-        <div className="flex items-baseline gap-5">
-          <h2 className="font-villa-editorial text-3xl sm:text-5xl md:text-6xl tracking-[0.22em] uppercase text-cream">
+      <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 px-6 md:px-12 pb-6">
+        <div className="flex items-baseline gap-4">
+          <h2 className="font-villa-editorial text-2xl sm:text-4xl md:text-5xl tracking-[0.22em] uppercase text-cream">
             Suites &amp; Apartments
           </h2>
-          <span className="font-sans text-xs sm:text-sm md:text-base font-medium tracking-[0.25em] uppercase text-cream/75">
+          <span className="font-sans text-xs sm:text-sm font-medium tracking-[0.25em] uppercase text-cream/75">
             {orderedRooms.length} Units
           </span>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <button
             type="button"
             onClick={scrollLeft}
-            className="w-11 h-11 rounded-full bg-white/10 hover:bg-cream hover:text-[#08090a] text-cream transition-colors text-2xl font-light flex items-center justify-center cursor-pointer"
+            className="w-10 h-10 rounded-full bg-white/10 hover:bg-cream hover:text-[#08090a] text-cream transition-colors text-xl font-light flex items-center justify-center cursor-pointer"
             aria-label="Scroll Left"
           >
             ‹
@@ -64,7 +64,7 @@ export default function ApartmentSlider() {
           <button
             type="button"
             onClick={scrollRight}
-            className="w-11 h-11 rounded-full bg-white/10 hover:bg-cream hover:text-[#08090a] text-cream transition-colors text-2xl font-light flex items-center justify-center cursor-pointer"
+            className="w-10 h-10 rounded-full bg-white/10 hover:bg-cream hover:text-[#08090a] text-cream transition-colors text-xl font-light flex items-center justify-center cursor-pointer"
             aria-label="Scroll Right"
           >
             ›
@@ -72,27 +72,21 @@ export default function ApartmentSlider() {
         </div>
       </div>
 
+      {/* Equal-Height Compact Room Cards so the whole widget fits on one screen */}
       <div
         ref={scrollContainerRef}
-        className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-3.5 px-6 md:px-12 scroll-smooth items-end"
+        className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-3 px-6 md:px-12 scroll-smooth items-stretch"
       >
-        {orderedRooms.map((apt, i) => {
-          const isTall = i % 2 === 0;
-          return (
-            <RoomPhotoTile
-              key={apt.id}
-              room={apt}
-              sizes="(max-width: 768px) 84vw, 35vw"
-              onHoverChange={setIsHoveringPhoto}
-              onMouseMove={handleMouseMove}
-              className={`shrink-0 snap-center w-[84vw] sm:w-[46vw] md:w-[36vw] lg:w-[30vw] ${
-                isTall
-                  ? 'h-[360px] sm:h-[430px] md:h-[490px]'
-                  : 'h-[300px] sm:h-[360px] md:h-[410px]'
-              }`}
-            />
-          );
-        })}
+        {orderedRooms.map((apt) => (
+          <RoomPhotoTile
+            key={apt.id}
+            room={apt}
+            sizes="(max-width: 768px) 72vw, 25vw"
+            onHoverChange={setIsHoveringPhoto}
+            onMouseMove={handleMouseMove}
+            className="shrink-0 snap-center w-[72vw] sm:w-[40vw] md:w-[29vw] lg:w-[23vw] h-[240px] sm:h-[275px] md:h-[310px]"
+          />
+        ))}
       </div>
     </section>
   );

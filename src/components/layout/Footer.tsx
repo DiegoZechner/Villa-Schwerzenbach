@@ -1,73 +1,54 @@
-'use client';
 import Link from 'next/link';
-import Image from 'next/image';
-import { useEffect, useState, useRef } from 'react';
 
 export default function Footer() {
-  const [isVisible, setIsVisible] = useState(false);
-  const footerRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (footerRef.current) {
-      observer.observe(footerRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  const footerLinks = [
-    { name: 'CONTACT', href: '/contact' },
-    { name: 'INSTAGRAM', href: 'https://instagram.com' },
-    { name: 'CAREERS', href: '#' },
-    { name: 'NEWSLETTER', href: '#' },
-    { name: 'PRIVACY POLICY', href: '/datenschutz' },
-  ];
-
   return (
-    <footer ref={footerRef} className="bg-bordeaux text-cream-light py-16 border-t border-white/15 overflow-hidden">
-      <div className={`container mx-auto px-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-12 md:gap-4 transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}>
-        
-        {/* Left: Logo */}
-        <div className="flex-1 flex justify-center md:justify-start">
-          <Link href="/">
-             <Image 
-                src="/images/logos/primary-1.svg" 
-                alt="Villa Schwerzenbach" 
-                width={250} 
-                height={80} 
-                className="h-10 md:h-12 w-auto object-contain brightness-0 invert opacity-90"
-              />
+    <footer className="w-full bg-[#1a1a1b] py-24 flex justify-center items-center px-4">
+      {/* Die Visitenkarte */}
+      <div
+        className="relative w-full max-w-[600px] aspect-[1.75/1] bg-[#f4f1ea] shadow-2xl p-8 md:p-12 flex flex-col justify-between font-serif text-gray-900"
+        style={{ fontFamily: 'var(--font-garamond), "EB Garamond", "Times New Roman", serif' }}
+      >
+        {/* Obere Reihe: Links (Telefon/Mail) & Rechts (Logo/Brand) */}
+        <div className="flex justify-between items-start">
+          <div className="text-xs md:text-sm tracking-wider font-semibold">
+            <a href="mailto:hallo@villasschwerzenbach.ch" className="hover:text-gray-500 transition-colors">
+              hallo@villasschwerzenbach.ch
+            </a>
+          </div>
+          <div className="text-right flex flex-col items-end">
+            <Link href="/" className="uppercase tracking-[0.2em] font-semibold text-sm md:text-base hover:text-gray-500 transition-colors">
+              Villas Schwerzenbach
+            </Link>
+            <span className="uppercase tracking-[0.15em] text-[8px] md:text-[10px] text-gray-600 mt-1">
+              Boutique Apartments
+            </span>
+          </div>
+        </div>
+
+        {/* Mitte: Hauptlinks (anstelle des Namens) */}
+        <div className="text-center flex flex-col items-center justify-center space-y-2 mt-4">
+          <Link href="/rooms" className="uppercase tracking-[0.15em] text-lg md:text-2xl font-semibold hover:text-gray-500 transition-colors">
+            Zimmer Buchen
+          </Link>
+          <Link href="/contact" className="uppercase tracking-[0.2em] text-[10px] md:text-xs text-gray-700 hover:text-black transition-colors">
+            Kontakt &amp; Anfahrt
           </Link>
         </div>
 
-        {/* Center/Right: Links */}
-        <div className="flex-[2] flex flex-wrap justify-center md:justify-end gap-x-8 gap-y-4">
-          {footerLinks.map(link => (
-            <Link 
-              key={link.name} 
-              href={link.href}
-              className="group relative font-mono text-[10px] sm:text-xs tracking-[0.25em] uppercase opacity-70 hover:opacity-100 transition-all duration-300"
-            >
-              {link.name}
-              <span className="absolute -bottom-2 left-0 w-full h-[1px] bg-current origin-center scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
-            </Link>
-          ))}
+        {/* Untere Reihe: Rechtliche Links (anstelle der Adresse) */}
+        <div className="text-center text-[9px] md:text-[11px] uppercase tracking-widest text-gray-800 flex justify-center flex-wrap gap-x-3 md:gap-x-6 w-full">
+          <Link href="/impressum" className="hover:text-gray-500 transition-colors">
+            Impressum
+          </Link>
+          <span>•</span>
+          <Link href="/datenschutz" className="hover:text-gray-500 transition-colors">
+            Datenschutz
+          </Link>
+          <span>•</span>
+          <Link href="/impressum" className="hover:text-gray-500 transition-colors">
+            AGB
+          </Link>
         </div>
-      </div>
-      
-      <div className={`container mx-auto px-4 md:px-8 mt-12 text-center md:text-right transition-all duration-1000 delay-200 ease-[cubic-bezier(0.22,1,0.36,1)] ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-        <p className="font-mono text-[10px] tracking-widest uppercase opacity-40">
-          © {new Date().getFullYear()} Villa Schwerzenbach. Site by MIVA.
-        </p>
       </div>
     </footer>
   );
