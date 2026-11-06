@@ -7,6 +7,7 @@ const upcomingEvents = [
   {
     id: 'sunset-apero',
     date: '14. JUNI 2026',
+    shortDate: '14. JUN',
     time: '18:00 – 23:00 UHR',
     title: 'MIVA Sunset Apéro & Vinyl Session',
     price: 'CHF 45',
@@ -17,6 +18,7 @@ const upcomingEvents = [
   {
     id: 'Long-Table-Dinner',
     date: '04. JULI 2026',
+    shortDate: '04. JUL',
     time: '19:30 – 23:30 UHR',
     title: 'Secret Garden Long Table Dinner',
     price: 'CHF 120',
@@ -27,6 +29,7 @@ const upcomingEvents = [
   {
     id: 'creative-salon',
     date: '22. AUGUST 2026',
+    shortDate: '22. AUG',
     time: '16:00 – 22:00 UHR',
     title: 'MIVA Art & Sound Salon',
     price: 'CHF 35',
@@ -48,10 +51,12 @@ export default function EventsPage() {
   // Hero animation stage: 0 = initial hidden, 1 = rise from bottom to center, 2 = split left/right, 3 = move to top-left & bottom-right corners (scroll unlocked)
   const [heroStage, setHeroStage] = useState<number>(0);
   const [scrollProgress, setScrollProgress] = useState<number>(0);
+  const [timelineProgress, setTimelineProgress] = useState<number>(0);
   const [bookingModalEvent, setBookingModalEvent] = useState<(typeof upcomingEvents)[0] | null>(null);
   const [ticketCount, setTicketCount] = useState<number>(2);
 
   const sloganSectionRef = useRef<HTMLDivElement>(null);
+  const upcomingSectionRef = useRef<HTMLDivElement>(null);
 
   // Lock page scrolling until hero animation reaches stage 3
   useEffect(() => {
@@ -75,14 +80,24 @@ export default function EventsPage() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!sloganSectionRef.current) return;
-      const rect = sloganSectionRef.current.getBoundingClientRect();
       const windowH = window.innerHeight;
-      const start = windowH * 0.82;
-      const end = windowH * 0.2;
-      const raw = (start - rect.top) / (start - end);
-      const clamped = Math.max(0, Math.min(1, raw));
-      setScrollProgress(clamped);
+
+      if (sloganSectionRef.current) {
+        const rect = sloganSectionRef.current.getBoundingClientRect();
+        const start = windowH * 0.82;
+        const end = windowH * 0.2;
+        const raw = (start - rect.top) / (start - end);
+        setScrollProgress(Math.max(0, Math.min(1, raw)));
+      }
+
+      if (upcomingSectionRef.current) {
+        const rect = upcomingSectionRef.current.getBoundingClientRect();
+        // Progress from when upcoming section enters viewport (75%) to when it reaches 15%
+        const start = windowH * 0.75;
+        const end = windowH * 0.1;
+        const raw = (start - rect.top) / (start - end);
+        setTimelineProgress(Math.max(0, Math.min(1, raw)));
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -93,7 +108,16 @@ export default function EventsPage() {
   const totalWords = sloganLines.reduce((acc, line) => acc + line.split(' ').length, 0);
   let globalWordCounter = 0;
 
-  // Compute transform styles for "EVENTS" and "& EXPERIENCES"
+  // Determine which upcoming event is currently highlighted based on timeline scroll progress
+  const activeEventIdx =
+    timelineProgress < 0.15
+      ? -1
+      : timelineProgress < 0.48
+        ? 0
+        : timelineProgress < 0.78
+          ? 1
+          : 2;
+
   const getEventsTransform = () => {
     if (heroStage === 0) return 'translate(0px, 120px)';
     if (heroStage === 1) return 'translate(0px, 0px)';
@@ -113,7 +137,6 @@ export default function EventsPage() {
       
       {/* 1. Choreographed Dark Intro Hero (Scroll is locked until animation completes) */}
       <section className="relative h-screen w-full bg-[#160108] overflow-hidden flex items-center justify-center select-none">
-        {/* Subtle ambient glow */}
         <div
           className={`absolute w-[420px] h-[420px] rounded-full bg-miva-purple/50 blur-[120px] transition-opacity duration-1000 ${
             heroStage >= 2 ? 'opacity-100' : 'opacity-30'
@@ -121,7 +144,6 @@ export default function EventsPage() {
         />
 
         <div className="relative w-full h-full flex flex-col items-center justify-center px-6">
-          {/* EVENTS (moves up -> left -> top-left) */}
           <div
             style={{
               transform: getEventsTransform(),
@@ -133,7 +155,6 @@ export default function EventsPage() {
             Events
           </div>
 
-          {/* & EXPERIENCES (moves up -> right -> bottom-right) */}
           <div
             style={{
               transform: getExperiencesTransform(),
@@ -145,7 +166,6 @@ export default function EventsPage() {
             &amp; Experiences
           </div>
 
-          {/* Center Subtitle & Scroll Cue appearing after split */}
           <div
             className={`absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-all duration-1000 px-6 text-center ${
               heroStage === 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
@@ -162,7 +182,7 @@ export default function EventsPage() {
         </div>
       </section>
 
-      {/* 2. Compact Staggered Slogan Widget (Each line shifted progressively to the right) */}
+      {/* 2. Compact Staggered Slogan Widget */}
       <section className="py-16 md:py-24 px-4 md:px-8">
         <div
           ref={sloganSectionRef}
@@ -199,34 +219,95 @@ export default function EventsPage() {
         </div>
       </section>
 
-      {/* 3. Main MIVA Content: Upcoming Events + Event Inquiry */}
-      <section className="pb-16 md:pb-24">
-        <div className="container mx-auto px-4 md:px-8 max-w-6xl space-y-20">
-          
-          {/* UPCOMING EVENTS (Future Events to View & Book) */}
-          <div className="bg-miva-gray p-8 md:p-14 rounded-3xl shadow-2xl">
-            <div className="text-center max-w-2xl mx-auto mb-14">
-              <p className="font-sans font-semibold text-[10px] tracking-[0.3em] uppercase text-miva-red mb-3">
-                UPCOMING EVENTS
-              </p>
-              <h2 className="font-miva-display text-3xl md:text-5xl text-miva-purple mb-4">
-                Kommende <span className="italic text-miva-red">Events</span> in der Villa
-              </h2>
-              <p className="font-sans text-sm md:text-base text-miva-purple/75">
-                Erleben Sie besondere Abende, Konzerte, Apéros und kulinarische Highlights direkt bei uns im Haus. Sichern Sie sich jetzt Ihre Plätze.
-              </p>
-            </div>
+      {/* 3. UPCOMING EVENTS with Scroll-Driven Timeline (Dot - Line - Dot) & No Price on Card */}
+      <section className="pb-16 md:pb-24 px-4 md:px-8">
+        <div
+          ref={upcomingSectionRef}
+          className="container mx-auto max-w-6xl bg-miva-gray p-8 md:p-14 rounded-3xl shadow-2xl"
+        >
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <p className="font-sans font-semibold text-[10px] tracking-[0.3em] uppercase text-miva-red mb-3">
+              UPCOMING EVENTS
+            </p>
+            <h2 className="font-miva-display text-3xl md:text-5xl text-miva-purple mb-4">
+              Kommende <span className="italic text-miva-red">Events</span> in der Villa
+            </h2>
+            <p className="font-sans text-sm md:text-base text-miva-purple/75">
+              Erleben Sie besondere Abende, Konzerte, Apéros und kulinarische Highlights direkt bei uns im Haus.
+            </p>
+          </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {upcomingEvents.map((ev) => (
+          {/* Scroll-Reactive Timeline (Dot - Line - Dot - Line - Dot) */}
+          <div className="max-w-3xl mx-auto mb-14 px-4">
+            <div className="relative flex items-center justify-between">
+              {/* Background Track Line */}
+              <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[2px] bg-miva-purple/15 z-0" />
+              {/* Animated Pink/Lilac Fill Line */}
+              <div
+                style={{ width: `${Math.min(100, Math.max(0, (timelineProgress - 0.1) * 125))}%` }}
+                className="absolute left-0 top-1/2 -translate-y-1/2 h-[2px] bg-gradient-to-r from-miva-red to-miva-lilac z-0 transition-all duration-300"
+              />
+
+              {upcomingEvents.map((ev, idx) => {
+                const isReached = activeEventIdx >= idx;
+                const isCurrent = activeEventIdx === idx;
+                return (
+                  <div key={ev.id} className="relative z-10 flex flex-col items-center">
+                    <div
+                      className={`w-5 h-5 rounded-full border-2 transition-all duration-500 flex items-center justify-center ${
+                        isCurrent
+                          ? 'bg-miva-lilac border-miva-purple scale-125 shadow-[0_0_16px_rgba(232,180,244,0.9)]'
+                          : isReached
+                            ? 'bg-miva-red border-miva-red'
+                            : 'bg-white border-miva-purple/30'
+                      }`}
+                    >
+                      <span
+                        className={`w-1.5 h-1.5 rounded-full ${
+                          isCurrent ? 'bg-miva-purple' : isReached ? 'bg-white' : 'bg-transparent'
+                        }`}
+                      />
+                    </div>
+                    <span
+                      className={`mt-2.5 font-sans text-[10px] tracking-[0.2em] uppercase transition-colors duration-300 ${
+                        isCurrent ? 'text-miva-purple font-bold' : 'text-miva-purple/55 font-medium'
+                      }`}
+                    >
+                      {ev.shortDate}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Event Cards (Highlight softly in pink/lilac when active on timeline, no price shown here) */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {upcomingEvents.map((ev, idx) => {
+              const isHighlighted = activeEventIdx === idx;
+              return (
                 <div
                   key={ev.id}
-                  className="bg-white rounded-2xl overflow-hidden shadow-md border border-miva-purple/10 flex flex-col justify-between transition-transform duration-500 hover:-translate-y-1"
+                  onClick={() => {
+                    setBookingModalEvent(ev);
+                    setTicketCount(2);
+                  }}
+                  className={`rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-500 cursor-pointer border-2 ${
+                    isHighlighted
+                      ? 'bg-[#fae8ff] border-miva-lilac shadow-[0_12px_35px_rgba(232,180,244,0.45)] -translate-y-2'
+                      : 'bg-white border-miva-purple/10 shadow-md hover:-translate-y-1 hover:border-miva-lilac/60'
+                  }`}
                 >
                   <div>
                     <div className="relative h-56 w-full overflow-hidden">
                       <Image src={ev.img} alt={ev.title} fill className="object-cover" />
-                      <div className="absolute top-4 left-4 bg-miva-purple/90 backdrop-blur-sm text-miva-lilac font-sans font-semibold text-[10px] tracking-[0.2em] uppercase px-3.5 py-1.5 rounded-full">
+                      <div
+                        className={`absolute top-4 left-4 backdrop-blur-sm font-sans font-semibold text-[10px] tracking-[0.2em] uppercase px-3.5 py-1.5 rounded-full transition-colors ${
+                          isHighlighted
+                            ? 'bg-miva-lilac text-miva-purple'
+                            : 'bg-miva-purple/90 text-miva-lilac'
+                        }`}
+                      >
                         {ev.date}
                       </div>
                     </div>
@@ -245,47 +326,32 @@ export default function EventsPage() {
                   </div>
 
                   <div className="px-6 pb-6 pt-4 border-t border-miva-purple/10 flex items-center justify-between">
-                    <div>
-                      <span className="block font-sans text-[9px] tracking-widest uppercase text-miva-purple/50">Ticket</span>
-                      <span className="font-miva-display text-lg text-miva-purple font-semibold">{ev.price}</span>
-                    </div>
+                    <span className="font-sans text-[10px] tracking-[0.2em] uppercase text-miva-purple/70 font-medium">
+                      Event Details &amp; Tickets
+                    </span>
                     <button
                       type="button"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         setBookingModalEvent(ev);
                         setTicketCount(2);
                       }}
                       className="bg-miva-red text-white font-sans font-semibold text-[10px] tracking-[0.2em] uppercase px-6 py-3 rounded-full hover:bg-miva-purple transition-colors cursor-pointer"
                     >
-                      Platz Buchen
+                      Event Ansehen
                     </button>
                   </div>
                 </div>
-              ))}
-            </div>
+              );
+            })}
           </div>
-
-          {/* EVENT REQUESTS (Private / Corporate Event Inquiry) */}
-          <div className="bg-miva-gray p-8 md:p-14 rounded-3xl shadow-2xl">
-            <div className="text-center max-w-2xl mx-auto mb-14">
-              <p className="font-sans font-semibold text-[10px] tracking-[0.3em] uppercase text-miva-red mb-3">
-                PRIVATE &amp; CORPORATE EVENTS
-              </p>
-              <h2 className="font-miva-display text-3xl md:text-5xl text-miva-purple mb-4">
-                Ihr eigenes Event <span className="italic text-miva-red">anfragen</span>
-              </h2>
-              <p className="font-sans text-sm md:text-base text-miva-purple/75">
-                Sie möchten die Villa Schwerzenbach für Ihre Hochzeit, Firmenfeier, ein Seminar oder eine eigene Idee mieten? Wählen Sie eine Kategorie und senden Sie uns Ihre Anfrage.
-              </p>
-            </div>
-
-            <EventInquiry />
-          </div>
-
         </div>
       </section>
 
-      {/* Ticket Booking Modal for Upcoming Events */}
+      {/* 4. Stationary 3D/Horizontal Scroll Gallery + Event Inquiry Form */}
+      <EventInquiry />
+
+      {/* Ticket Booking Modal for Upcoming Events (Price revealed inside modal) */}
       {bookingModalEvent && (
         <div className="fixed inset-0 z-[100] bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white text-miva-purple rounded-3xl max-w-lg w-full p-8 md:p-10 shadow-2xl relative">
@@ -301,9 +367,12 @@ export default function EventsPage() {
             <span className="font-sans font-semibold text-[10px] tracking-[0.25em] uppercase text-miva-red block mb-2">
               {bookingModalEvent.date} • {bookingModalEvent.time}
             </span>
-            <h3 className="font-miva-display text-2xl md:text-3xl mb-6">
+            <h3 className="font-miva-display text-2xl md:text-3xl mb-3">
               {bookingModalEvent.title}
             </h3>
+            <p className="font-sans text-xs text-miva-purple/75 leading-relaxed mb-6">
+              {bookingModalEvent.desc}
+            </p>
 
             <form
               className="space-y-5"
@@ -337,15 +406,15 @@ export default function EventsPage() {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4 bg-miva-lilac/20 p-4 rounded-2xl">
                 <div>
-                  <label className="block font-sans text-[10px] tracking-[0.2em] uppercase text-miva-purple/60 mb-1.5">
+                  <label className="block font-sans text-[10px] tracking-[0.2em] uppercase text-miva-purple/60 mb-1">
                     Anzahl Plätze
                   </label>
                   <select
                     value={ticketCount}
                     onChange={(e) => setTicketCount(Number(e.target.value))}
-                    className="w-full border-b border-miva-purple/25 py-2 text-sm focus:outline-none focus:border-miva-red cursor-pointer"
+                    className="w-full bg-transparent border-b border-miva-purple/25 py-1.5 text-sm font-medium focus:outline-none focus:border-miva-red cursor-pointer"
                   >
                     {[1, 2, 3, 4, 5, 6, 8, 10].map((n) => (
                       <option key={n} value={n}>
@@ -356,14 +425,16 @@ export default function EventsPage() {
                 </div>
 
                 <div>
-                  <label className="block font-sans text-[10px] tracking-[0.2em] uppercase text-miva-purple/60 mb-1.5">
-                    Preis pro Ticket
+                  <label className="block font-sans text-[10px] tracking-[0.2em] uppercase text-miva-purple/60 mb-1">
+                    Ticketpreis
                   </label>
-                  <div className="py-2 text-sm font-semibold">{bookingModalEvent.price}</div>
+                  <div className="py-1.5 text-base font-bold text-miva-purple">
+                    {bookingModalEvent.price} <span className="font-normal text-xs text-miva-purple/60">/ Person</span>
+                  </div>
                 </div>
               </div>
 
-              <div className="pt-4">
+              <div className="pt-2">
                 <button
                   type="submit"
                   className="w-full bg-miva-red text-white font-sans font-semibold text-xs tracking-[0.22em] uppercase py-4 rounded-full hover:bg-miva-purple transition-colors cursor-pointer"
