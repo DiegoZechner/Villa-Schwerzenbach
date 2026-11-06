@@ -1,113 +1,76 @@
 import Link from 'next/link';
-import Image from 'next/image';
 
-const underlineSpan = (
-  <span className="absolute -bottom-1 left-0 w-full h-px bg-current origin-center scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
-);
+const leftLinks = [
+  { name: 'SUITES & APARTMENTS', href: '/rooms' },
+  { name: 'MIVA EVENTS', href: '/events' },
+  { name: 'DISCOVER', href: '/discover' },
+  { name: 'CONTACT', href: '/contact' },
+  { name: 'INSTAGRAM', href: 'https://instagram.com' },
+];
+
+const rightLinks = [
+  { name: 'IMPRESSUM', href: '/impressum' },
+  { name: 'DATENSCHUTZ', href: '/datenschutz' },
+];
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#120606]/95 border-t border-[#d9c8b9]/15 py-20 md:py-28 flex justify-center items-center px-4">
-      {/* Die Visitenkarte im Villa Schwerzenbach & MIVA Guideline-Design */}
-      <div className="relative w-full max-w-[640px] aspect-[1.75/1] bg-[#ede3d7] shadow-[0_30px_80px_rgba(0,0,0,0.75)] p-7 sm:p-10 md:p-12 flex flex-col justify-between text-[#35271f] border border-[#4b1716]/15 overflow-hidden">
+    <footer className="w-full bg-[#191919] text-white border-t border-white/10 pt-8 md:pt-10 pb-0 overflow-hidden select-none">
+      {/* Obere Leiste: Links Navigation/Socials, Rechts Rechtliches & Copyright */}
+      <div className="w-full px-5 sm:px-8 md:px-12 pb-10 md:pb-14 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         
-        {/* Dezenter Rundbogen-Rahmen (Arch Guideline Element) im Hintergrund der Karte */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-3 border border-[#4b1716]/12"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -bottom-24 left-1/2 -translate-x-1/2 w-[340px] h-[240px] rounded-t-full border border-[#4b1716]/[0.07]"
-        />
-
-        {/* Obere Reihe: Links (Kontakt in Montserrat) & Rechts (Villa Rundbogen-Signet & Brand) */}
-        <div className="relative z-10 flex justify-between items-start gap-4">
-          <div className="font-sans text-[10px] sm:text-xs tracking-[0.18em] uppercase text-[#4b1716] font-medium flex flex-col items-start gap-1">
-            <a
-              href="mailto:hallo@villaschwerzenbach.at"
-              className="group relative hover:text-[#932b28] transition-colors"
-            >
-              hallo@villaschwerzenbach.at
-              {underlineSpan}
-            </a>
-            <span className="text-[9px] sm:text-[10px] tracking-[0.22em] text-[#6b889f]">
-              Bregenz • Bodensee
-            </span>
-          </div>
-
-          <div className="text-right flex flex-col items-end">
+        {/* Links */}
+        <div className="flex flex-wrap items-center gap-x-6 sm:gap-x-8 gap-y-3">
+          {leftLinks.map((link) => (
             <Link
-              href="/"
-              className="group relative inline-flex items-center gap-2.5 font-villa-editorial uppercase tracking-[0.22em] text-sm sm:text-base md:text-lg text-[#4b1716] hover:text-[#932b28] transition-colors"
+              key={link.name}
+              href={link.href}
+              className="group relative font-sans font-semibold text-[11px] sm:text-xs tracking-[0.14em] uppercase text-white/90 hover:text-white transition-colors"
             >
-              <Image
-                src="/images/logos/brand-6.svg"
-                alt="Villa Schwerzenbach Signet"
-                width={20}
-                height={20}
-                className="w-4 h-4 sm:w-5 sm:h-5 object-contain opacity-85"
-              />
-              <span>Villa Schwerzenbach</span>
-              {underlineSpan}
+              {link.name}
+              <span className="absolute -bottom-1.5 left-0 w-full h-px bg-current origin-center scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
             </Link>
-            <span className="inline-flex items-center gap-1.5 font-sans uppercase tracking-[0.22em] text-[8px] sm:text-[9px] text-[#932b28] font-semibold mt-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ea2d39]" />
-              <span>by MIVA • Suites &amp; Events</span>
-            </span>
-          </div>
+          ))}
         </div>
 
-        {/* Mitte: Hauptlinks in Pendory/Editorial + Montserrat */}
-        <div className="relative z-10 text-center flex flex-col items-center justify-center my-auto py-2">
-          <Link
-            href="/rooms"
-            className="group relative font-villa-editorial uppercase tracking-[0.22em] text-xl sm:text-2xl md:text-3xl text-[#4b1716] hover:text-[#932b28] transition-colors"
-          >
-            Suites &amp; Apartments Buchen
-            {underlineSpan}
-          </Link>
-
-          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mt-3.5 font-sans text-[9px] sm:text-[11px] uppercase tracking-[0.22em] text-[#35271f]/80">
-            <Link href="/events" className="group relative hover:text-[#4e041c] transition-colors">
-              Events &amp; Experience
-              {underlineSpan}
+        {/* Rechts */}
+        <div className="flex flex-wrap items-center gap-x-6 sm:gap-x-8 gap-y-3">
+          {rightLinks.map((link) => (
+            <Link
+              key={link.name}
+              href={link.href}
+              className="group relative font-sans font-semibold text-[11px] sm:text-xs tracking-[0.14em] uppercase text-white/90 hover:text-white transition-colors"
+            >
+              {link.name}
+              <span className="absolute -bottom-1.5 left-0 w-full h-px bg-current origin-center scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
             </Link>
-            <span className="text-[#932b28]">•</span>
-            <Link href="/discover" className="group relative hover:text-[#932b28] transition-colors">
-              Discover
-              {underlineSpan}
-            </Link>
-            <span className="text-[#932b28]">•</span>
-            <Link href="/contact" className="group relative hover:text-[#932b28] transition-colors">
-              Kontakt &amp; Anfahrt
-              {underlineSpan}
-            </Link>
-          </div>
+          ))}
+          <span className="font-sans font-semibold text-[11px] sm:text-xs tracking-[0.14em] uppercase text-white/90">
+            © {new Date().getFullYear()} VILLA SCHWERZENBACH
+          </span>
         </div>
+      </div>
 
-        {/* Untere Reihe: Rechtliche Links & Adresse in Montserrat */}
-        <div className="relative z-10 text-center font-sans text-[8px] sm:text-[10px] uppercase tracking-[0.22em] text-[#35271f]/75 flex justify-between items-center flex-wrap gap-2 pt-3 border-t border-[#4b1716]/15 w-full">
-          <span className="text-[#4b1716]/80">Schwerzenbachstraße 9 • 6900 Bregenz</span>
-
-          <div className="flex items-center gap-x-2.5 sm:gap-x-4">
-            <Link href="/impressum" className="group relative hover:text-[#932b28] transition-colors">
-              Impressum
-              {underlineSpan}
-            </Link>
-            <span className="text-[#932b28]">•</span>
-            <Link href="/datenschutz" className="group relative hover:text-[#932b28] transition-colors">
-              Datenschutz
-              {underlineSpan}
-            </Link>
-            <span className="text-[#932b28]">•</span>
-            <Link href="/impressum" className="group relative hover:text-[#932b28] transition-colors">
-              AGB
-              {underlineSpan}
-            </Link>
-          </div>
+      {/* Großer durchlaufender Schriftzug von rechts nach links (in der Größe wie ALMAVE im Screenshot) */}
+      <div className="relative w-full overflow-hidden pt-2 pb-1">
+        <div className="animate-footer-marquee flex items-baseline whitespace-nowrap">
+          {[0, 1].map((groupIdx) => (
+            <div key={groupIdx} className="flex items-baseline shrink-0">
+              <span className="font-villa-editorial font-semibold text-[20vw] sm:text-[18vw] md:text-[16.5vw] leading-[0.82] tracking-[0.06em] uppercase text-white/90 px-6 md:px-10">
+                VILLA SCHWERZENBACH
+              </span>
+              <span className="font-villa-editorial text-[10vw] sm:text-[9vw] leading-[0.82] text-villa-red px-4 md:px-8">
+                •
+              </span>
+              <span className="font-villa-editorial font-semibold text-[20vw] sm:text-[18vw] md:text-[16.5vw] leading-[0.82] tracking-[0.06em] uppercase text-white/90 px-6 md:px-10">
+                VILLA SCHWERZENBACH
+              </span>
+              <span className="font-villa-editorial text-[10vw] sm:text-[9vw] leading-[0.82] text-villa-red px-4 md:px-8">
+                •
+              </span>
+            </div>
+          ))}
         </div>
-
       </div>
     </footer>
   );

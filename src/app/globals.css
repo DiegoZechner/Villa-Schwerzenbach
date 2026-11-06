@@ -84,3 +84,18 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-villa-blue);
 }
+
+@keyframes footer-marquee {
+  0% {
+    transform: translate3d(0%, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-footer-marquee {
+  display: flex;
+  width: max-content;
+  animation: footer-marquee 26s linear infinite;
+}
