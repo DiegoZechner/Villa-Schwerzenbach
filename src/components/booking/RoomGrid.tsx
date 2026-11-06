@@ -220,21 +220,21 @@ export default function RoomGrid({ initialRooms }: { initialRooms: RoomWithImage
     setMousePos({ x: e.clientX, y: e.clientY });
   };
 
-  // Suites (Studios) shown first, Apartments (multi-room units) shown second
-  const suitesList = initialRooms.filter((r) => r.category === 'Studio');
-  const apartmentsList = initialRooms.filter((r) => r.category !== 'Studio');
+  // Suites: only Top 11 and Top 12 (shown first); Apartments: all other rooms (Top 02 - Top 10)
+  const suitesList = initialRooms.filter((r) => r.topNumber === '11' || r.topNumber === '12');
+  const apartmentsList = initialRooms.filter((r) => r.topNumber !== '11' && r.topNumber !== '12');
 
   const showSuites = activeFilter === 'all' || activeFilter === 'suites';
   const showApartments = activeFilter === 'all' || activeFilter === 'apartments';
 
-  const getApartmentsTransform = () => {
+  const getSuitesHeroTransform = () => {
     if (heroStage === 0) return 'translate(0px, 120px)';
     if (heroStage === 1) return 'translate(0px, 0px)';
     if (heroStage === 2) return 'translate(-24vw, 0px)';
     return 'translate(-24vw, -24vh)';
   };
 
-  const getSuitesTransform = () => {
+  const getApartmentsHeroTransform = () => {
     if (heroStage === 0) return 'translate(0px, 120px)';
     if (heroStage === 1) return 'translate(0px, 0px)';
     if (heroStage === 2) return 'translate(22vw, 0px)';
@@ -261,7 +261,7 @@ export default function RoomGrid({ initialRooms }: { initialRooms: RoomWithImage
         Book Now
       </div>
 
-      {/* 1. Choreographed Dark Intro Hero ("Apartments & Suites") */}
+      {/* 1. Choreographed Dark Intro Hero ("Suites & Apartments") */}
       <section className="relative h-screen w-full bg-[#090a0c]/95 overflow-hidden flex items-center justify-center select-none border-b border-white/10">
         <div
           className={`absolute w-[440px] h-[440px] rounded-full bg-white/5 blur-[130px] transition-opacity duration-1000 ${
@@ -272,24 +272,24 @@ export default function RoomGrid({ initialRooms }: { initialRooms: RoomWithImage
         <div className="relative w-full h-full flex flex-col items-center justify-center px-6">
           <div
             style={{
-              transform: getApartmentsTransform(),
+              transform: getSuitesHeroTransform(),
               opacity: heroStage === 0 ? 0 : 1,
               transition: 'transform 1000ms cubic-bezier(0.22, 1, 0.36, 1), opacity 800ms ease-out',
             }}
             className="font-villa-editorial text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-white tracking-[0.14em] uppercase"
           >
-            Apartments
+            Suites
           </div>
 
           <div
             style={{
-              transform: getSuitesTransform(),
+              transform: getApartmentsHeroTransform(),
               opacity: heroStage === 0 ? 0 : 1,
               transition: 'transform 1000ms cubic-bezier(0.22, 1, 0.36, 1), opacity 800ms ease-out',
             }}
             className="font-miva-display italic text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-cream tracking-wide mt-2"
           >
-            &amp; Suites
+            &amp; Apartments
           </div>
 
           <div
@@ -360,15 +360,15 @@ export default function RoomGrid({ initialRooms }: { initialRooms: RoomWithImage
           </div>
         </div>
 
-        {/* 3. SUITES MOSAIC (Shown First, with narrow spacing between images) */}
+        {/* 3. SUITES MOSAIC (Shown First: Top 11 & Top 12) */}
         {showSuites && (
-          <div className="mb-10">
-            <div className="flex items-center justify-between mb-4 px-1">
-              <h2 className="font-villa-editorial text-xl sm:text-2xl text-cream uppercase tracking-[0.22em]">
+          <div className="mb-12">
+            <div className="flex items-baseline justify-between mb-6 px-1">
+              <h2 className="font-villa-editorial text-4xl sm:text-5xl md:text-6xl text-cream uppercase tracking-[0.22em]">
                 Suites
               </h2>
-              <span className="font-sans text-[10px] tracking-[0.25em] uppercase text-cream/60">
-                {suitesList.length} Suites
+              <span className="font-sans text-sm sm:text-base md:text-lg font-medium tracking-[0.25em] uppercase text-cream/80">
+                {suitesList.length} Units
               </span>
             </div>
 
@@ -382,20 +382,20 @@ export default function RoomGrid({ initialRooms }: { initialRooms: RoomWithImage
 
         {/* Thin Horizontal Line Divider between Suites and Apartments */}
         {showSuites && showApartments && (
-          <div className="my-10 md:my-14">
-            <div className="w-full h-px bg-white/25" />
+          <div className="my-12 md:my-16">
+            <div className="w-full h-px bg-white/30" />
           </div>
         )}
 
-        {/* 4. APARTMENTS MOSAIC (Shown Second, with narrow spacing between images) */}
+        {/* 4. APARTMENTS MOSAIC (Shown Second: Top 02 – Top 10) */}
         {showApartments && (
           <div>
-            <div className="flex items-center justify-between mb-4 px-1">
-              <h2 className="font-villa-editorial text-xl sm:text-2xl text-cream uppercase tracking-[0.22em]">
+            <div className="flex items-baseline justify-between mb-6 px-1">
+              <h2 className="font-villa-editorial text-4xl sm:text-5xl md:text-6xl text-cream uppercase tracking-[0.22em]">
                 Apartments
               </h2>
-              <span className="font-sans text-[10px] tracking-[0.25em] uppercase text-cream/60">
-                {apartmentsList.length} Apartments
+              <span className="font-sans text-sm sm:text-base md:text-lg font-medium tracking-[0.25em] uppercase text-cream/80">
+                {apartmentsList.length} Units
               </span>
             </div>
 
