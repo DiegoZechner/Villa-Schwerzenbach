@@ -9,22 +9,22 @@ const upcomingEvents = [
     date: '14. JUNI 2026',
     shortDate: '14. JUN',
     time: '18:00 – 23:00 UHR',
-    title: 'MIVA Sunset Apéro & Vinyl Session',
+    title: 'MIVA Sunset Apéro & Vinyl',
     price: 'CHF 45',
     spots: 'Noch 12 Plätze frei',
     img: '/images/events/Screenshot 2026-10-01 154830.png',
-    desc: 'Signature Drinks im Garten der Villa Schwerzenbach, begleitet von kuratierten Vinyl-Sets und sommerlichen Tapas.',
+    desc: 'Signature Drinks, Vinyl-Sets & Tapas im Garten.',
   },
   {
     id: 'Long-Table-Dinner',
     date: '04. JULI 2026',
     shortDate: '04. JUL',
     time: '19:30 – 23:30 UHR',
-    title: 'Secret Garden Long Table Dinner',
+    title: 'Secret Garden Dinner',
     price: 'CHF 120',
     spots: 'Limitiert auf 30 Gäste',
     img: '/images/events/Screenshot 2026-10-01 154804.png',
-    desc: 'Ein kulinarischer Abend an einer langen Tafel unter freiem Himmel – 4-Gänge-Menü, erlesene Weine und inspirierende Gespräche.',
+    desc: '4-Gänge-Menü & Weine an der langen Tafel im Freien.',
   },
   {
     id: 'creative-salon',
@@ -35,7 +35,7 @@ const upcomingEvents = [
     price: 'CHF 35',
     spots: 'Tickets verfügbar',
     img: '/images/events/Screenshot 2026-10-01 154836.png',
-    desc: 'Zeitgenössische Kunstinstallationen treffen auf Live-Akustik und exklusive Drinks in den historischen Räumen der Villa.',
+    desc: 'Kunstinstallationen, Live-Akustik & exklusive Drinks.',
   },
 ];
 
@@ -98,14 +98,13 @@ export default function EventsPage() {
 
         // Timeline scroll only starts once the upcoming event cards are completely visible in the viewport
         const totalPinnedScroll = trackRect.height - windowH;
-        if (totalPinnedScroll > 0 && trackRect.top <= 40) {
-          const scrolledInTrack = Math.max(0, 40 - trackRect.top);
+        if (totalPinnedScroll > 0 && trackRect.top <= 24) {
+          const scrolledInTrack = Math.max(0, 24 - trackRect.top);
           const raw = scrolledInTrack / totalPinnedScroll;
           setTimelineProgress(Math.max(0, Math.min(1, raw)));
-        } else if (cardsRect.bottom <= windowH) {
-          // Fallback if viewport is very tall
+        } else if (totalPinnedScroll <= 0 && cardsRect.bottom <= windowH) {
           const start = windowH - cardsRect.height;
-          const end = 40;
+          const end = 24;
           const raw = (start - cardsRect.top) / Math.max(1, start - end);
           setTimelineProgress(Math.max(0, Math.min(1, raw)));
         } else {
@@ -122,15 +121,19 @@ export default function EventsPage() {
   const totalWords = sloganLines.reduce((acc, line) => acc + line.split(' ').length, 0);
   let globalWordCounter = 0;
 
-  // Determine which upcoming event is currently highlighted based on timeline scroll progress
+  // Virtual timeline coordinate from 0.8 to 3.2:
+  // Point 1 = 1.0, Point 2 = 2.0, Point 3 = 3.0, invisible 4th end-point = 3.2
+  const timelineStep = 0.8 + timelineProgress * 2.4;
   const activeEventIdx =
-    timelineProgress < 0.15
+    timelineStep < 1.0
       ? -1
-      : timelineProgress < 0.48
+      : timelineStep < 2.0
         ? 0
-        : timelineProgress < 0.78
+        : timelineStep < 3.0
           ? 1
           : 2;
+  // Fill bar goes from 0% (at Point 1 = 1.0) to 100% (at Point 3 = 3.0), and holds at 100% until 3.2
+  const timelineFillPercent = Math.min(100, Math.max(0, ((timelineStep - 1.0) / 2.0) * 100));
 
   const getEventsTransform = () => {
     if (heroStage === 0) return 'translate(0px, 120px)';
@@ -233,24 +236,24 @@ export default function EventsPage() {
         </div>
       </section>
 
-      {/* 3. UPCOMING EVENTS with Scroll-Driven Timeline (Starts only when cards are completely visible) */}
-      <section ref={upcomingTrackRef} className="relative md:h-[210vh] pb-16 md:pb-24 px-4 md:px-8">
-        <div className="md:sticky md:top-6 container mx-auto max-w-6xl bg-miva-gray p-7 md:p-11 rounded-3xl shadow-2xl">
-          <div className="text-center max-w-2xl mx-auto mb-6">
+      {/* 3. UPCOMING EVENTS with Scroll-Driven Timeline (Starts only when cards are completely visible, ends at virtual point 3.2) */}
+      <section ref={upcomingTrackRef} className="relative md:h-[165vh] pb-14 md:pb-20 px-4 md:px-8">
+        <div className="md:sticky md:top-6 container mx-auto max-w-6xl bg-miva-gray p-5 md:p-7 rounded-3xl shadow-2xl">
+          <div className="text-center max-w-2xl mx-auto mb-4">
             <p className="font-sans font-semibold text-[10px] tracking-[0.3em] uppercase text-miva-red">
               UPCOMING EVENTS
             </p>
           </div>
 
-          {/* Scroll-Reactive Timeline (Dot - Line - Dot - Line - Dot) */}
-          <div className="max-w-3xl mx-auto mb-10 px-4">
+          {/* Scroll-Reactive Timeline (Dot - Line - Dot - Line - Dot, with invisible 4th end point at 3.2) */}
+          <div className="max-w-3xl mx-auto mb-6 px-4">
             <div className="relative flex items-center justify-between">
               {/* Background Track Line */}
               <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[2px] bg-miva-purple/15 z-0" />
               {/* Animated Pink/Lilac Fill Line */}
               <div
-                style={{ width: `${Math.min(100, Math.max(0, (timelineProgress - 0.08) * 120))}%` }}
-                className="absolute left-0 top-1/2 -translate-y-1/2 h-[2px] bg-gradient-to-r from-miva-red to-miva-lilac z-0 transition-all duration-300"
+                style={{ width: `${timelineFillPercent}%` }}
+                className="absolute left-0 top-1/2 -translate-y-1/2 h-[2px] bg-gradient-to-r from-miva-red to-miva-lilac z-0 transition-all duration-200"
               />
 
               {upcomingEvents.map((ev, idx) => {
@@ -274,7 +277,7 @@ export default function EventsPage() {
                       />
                     </div>
                     <span
-                      className={`mt-2.5 font-sans text-[10px] tracking-[0.2em] uppercase transition-colors duration-300 ${
+                      className={`mt-2 font-sans text-[10px] tracking-[0.2em] uppercase transition-colors duration-300 ${
                         isCurrent ? 'text-miva-purple font-bold' : 'text-miva-purple/55 font-medium'
                       }`}
                     >
@@ -286,8 +289,8 @@ export default function EventsPage() {
             </div>
           </div>
 
-          {/* Event Cards (Highlight softly in pink/lilac when active on timeline, no price shown here) */}
-          <div ref={upcomingCardsRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          {/* Event Cards (Compact so all 3 cards + buttons fit 100% in viewport when sticky) */}
+          <div ref={upcomingCardsRef} className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
             {upcomingEvents.map((ev, idx) => {
               const isHighlighted = activeEventIdx === idx;
               return (
@@ -299,15 +302,15 @@ export default function EventsPage() {
                   }}
                   className={`rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-500 cursor-pointer border-2 ${
                     isHighlighted
-                      ? 'bg-[#fae8ff] border-miva-lilac shadow-[0_12px_35px_rgba(232,180,244,0.45)] -translate-y-2'
+                      ? 'bg-[#fae8ff] border-miva-lilac shadow-[0_12px_35px_rgba(232,180,244,0.45)] -translate-y-1.5'
                       : 'bg-white border-miva-purple/10 shadow-md hover:-translate-y-1 hover:border-miva-lilac/60'
                   }`}
                 >
                   <div>
-                    <div className="relative h-56 w-full overflow-hidden">
+                    <div className="relative h-40 md:h-44 w-full overflow-hidden">
                       <Image src={ev.img} alt={ev.title} fill className="object-cover" />
                       <div
-                        className={`absolute top-4 left-4 backdrop-blur-sm font-sans font-semibold text-[10px] tracking-[0.2em] uppercase px-3.5 py-1.5 rounded-full transition-colors ${
+                        className={`absolute top-3 left-3 backdrop-blur-sm font-sans font-semibold text-[10px] tracking-[0.2em] uppercase px-3 py-1 rounded-full transition-colors ${
                           isHighlighted
                             ? 'bg-miva-lilac text-miva-purple'
                             : 'bg-miva-purple/90 text-miva-lilac'
@@ -317,22 +320,22 @@ export default function EventsPage() {
                       </div>
                     </div>
 
-                    <div className="p-6">
-                      <div className="font-sans text-[10px] tracking-[0.2em] uppercase text-miva-purple/60 mb-2">
+                    <div className="p-4 md:p-5">
+                      <div className="font-sans text-[10px] tracking-[0.2em] uppercase text-miva-purple/60 mb-1.5">
                         {ev.time} • {ev.spots}
                       </div>
-                      <h3 className="font-miva-display text-2xl text-miva-purple mb-3">
+                      <h3 className="font-miva-display text-xl md:text-2xl text-miva-purple mb-1.5">
                         {ev.title}
                       </h3>
-                      <p className="font-sans text-xs text-miva-purple/75 leading-relaxed mb-6">
+                      <p className="font-sans text-xs text-miva-purple/75 leading-relaxed">
                         {ev.desc}
                       </p>
                     </div>
                   </div>
 
-                  <div className="px-6 pb-6 pt-4 border-t border-miva-purple/10 flex items-center justify-between">
+                  <div className="px-4 md:px-5 pb-4 pt-3 border-t border-miva-purple/10 flex items-center justify-between">
                     <span className="font-sans text-[10px] tracking-[0.2em] uppercase text-miva-purple/70 font-medium">
-                      Event Details &amp; Tickets
+                      Details &amp; Tickets
                     </span>
                     <button
                       type="button"
@@ -341,7 +344,7 @@ export default function EventsPage() {
                         setBookingModalEvent(ev);
                         setTicketCount(2);
                       }}
-                      className="bg-miva-red text-white font-sans font-semibold text-[10px] tracking-[0.2em] uppercase px-6 py-3 rounded-full hover:bg-miva-purple transition-colors cursor-pointer"
+                      className="bg-miva-red text-white font-sans font-semibold text-[10px] tracking-[0.2em] uppercase px-5 py-2.5 rounded-full hover:bg-miva-purple transition-colors cursor-pointer"
                     >
                       Event Ansehen
                     </button>

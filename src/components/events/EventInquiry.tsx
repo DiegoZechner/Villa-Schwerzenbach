@@ -83,8 +83,10 @@ export default function EventInquiry() {
   }, []);
 
   const totalItems = eventCategories.length;
-  // Camera moves along the Z corridor from 0 to (totalItems - 0.5)
-  const cameraZ = galleryProgress * (totalItems - 0.45);
+  // Start cameraZ at -1.0 so the 1st photo starts further back in the corridor (where the 2nd photo was), not directly in the foreground
+  const startCameraZ = -1.0;
+  const endCameraZ = totalItems - 0.55;
+  const cameraZ = startCameraZ + galleryProgress * (endCameraZ - startCameraZ);
   const activeIndex = Math.min(totalItems - 1, Math.max(0, Math.round(cameraZ)));
   const currentItem = eventCategories[activeIndex];
 
@@ -162,22 +164,19 @@ export default function EventInquiry() {
               // Alternate sides: even idx on the right (+1), odd idx on the left (-1)
               const side = idx % 2 === 0 ? 1 : -1;
 
-              // Exponential perspective scale: small near vanishing point, huge in foreground
-              const scale = Math.pow(2.35, -relDepth * 0.92) * 1.12;
+              // Slightly smaller / more distant perspective scale
+              const scale = Math.pow(2.2, -relDepth * 0.88) * 0.88;
 
               // In 3D corridor perspective, screen X offset is proportional to scale
-              // At relDepth ~ 2.2 (far): xOffset ~ ±3.8vw (near center vanishing point)
-              // At relDepth ~ 1.2 (mid): xOffset ~ ±9.5vw (medium photo left/right of center)
-              // At relDepth ~ 0.1 (near): xOffset ~ ±23vw (huge photo filling right/left side)
-              const xOffsetVw = side * 21.5 * scale;
-              const yOffsetVh = (1 - Math.min(1.2, scale)) * -2;
+              const xOffsetVw = side * 20.5 * scale;
+              const yOffsetVh = (1 - Math.min(1.1, scale)) * -2;
 
               // Smooth fade-in in the far distance and fade-out when passing the camera
               let opacity = 1;
               if (relDepth > 2.15) {
                 opacity = Math.max(0, 1 - (relDepth - 2.15) / 0.7);
-              } else if (relDepth < -0.12) {
-                opacity = Math.max(0, 1 - (-0.12 - relDepth) / 0.33);
+              } else if (relDepth < -0.15) {
+                opacity = Math.max(0, 1 - (-0.15 - relDepth) / 0.3);
               }
 
               // Closer items always render on top of distant items
@@ -192,7 +191,7 @@ export default function EventInquiry() {
                     opacity,
                     zIndex,
                   }}
-                  className="absolute w-[250px] sm:w-[320px] md:w-[390px] lg:w-[430px] aspect-[3/4] shadow-[0_30px_90px_rgba(0,0,0,0.85)] cursor-pointer group will-change-transform"
+                  className="absolute w-[185px] sm:w-[230px] md:w-[275px] lg:w-[310px] aspect-[3/4] shadow-[0_30px_90px_rgba(0,0,0,0.85)] cursor-pointer group will-change-transform"
                 >
                   <div className="relative w-full h-full overflow-hidden bg-black">
                     <Image
