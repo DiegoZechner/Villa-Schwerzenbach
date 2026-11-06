@@ -56,7 +56,8 @@ export default function EventsPage() {
   const [ticketCount, setTicketCount] = useState<number>(2);
 
   const sloganSectionRef = useRef<HTMLDivElement>(null);
-  const upcomingSectionRef = useRef<HTMLDivElement>(null);
+  const upcomingTrackRef = useRef<HTMLDivElement>(null);
+  const upcomingCardsRef = useRef<HTMLDivElement>(null);
 
   // Lock page scrolling until hero animation reaches stage 3
   useEffect(() => {
@@ -84,19 +85,32 @@ export default function EventsPage() {
 
       if (sloganSectionRef.current) {
         const rect = sloganSectionRef.current.getBoundingClientRect();
-        const start = windowH * 0.82;
-        const end = windowH * 0.2;
+        // Slower reading: wide scroll distance from when widget enters bottom until it scrolls high up
+        const start = windowH * 0.92;
+        const end = -windowH * 0.15;
         const raw = (start - rect.top) / (start - end);
         setScrollProgress(Math.max(0, Math.min(1, raw)));
       }
 
-      if (upcomingSectionRef.current) {
-        const rect = upcomingSectionRef.current.getBoundingClientRect();
-        // Progress from when upcoming section enters viewport (75%) to when it reaches 15%
-        const start = windowH * 0.75;
-        const end = windowH * 0.1;
-        const raw = (start - rect.top) / (start - end);
-        setTimelineProgress(Math.max(0, Math.min(1, raw)));
+      if (upcomingTrackRef.current && upcomingCardsRef.current) {
+        const trackRect = upcomingTrackRef.current.getBoundingClientRect();
+        const cardsRect = upcomingCardsRef.current.getBoundingClientRect();
+
+        // Timeline scroll only starts once the upcoming event cards are completely visible in the viewport
+        const totalPinnedScroll = trackRect.height - windowH;
+        if (totalPinnedScroll > 0 && trackRect.top <= 40) {
+          const scrolledInTrack = Math.max(0, 40 - trackRect.top);
+          const raw = scrolledInTrack / totalPinnedScroll;
+          setTimelineProgress(Math.max(0, Math.min(1, raw)));
+        } else if (cardsRect.bottom <= windowH) {
+          // Fallback if viewport is very tall
+          const start = windowH - cardsRect.height;
+          const end = 40;
+          const raw = (start - cardsRect.top) / Math.max(1, start - end);
+          setTimelineProgress(Math.max(0, Math.min(1, raw)));
+        } else {
+          setTimelineProgress(0);
+        }
       }
     };
 
@@ -182,20 +196,20 @@ export default function EventsPage() {
         </div>
       </section>
 
-      {/* 2. Compact Staggered Slogan Widget */}
-      <section className="py-16 md:py-24 px-4 md:px-8">
+      {/* 2. 95% Width, Thinner Staggered Slogan Widget with Larger Font & Slower Reading */}
+      <section className="pt-5 pb-10">
         <div
           ref={sloganSectionRef}
-          className="container mx-auto max-w-3xl bg-[#160108] px-8 sm:px-14 md:px-20 py-14 md:py-20 rounded-3xl shadow-2xl border border-miva-lilac/15"
+          className="w-[95%] mx-auto bg-[#160108] px-6 sm:px-12 md:px-16 py-7 md:py-10 rounded-3xl shadow-2xl border border-miva-lilac/15"
         >
-          <div className="flex flex-col gap-1.5 sm:gap-2 font-sans font-light text-2xl sm:text-3xl md:text-4xl tracking-tight leading-snug">
+          <div className="flex flex-col gap-1 sm:gap-1.5 font-sans font-light text-3xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight leading-[1.08]">
             {sloganLines.map((line, lineIdx) => {
               const lineWords = line.split(' ');
               return (
                 <div
                   key={lineIdx}
                   style={{ paddingLeft: `${lineIdx * 11}%` }}
-                  className="flex flex-wrap gap-x-2.5"
+                  className="flex flex-wrap gap-x-3 sm:gap-x-4"
                 >
                   {lineWords.map((word, wIdx) => {
                     const currentWordIndex = globalWordCounter++;
@@ -219,32 +233,23 @@ export default function EventsPage() {
         </div>
       </section>
 
-      {/* 3. UPCOMING EVENTS with Scroll-Driven Timeline (Dot - Line - Dot) & No Price on Card */}
-      <section className="pb-16 md:pb-24 px-4 md:px-8">
-        <div
-          ref={upcomingSectionRef}
-          className="container mx-auto max-w-6xl bg-miva-gray p-8 md:p-14 rounded-3xl shadow-2xl"
-        >
-          <div className="text-center max-w-2xl mx-auto mb-10">
-            <p className="font-sans font-semibold text-[10px] tracking-[0.3em] uppercase text-miva-red mb-3">
+      {/* 3. UPCOMING EVENTS with Scroll-Driven Timeline (Starts only when cards are completely visible) */}
+      <section ref={upcomingTrackRef} className="relative md:h-[210vh] pb-16 md:pb-24 px-4 md:px-8">
+        <div className="md:sticky md:top-6 container mx-auto max-w-6xl bg-miva-gray p-7 md:p-11 rounded-3xl shadow-2xl">
+          <div className="text-center max-w-2xl mx-auto mb-6">
+            <p className="font-sans font-semibold text-[10px] tracking-[0.3em] uppercase text-miva-red">
               UPCOMING EVENTS
-            </p>
-            <h2 className="font-miva-display text-3xl md:text-5xl text-miva-purple mb-4">
-              Kommende <span className="italic text-miva-red">Events</span> in der Villa
-            </h2>
-            <p className="font-sans text-sm md:text-base text-miva-purple/75">
-              Erleben Sie besondere Abende, Konzerte, Apéros und kulinarische Highlights direkt bei uns im Haus.
             </p>
           </div>
 
           {/* Scroll-Reactive Timeline (Dot - Line - Dot - Line - Dot) */}
-          <div className="max-w-3xl mx-auto mb-14 px-4">
+          <div className="max-w-3xl mx-auto mb-10 px-4">
             <div className="relative flex items-center justify-between">
               {/* Background Track Line */}
               <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[2px] bg-miva-purple/15 z-0" />
               {/* Animated Pink/Lilac Fill Line */}
               <div
-                style={{ width: `${Math.min(100, Math.max(0, (timelineProgress - 0.1) * 125))}%` }}
+                style={{ width: `${Math.min(100, Math.max(0, (timelineProgress - 0.08) * 120))}%` }}
                 className="absolute left-0 top-1/2 -translate-y-1/2 h-[2px] bg-gradient-to-r from-miva-red to-miva-lilac z-0 transition-all duration-300"
               />
 
@@ -282,7 +287,7 @@ export default function EventsPage() {
           </div>
 
           {/* Event Cards (Highlight softly in pink/lilac when active on timeline, no price shown here) */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div ref={upcomingCardsRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             {upcomingEvents.map((ev, idx) => {
               const isHighlighted = activeEventIdx === idx;
               return (

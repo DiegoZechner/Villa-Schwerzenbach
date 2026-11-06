@@ -5,48 +5,57 @@ import Image from 'next/image';
 const eventCategories = [
   {
     id: 'hochzeit',
-    chapter: '01 / 05',
-    subtitle: 'Bregenz • Villa Schwerzenbach',
+    chapter: '01 / 06',
+    subtitle: 'Festsaal & Garten',
     title: 'Hochzeiten',
+    caption: 'Hochzeiten — Villa Schwerzenbach',
     desc: 'Der schönste Tag in einer unvergesslichen, lebendigen Kulisse – vom Empfang im Garten bis zum Festsaal.',
     img: '/images/events/Screenshot 2026-10-01 154804.png',
-    bgImg: '/images/home/celebrate.jpg',
   },
   {
     id: 'apero',
-    chapter: '02 / 05',
-    subtitle: 'Garden & Lounge • Villa Schwerzenbach',
+    chapter: '02 / 06',
+    subtitle: 'Garden & Lounge',
     title: 'Apéros & Treffen',
+    caption: 'Apéros & Garden Sessions — Villa Schwerzenbach',
     desc: 'Stilvolles Beisammensein, kuratierte Drinks, spontane Begegnungen & gute Gespräche in entspannter Atmosphäre.',
     img: '/images/events/Screenshot 2026-10-01 154830.png',
-    bgImg: '/images/home/eat.jpg',
   },
   {
     id: 'firmenparty',
-    chapter: '03 / 05',
-    subtitle: 'Corporate & Culture • Villa Schwerzenbach',
+    chapter: '03 / 06',
+    subtitle: 'Corporate & Culture',
     title: 'Firmenpartys',
+    caption: 'Firmenpartys & Celebrations — Villa Schwerzenbach',
     desc: 'Erfolge feiern und Teams verbinden in einer pulsierenden, exklusiven MIVA-Atmosphäre.',
     img: '/images/events/Screenshot 2026-10-01 154836.png',
-    bgImg: '/images/home/lobby.jpg',
   },
   {
     id: 'seminar',
-    chapter: '04 / 05',
-    subtitle: 'Workshops & Offsites • Villa Schwerzenbach',
+    chapter: '04 / 06',
+    subtitle: 'Workshops & Offsites',
     title: 'Meetingräume & Seminare',
+    caption: 'Meetings & Creative Offsites — Villa Schwerzenbach',
     desc: 'Inspirierende Räume mit Charakter für Visionäre, strategische Meetings und kreative Workshops.',
     img: '/images/events/Screenshot 2026-10-01 154744.png',
-    bgImg: '/images/home/meet.jpg',
+  },
+  {
+    id: 'dining',
+    chapter: '05 / 06',
+    subtitle: 'Private Dining',
+    title: 'Long Table Dinners',
+    caption: 'Private Dining & Kulinarik — Villa Schwerzenbach',
+    desc: 'Exklusive Genussmomente an langen Tafeln – drinnen im historischen Ambiente oder unter freiem Himmel.',
+    img: '/images/home/eat.jpg',
   },
   {
     id: 'andere',
-    chapter: '05 / 05',
-    subtitle: 'Bespoke Concepts • Villa Schwerzenbach',
+    chapter: '06 / 06',
+    subtitle: 'Bespoke Concepts',
     title: 'Individuelle Anfragen',
+    caption: 'Individuelle Konzepte — Villa Schwerzenbach',
     desc: 'Sie haben eine ganz eigene Event-Idee? Wir verwandeln die Villa in die Bühne für Ihre persönliche Vision.',
-    img: '/images/events/Screenshot 2026-10-01 154804.png',
-    bgImg: '/images/home/stay.jpg',
+    img: '/images/home/celebrate.jpg',
   },
 ];
 
@@ -73,12 +82,11 @@ export default function EventInquiry() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const totalSlides = eventCategories.length;
-  // Continuous index from 0 to (totalSlides - 1)
-  const floatIndex = galleryProgress * (totalSlides - 1);
-  const activeIndex = Math.min(totalSlides - 1, Math.max(0, Math.round(floatIndex)));
-  const currentSlide = eventCategories[activeIndex];
-  const nextSlide = eventCategories[Math.min(totalSlides - 1, activeIndex + 1)];
+  const totalItems = eventCategories.length;
+  // Camera moves along the Z corridor from 0 to (totalItems - 0.5)
+  const cameraZ = galleryProgress * (totalItems - 0.45);
+  const activeIndex = Math.min(totalItems - 1, Math.max(0, Math.round(cameraZ)));
+  const currentItem = eventCategories[activeIndex];
 
   const handleSelectAndScrollToForm = (id: string) => {
     setSelectedEvent(id);
@@ -88,135 +96,141 @@ export default function EventInquiry() {
   return (
     <div className="w-full font-sans">
       
-      {/* 1. Stationary Scroll-Pinned Gallery (CL16-inspired depth + split layout) */}
-      {/* Tall outer track (450vh) keeps the inner 100vh screen stationary while scrolling through all 5 event types */}
-      <div ref={trackRef} className="relative h-[450vh] w-full">
-        <div className="sticky top-0 h-screen w-full bg-[#0d0105] overflow-hidden flex flex-col lg:flex-row text-white">
+      {/* 1. Stationary 3D Museum Corridor Gallery (CL16-style left/right perspective hallway) */}
+      <div ref={trackRef} className="relative h-[540vh] w-full">
+        <div className="sticky top-0 h-screen w-full bg-[#06020a] overflow-hidden select-none text-white">
           
-          {/* Left Side: Atmospheric Depth Stage with Approaching Thumbnail & Thin Elegant Caption */}
-          <div className="relative w-full lg:w-[54%] h-[45%] lg:h-full overflow-hidden flex items-center justify-center border-b lg:border-b-0 lg:border-r border-white/10">
-            {/* Subtle blurred ambient background */}
-            <Image
-              src={currentSlide.bgImg}
-              alt={currentSlide.title}
-              fill
-              className="object-cover opacity-25 scale-110 blur-sm transition-all duration-700"
+          {/* Atmospheric Museum Corridor Lighting & Perspective Floor */}
+          <div className="absolute inset-0 pointer-events-none">
+            {/* Deep ambient center glow (vanishing point) */}
+            <div className="absolute top-[42%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[40vh] rounded-full bg-[#1a1030]/40 blur-[130px]" />
+
+            {/* Subtle perspective floor at bottom (like the blurred track in the screenshots) */}
+            <div
+              className="absolute bottom-0 left-[-10%] right-[-10%] h-[32vh] opacity-40"
+              style={{
+                background:
+                  'linear-gradient(180deg, transparent 0%, rgba(35, 45, 70, 0.25) 35%, rgba(232, 180, 244, 0.12) 70%, rgba(10, 5, 18, 0.95) 100%)',
+                transform: 'perspective(500px) rotateX(60deg)',
+              }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0d0105] via-[#0d0105]/50 to-[#0d0105]/80" />
 
-            {/* Top-left Chapter Counter */}
-            <div className="absolute top-24 left-6 md:left-12 z-20 flex items-center gap-4">
-              <span className="font-sans font-light text-xs tracking-[0.35em] uppercase text-white/70">
-                EVENTS GALLERY
-              </span>
-              <span className="w-8 h-px bg-white/30" />
-              <span className="font-sans font-light text-xs tracking-[0.25em] text-miva-lilac">
-                {currentSlide.chapter}
-              </span>
-            </div>
+            {/* Architectural corridor wall light streaks on left and right */}
+            <div className="absolute top-[18%] left-[4%] w-28 h-2 bg-white/15 blur-[2px] -rotate-6" />
+            <div className="absolute top-[34%] left-[2%] w-24 h-1.5 bg-white/10 blur-[2px] -rotate-3" />
+            <div className="absolute top-[52%] left-[15%] w-20 h-1 bg-white/15 blur-[1px] -rotate-2" />
 
-            {/* Center Floating Preview Card (like the center floating photo in the screenshot) */}
-            <div className="relative z-20 flex items-center justify-center">
-              {/* Background next-slide depth card */}
-              {activeIndex < totalSlides - 1 && (
-                <div
-                  style={{
-                    transform: `translate(90px, -20px) scale(0.75)`,
-                  }}
-                  className="hidden sm:block absolute w-36 h-48 md:w-44 md:h-56 overflow-hidden opacity-35 transition-all duration-500 pointer-events-none"
-                >
-                  <Image src={nextSlide.img} alt={nextSlide.title} fill className="object-cover" />
-                </div>
-              )}
-
-              {/* Foreground floating image */}
-              <div
-                onClick={() => handleSelectAndScrollToForm(currentSlide.id)}
-                className="relative w-44 h-56 sm:w-52 sm:h-68 md:w-60 md:h-80 overflow-hidden shadow-[0_25px_70px_rgba(0,0,0,0.85)] cursor-pointer group transition-transform duration-700 hover:scale-105"
-              >
-                <Image
-                  src={currentSlide.img}
-                  alt={currentSlide.title}
-                  fill
-                  className="object-cover transition-all duration-700"
-                />
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
-              </div>
-            </div>
-
-            {/* Bottom Thin Elegant Caption & Progress Bar */}
-            <div className="absolute bottom-8 left-6 md:left-12 right-6 md:right-12 z-20 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-              <div>
-                <p className="font-sans font-extralight text-[11px] tracking-[0.28em] uppercase text-white/60 mb-1">
-                  {currentSlide.subtitle}
-                </p>
-                <p className="font-sans font-light text-sm md:text-base tracking-wider text-white/90">
-                  {currentSlide.title} — <span className="text-miva-lilac/80">Weiter scrollen für nächste Kategorie</span>
-                </p>
-              </div>
-
-              {/* Minimal Progress Line */}
-              <div className="w-32 h-[1px] bg-white/20 relative overflow-hidden shrink-0">
-                <div
-                  style={{ width: `${((activeIndex + 1) / totalSlides) * 100}%` }}
-                  className="absolute inset-y-0 left-0 bg-miva-lilac transition-all duration-300"
-                />
-              </div>
-            </div>
+            <div className="absolute top-[20%] right-[6%] w-28 h-2 bg-white/15 blur-[2px] rotate-6" />
+            <div className="absolute top-[38%] right-[3%] w-24 h-1.5 bg-white/10 blur-[2px] rotate-3" />
+            <div className="absolute top-[56%] right-[14%] w-24 h-1 bg-white/15 blur-[1px] rotate-2" />
           </div>
 
-          {/* Right Side: Full-Height Featured Event Photo with Thin Elegant Overlay Typography */}
-          <div className="relative w-full lg:w-[46%] h-[55%] lg:h-full overflow-hidden group">
-            <Image
-              src={currentSlide.img}
-              alt={currentSlide.title}
-              fill
-              className="object-cover transition-all duration-700 scale-100 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/20" />
-
-            {/* Top-Right Chapter Indicator */}
-            <div className="absolute top-8 lg:top-24 right-6 md:right-12 z-20 flex items-center gap-2">
-              {eventCategories.map((cat, idx) => (
-                <button
-                  key={cat.id}
-                  type="button"
-                  onClick={() => handleSelectAndScrollToForm(cat.id)}
-                  className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                    idx === activeIndex ? 'w-8 bg-miva-lilac' : 'w-2 bg-white/40 hover:bg-white/70'
-                  }`}
-                  aria-label={cat.title}
-                />
-              ))}
-            </div>
-
-            {/* Bottom Content Overlay with Thin Elegant Typography */}
-            <div className="absolute bottom-10 left-8 right-8 md:left-14 md:right-14 z-20">
-              <span className="font-sans font-light text-[10px] tracking-[0.35em] uppercase text-miva-lilac block mb-3">
-                EVENT FORMAT {currentSlide.chapter}
+          {/* Top Bar: Minimal Museum Chapter Header */}
+          <div className="absolute top-24 left-6 md:left-12 right-6 md:right-12 z-40 flex items-center justify-between pointer-events-none">
+            <div className="flex items-center gap-3">
+              <span className="font-sans font-light text-[11px] tracking-[0.35em] uppercase text-white/75">
+                MIVA
               </span>
-              <h3 className="font-sans font-extralight text-3xl sm:text-4xl md:text-5xl text-white tracking-wide mb-4">
-                {currentSlide.title}
-              </h3>
-              <p className="font-sans font-light text-xs sm:text-sm text-white/80 leading-relaxed max-w-md mb-8">
-                {currentSlide.desc}
-              </p>
-
-              <button
-                type="button"
-                onClick={() => handleSelectAndScrollToForm(currentSlide.id)}
-                className="inline-flex items-center gap-3 border border-white/50 hover:border-miva-lilac hover:bg-miva-lilac hover:text-miva-purple text-white font-sans font-light text-[11px] tracking-[0.28em] uppercase px-7 py-3.5 rounded-full transition-all cursor-pointer"
-              >
-                <span>Dieses Format Anfragen</span>
-                <span>→</span>
-              </button>
+              <span className="w-6 h-px bg-white/25" />
+              <span className="font-sans font-extralight text-[11px] tracking-[0.25em] uppercase text-miva-lilac">
+                {currentItem.chapter}
+              </span>
             </div>
+
+            <button
+              type="button"
+              onClick={() => handleSelectAndScrollToForm(currentItem.id)}
+              className="pointer-events-auto font-sans font-light text-[10px] tracking-[0.28em] uppercase text-white/75 hover:text-miva-lilac transition-colors flex items-center gap-2 cursor-pointer"
+            >
+              <span>CHAPTERS / ANFRAGEN</span>
+              <span className="text-xs">↓</span>
+            </button>
+          </div>
+
+          {/* 3D Corridor Stage: Photos alternating Right & Left with small depth spacing */}
+          <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+            {eventCategories.map((item, idx) => {
+              // Relative distance from camera:
+              // relDepth > 0 means ahead of the viewer in the corridor
+              // relDepth = 0 means right next to the viewer in the foreground (huge on right or left)
+              // relDepth < 0 means passing behind the viewer
+              const relDepth = idx - cameraZ;
+
+              // Only render photos within visible corridor range [-0.45, 2.85]
+              if (relDepth < -0.45 || relDepth > 2.85) return null;
+
+              // Alternate sides: even idx on the right (+1), odd idx on the left (-1)
+              const side = idx % 2 === 0 ? 1 : -1;
+
+              // Exponential perspective scale: small near vanishing point, huge in foreground
+              const scale = Math.pow(2.35, -relDepth * 0.92) * 1.12;
+
+              // In 3D corridor perspective, screen X offset is proportional to scale
+              // At relDepth ~ 2.2 (far): xOffset ~ ±3.8vw (near center vanishing point)
+              // At relDepth ~ 1.2 (mid): xOffset ~ ±9.5vw (medium photo left/right of center)
+              // At relDepth ~ 0.1 (near): xOffset ~ ±23vw (huge photo filling right/left side)
+              const xOffsetVw = side * 21.5 * scale;
+              const yOffsetVh = (1 - Math.min(1.2, scale)) * -2;
+
+              // Smooth fade-in in the far distance and fade-out when passing the camera
+              let opacity = 1;
+              if (relDepth > 2.15) {
+                opacity = Math.max(0, 1 - (relDepth - 2.15) / 0.7);
+              } else if (relDepth < -0.12) {
+                opacity = Math.max(0, 1 - (-0.12 - relDepth) / 0.33);
+              }
+
+              // Closer items always render on top of distant items
+              const zIndex = Math.round((10 - relDepth) * 10);
+
+              return (
+                <div
+                  key={item.id}
+                  onClick={() => handleSelectAndScrollToForm(item.id)}
+                  style={{
+                    transform: `translate3d(${xOffsetVw}vw, ${yOffsetVh}vh, 0) scale(${scale})`,
+                    opacity,
+                    zIndex,
+                  }}
+                  className="absolute w-[250px] sm:w-[320px] md:w-[390px] lg:w-[430px] aspect-[3/4] shadow-[0_30px_90px_rgba(0,0,0,0.85)] cursor-pointer group will-change-transform"
+                >
+                  <div className="relative w-full h-full overflow-hidden bg-black">
+                    <Image
+                      src={item.img}
+                      alt={item.title}
+                      fill
+                      sizes="(max-width: 768px) 320px, 450px"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    {/* Subtle thin elegant caption inside frame on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+                      <span className="font-sans font-extralight text-[9px] tracking-[0.28em] uppercase text-miva-lilac mb-1">
+                        {item.subtitle}
+                      </span>
+                      <span className="font-sans font-light text-sm tracking-wider text-white">
+                        {item.title} anfragen →
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Bottom Center Thin Elegant Typography (matches "Monza - September 2024" in reference screenshots) */}
+          <div className="absolute bottom-7 left-0 right-0 z-40 flex flex-col items-center justify-center px-6 text-center pointer-events-none">
+            <p className="font-sans font-light text-xs sm:text-sm md:text-base tracking-[0.06em] text-white/95 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
+              {currentItem.caption}
+            </p>
+            <p className="font-sans font-extralight text-[11px] sm:text-xs text-white/60 tracking-wider max-w-md mt-1">
+              {currentItem.desc}
+            </p>
           </div>
 
         </div>
       </div>
 
-      {/* 2. Event Request Form Section (Reached automatically once the stationary gallery finishes scrolling) */}
+      {/* 2. Event Request Form Section (Reached automatically once the museum corridor finishes scrolling) */}
       <section ref={formSectionRef} className="py-20 md:py-28 px-4 md:px-8">
         <div className="container mx-auto max-w-4xl">
           <div className="bg-miva-purple text-white p-8 sm:p-12 md:p-16 rounded-3xl shadow-2xl relative overflow-hidden border border-miva-lilac/20">
