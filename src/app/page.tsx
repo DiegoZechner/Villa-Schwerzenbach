@@ -1,16 +1,43 @@
+'use client';
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import ApartmentSlider from '@/components/home/ApartmentSlider';
 
 export default function Home() {
+  const [isHoveringHero, setIsHoveringHero] = useState(false);
+  const [mousePos, setMousePos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+
+  const handleHeroMouseMove = (e: React.MouseEvent) => {
+    setMousePos({ x: e.clientX, y: e.clientY });
+  };
+
   return (
     <main className="w-full relative overflow-x-hidden">
-      
-      {/* Section 1: Dual Brand Hero Split (Villa vs. MIVA) */}
+      {/* Floating "Explore More" Cursor Badge on Hero Hover */}
+      <div
+        style={{
+          left: `${mousePos.x}px`,
+          top: `${mousePos.y - 14}px`,
+          transform: `translate(-50%, -100%) scale(${isHoveringHero ? 1 : 0.75})`,
+          opacity: isHoveringHero ? 1 : 0,
+        }}
+        className="fixed z-50 pointer-events-none transition-[opacity,transform] duration-150 ease-out bg-[#e5dec9]/95 text-[#1a1612] backdrop-blur-md px-4 py-1.5 rounded-md font-sans text-xs font-medium tracking-[0.15em] uppercase shadow-[0_8px_24px_rgba(0,0,0,0.45)] whitespace-nowrap"
+      >
+        Explore More
+      </div>
+
+      {/* Section 1: Dual Brand Hero Split (Suites & Apartments vs. Events & Experience) */}
       <section className="h-screen w-full flex flex-col md:flex-row">
         
-        {/* Left: Villa Schwerzenbach (Apartments & Stay) */}
-        <Link href="/rooms" className="relative w-full md:w-1/2 h-1/2 md:h-full group overflow-hidden border-b-[3px] md:border-b-0 md:border-r-[3px] border-cream cursor-pointer block">
+        {/* Left: Villa Schwerzenbach (Suites & Apartments) */}
+        <Link
+          href="/rooms"
+          onMouseEnter={() => setIsHoveringHero(true)}
+          onMouseLeave={() => setIsHoveringHero(false)}
+          onMouseMove={handleHeroMouseMove}
+          className="relative w-full md:w-1/2 h-1/2 md:h-full group overflow-hidden border-b-[3px] md:border-b-0 md:border-r-[3px] border-cream cursor-none block"
+        >
           <video 
             src="/video/Lobbyvideo.mp4" 
             autoPlay 
@@ -19,20 +46,29 @@ export default function Home() {
             playsInline 
             className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-[#35271f]/35 md:bg-[#35271f]/25 md:group-hover:bg-[#4b1716]/55 transition-colors duration-700 pointer-events-none"></div>
+          <div className="absolute inset-0 bg-[#090a0c]/45 md:bg-[#090a0c]/35 md:group-hover:bg-[#090a0c]/65 transition-colors duration-700 pointer-events-none"></div>
           
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 pointer-events-none">
             <span className="font-sans text-[10px] tracking-[0.3em] uppercase text-[#d9c8b9] mb-3 px-4 py-1.5 border border-[#d9c8b9]/40">
               VILLA SCHWERZENBACH
             </span>
             <h2 className="text-white font-villa-editorial text-4xl md:text-6xl uppercase tracking-[0.18em]">
-              Our Apartments
+              Suites &amp; Apartments
             </h2>
+            <span className="mt-4 font-sans text-xs tracking-[0.28em] uppercase text-cream opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+              Explore More →
+            </span>
           </div>
         </Link>
         
-        {/* Right: MIVA (Events & Experiences) */}
-        <Link href="/events" className="relative w-full md:w-1/2 h-1/2 md:h-full group overflow-hidden cursor-pointer block">
+        {/* Right: MIVA (Events & Experience) */}
+        <Link
+          href="/events"
+          onMouseEnter={() => setIsHoveringHero(true)}
+          onMouseLeave={() => setIsHoveringHero(false)}
+          onMouseMove={handleHeroMouseMove}
+          className="relative w-full md:w-1/2 h-1/2 md:h-full group overflow-hidden cursor-none block"
+        >
           <Image src="/images/home/celebrate.jpg" alt="MIVA Events" fill className="object-cover transition-transform duration-1000 group-hover:scale-105" priority />
           <div className="absolute inset-0 bg-[#4e041c]/45 md:bg-[#4e041c]/30 md:group-hover:bg-[#4e041c]/65 transition-colors duration-700 pointer-events-none"></div>
           
@@ -41,12 +77,12 @@ export default function Home() {
               <span className="w-2 h-2 rounded-full bg-[#e8b4f4]"></span>
               BY MIVA.
             </span>
-            <h2 className="text-white font-miva-display italic text-4xl md:text-6xl tracking-wide mb-3">
-              Events &amp; Spaces
+            <h2 className="text-white font-miva-display italic text-4xl md:text-6xl tracking-wide mb-2">
+              Events &amp; Experience
             </h2>
-            <p className="font-sans text-xs md:text-sm tracking-[0.2em] uppercase text-[#e8b4f4]">
-              Für ein farbenfroheres Morgen
-            </p>
+            <span className="mt-3 font-sans text-xs tracking-[0.28em] uppercase text-miva-lilac opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+              Explore More →
+            </span>
           </div>
         </Link>
       </section>
@@ -71,7 +107,7 @@ export default function Home() {
         </span>
       </section>
 
-      {/* Section 3: Villa World Showcase (Arch Mask & Dove Blue / Beige Palette) */}
+      {/* Section 3: Villa World Showcase */}
       <section className="w-full bg-cream border-t-[3px] border-white py-20 md:py-28 px-6 md:px-12">
         <div className="container mx-auto max-w-6xl flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
           
@@ -91,19 +127,19 @@ export default function Home() {
               Zeitlose Eleganz
             </h2>
             <p className="font-sans text-sm md:text-base text-espresso/80 leading-loose mb-10 max-w-lg">
-              Unsere 11 individuell gestalteten Apartments (Top 02 bis Top 12) vereinen den historischen Glanz der Belle Époque mit zeitgenössischem Komfort. Warme Erdtöne, lichtdurchflutete Räume und die charakteristischen Rundbögen machen jeden Aufenthalt einzigartig.
+              Unsere 11 individuell gestalteten Suites &amp; Apartments (Top 02 bis Top 12) vereinen den historischen Glanz der Belle Époque mit zeitgenössischem Komfort. Warme Erdtöne, lichtdurchflutete Räume und die charakteristischen Rundbögen machen jeden Aufenthalt einzigartig.
             </p>
             <Link 
               href="/rooms" 
               className="bg-bordeaux text-white font-sans font-medium text-xs tracking-[0.25em] uppercase px-10 py-4 hover:bg-villa-red transition-colors"
             >
-              Apartments Entdecken
+              Suites &amp; Apartments Entdecken
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Section 4: Apartments Slider (Villa World with Arch Cards) */}
+      {/* Section 4:Unsere Suites & Apartments (Styled consistently with /rooms mosaic aesthetic) */}
       <ApartmentSlider />
 
       {/* Section 5: MIVA Events Teaser (Circles, Lilac, Dark Purple & Tomate Red) */}

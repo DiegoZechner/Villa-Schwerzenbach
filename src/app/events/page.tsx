@@ -40,11 +40,11 @@ const upcomingEvents = [
 ];
 
 const sloganLines = [
-  'Wir schaffen',
-  'lebendige Räume und',
-  'unvergessliche Momente,',
-  'die Menschen verbinden',
-  'und lange bleiben.',
+  'Ein Ort',
+  'für Musik, Genuss und',
+  'echte Momente, an dem',
+  'wir feiern, lachen',
+  'und frei sind.',
 ];
 
 export default function EventsPage() {
@@ -55,7 +55,7 @@ export default function EventsPage() {
   const [bookingModalEvent, setBookingModalEvent] = useState<(typeof upcomingEvents)[0] | null>(null);
   const [ticketCount, setTicketCount] = useState<number>(2);
 
-  const sloganSectionRef = useRef<HTMLDivElement>(null);
+  const sloganTrackRef = useRef<HTMLDivElement>(null);
   const upcomingTrackRef = useRef<HTMLDivElement>(null);
   const upcomingCardsRef = useRef<HTMLDivElement>(null);
 
@@ -83,11 +83,11 @@ export default function EventsPage() {
     const handleScroll = () => {
       const windowH = window.innerHeight;
 
-      if (sloganSectionRef.current) {
-        const rect = sloganSectionRef.current.getBoundingClientRect();
-        // Slower reading: wide scroll distance from when widget enters bottom until it scrolls high up
-        const start = windowH * 0.92;
-        const end = -windowH * 0.15;
+      if (sloganTrackRef.current) {
+        const rect = sloganTrackRef.current.getBoundingClientRect();
+        // Slower reading across the slogan track
+        const start = windowH * 0.88;
+        const end = -windowH * 0.45;
         const raw = (start - rect.top) / (start - end);
         setScrollProgress(Math.max(0, Math.min(1, raw)));
       }
@@ -199,20 +199,17 @@ export default function EventsPage() {
         </div>
       </section>
 
-      {/* 2. 95% Width, Thinner Staggered Slogan Widget with Larger Font & Slower Reading */}
-      <section className="pt-5 pb-10">
-        <div
-          ref={sloganSectionRef}
-          className="w-[95%] mx-auto bg-[#160108] px-6 sm:px-12 md:px-16 py-7 md:py-10 rounded-3xl shadow-2xl border border-miva-lilac/15"
-        >
-          <div className="flex flex-col gap-1 sm:gap-1.5 font-sans font-light text-3xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight leading-[1.08]">
+      {/* 2. 95% Width, Compact-Height Staggered Slogan Widget with Shorter Words & Slower Scroll Reading */}
+      <section ref={sloganTrackRef} className="relative md:h-[95vh] pt-4 pb-8">
+        <div className="md:sticky md:top-24 w-[95%] mx-auto bg-[#160108] px-6 sm:px-12 md:px-16 py-5 md:py-7 rounded-3xl shadow-2xl border border-miva-lilac/15">
+          <div className="flex flex-col gap-0.5 sm:gap-1 font-sans font-light text-2xl sm:text-4xl md:text-5xl tracking-tight leading-[1.06]">
             {sloganLines.map((line, lineIdx) => {
               const lineWords = line.split(' ');
               return (
                 <div
                   key={lineIdx}
                   style={{ paddingLeft: `${lineIdx * 11}%` }}
-                  className="flex flex-wrap gap-x-3 sm:gap-x-4"
+                  className="flex flex-wrap gap-x-2.5 sm:gap-x-3.5"
                 >
                   {lineWords.map((word, wIdx) => {
                     const currentWordIndex = globalWordCounter++;
@@ -236,9 +233,9 @@ export default function EventsPage() {
         </div>
       </section>
 
-      {/* 3. UPCOMING EVENTS with Scroll-Driven Timeline (Starts only when cards are completely visible, ends at virtual point 3.2) */}
-      <section ref={upcomingTrackRef} className="relative md:h-[165vh] pb-14 md:pb-20 px-4 md:px-8">
-        <div className="md:sticky md:top-6 container mx-auto max-w-6xl bg-miva-gray p-5 md:p-7 rounded-3xl shadow-2xl">
+      {/* 3. UPCOMING EVENTS (Same 95% width as Slogan Widget above, starts timeline when cards are completely visible, ends at virtual point 3.2) */}
+      <section ref={upcomingTrackRef} className="relative md:h-[165vh] pb-14 md:pb-20">
+        <div className="md:sticky md:top-6 w-[95%] mx-auto bg-miva-gray p-5 md:p-7 rounded-3xl shadow-2xl">
           <div className="text-center max-w-2xl mx-auto mb-4">
             <p className="font-sans font-semibold text-[10px] tracking-[0.3em] uppercase text-miva-red">
               UPCOMING EVENTS

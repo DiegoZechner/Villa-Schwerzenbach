@@ -229,9 +229,9 @@ export default function EventInquiry() {
         </div>
       </div>
 
-      {/* 2. Event Request Form Section (Reached automatically once the museum corridor finishes scrolling) */}
-      <section ref={formSectionRef} className="py-20 md:py-28 px-4 md:px-8">
-        <div className="container mx-auto max-w-4xl">
+      {/* 2. Event Request Form Section (Same 95% width as the widgets above) */}
+      <section ref={formSectionRef} className="py-16 md:py-24">
+        <div className="w-[95%] mx-auto">
           <div className="bg-miva-purple text-white p-8 sm:p-12 md:p-16 rounded-3xl shadow-2xl relative overflow-hidden border border-miva-lilac/20">
             <div className="text-center mb-12 relative z-10">
               <p className="font-sans font-light text-[10px] tracking-[0.35em] uppercase text-miva-lilac mb-3">
