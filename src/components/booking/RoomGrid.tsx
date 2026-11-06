@@ -9,12 +9,12 @@ type ToggleFilter = 'all' | 'suites' | 'apartments';
 
 function MosaicRoomItem({
   room,
-  index,
+  isTall,
   onHoverChange,
   onMouseMove,
 }: {
   room: RoomWithImages;
-  index: number;
+  isTall: boolean;
   onHoverChange: (hovering: boolean) => void;
   onMouseMove: (e: React.MouseEvent) => void;
 }) {
@@ -30,26 +30,19 @@ function MosaicRoomItem({
           setIsVisible(true);
         }
       },
-      { threshold: 0.12 }
+      { threshold: 0.1 }
     );
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
-
-  // Asymmetric Casa Momo mosaic pattern:
-  // Row 0: Left = Tall, Right = Short
-  // Row 1: Left = Short, Right = Tall
-  const row = Math.floor(index / 2);
-  const isLeft = index % 2 === 0;
-  const isTall = (row % 2 === 0 && isLeft) || (row % 2 === 1 && !isLeft);
 
   const formattedSize = `${room.size.toString().replace('.', ',')} m²`;
 
   return (
     <div
       ref={itemRef}
-      className={`transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+      className={`transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
       }`}
     >
       <Link
@@ -59,8 +52,8 @@ function MosaicRoomItem({
         onMouseMove={onMouseMove}
         className={`block relative w-full overflow-hidden group cursor-none ${
           isTall
-            ? 'h-[380px] sm:h-[460px] md:h-[540px]'
-            : 'h-[300px] sm:h-[360px] md:h-[410px]'
+            ? 'h-[360px] sm:h-[440px] md:h-[510px]'
+            : 'h-[280px] sm:h-[330px] md:h-[380px]'
         }`}
       >
         <Image
@@ -71,17 +64,17 @@ function MosaicRoomItem({
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
         />
 
-        {/* Subtle gradient at bottom for crisp legibility of bottom-right overlay */}
-        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/80 via-black/35 to-transparent pointer-events-none" />
+        {/* Subtle dark gradient at bottom for crisp legibility */}
+        <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/85 via-black/40 to-transparent pointer-events-none" />
 
-        {/* Bottom-Right Info inside the Photo: Room Name, m², Capacity */}
-        <div className="absolute bottom-4 right-4 left-4 z-20 flex flex-wrap items-center justify-end gap-2 sm:gap-2.5 pointer-events-none">
-          <span className="bg-black/65 backdrop-blur-md text-[#f3efe6] font-sans font-light text-xs sm:text-sm tracking-wide px-3.5 py-1.5 rounded-md border border-white/10">
+        {/* Bottom-Right Info inside the Photo: Room Name, m², Stylish Avatar Capacity Icon */}
+        <div className="absolute bottom-3.5 right-3.5 left-3.5 z-20 flex flex-wrap items-center justify-end gap-1.5 sm:gap-2 pointer-events-none">
+          <span className="bg-black/75 backdrop-blur-md text-[#f3efe6] font-sans font-light text-xs sm:text-[13px] tracking-wide px-3 py-1.5 rounded-md border border-white/10">
             {room.name}
           </span>
 
           {/* Size (m²) Badge */}
-          <span className="inline-flex items-center gap-1.5 bg-black/65 backdrop-blur-md text-[#e0dacb] font-sans text-xs px-3 py-1.5 rounded-md border border-white/10">
+          <span className="inline-flex items-center gap-1.5 bg-black/75 backdrop-blur-md text-[#e0dacb] font-sans text-xs px-2.5 py-1.5 rounded-md border border-white/10">
             <svg
               className="w-3.5 h-3.5 text-[#c8c0ae]"
               viewBox="0 0 16 16"
@@ -94,22 +87,64 @@ function MosaicRoomItem({
             <span>{formattedSize}</span>
           </span>
 
-          {/* Persons Capacity Badge */}
-          <span className="inline-flex items-center gap-1.5 bg-black/65 backdrop-blur-md text-[#e0dacb] font-sans text-xs px-3 py-1.5 rounded-md border border-white/10">
-            <svg
-              className="w-3.5 h-3.5 text-[#c8c0ae]"
-              viewBox="0 0 16 16"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.3"
-            >
-              <circle cx="8" cy="3.5" r="1.75" />
-              <path d="M4 6.5H12M8 6.5V14.5M8 10.5L5.5 14.5M8 10.5L10.5 14.5" />
-            </svg>
+          {/* Persons Capacity Badge with Stylish WhatsApp-style Avatar Silhouette */}
+          <span className="inline-flex items-center gap-1.5 bg-black/75 backdrop-blur-md text-[#e0dacb] font-sans text-xs px-2.5 py-1.5 rounded-md border border-white/10">
+            <span className="w-4 h-4 rounded-full bg-white/15 flex items-center justify-center overflow-hidden shrink-0">
+              <svg
+                className="w-3.5 h-3.5 text-[#e6dfd1] translate-y-[1px]"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2.5c-3.33 0-10 1.67-10 5v2.5h20v-2.5c0-3.33-6.67-5-10-5z" />
+              </svg>
+            </span>
             <span>{room.capacity}</span>
           </span>
         </div>
       </Link>
+    </div>
+  );
+}
+
+function TwoColumnMosaic({
+  rooms,
+  onHoverChange,
+  onMouseMove,
+}: {
+  rooms: RoomWithImages[];
+  onHoverChange: (hovering: boolean) => void;
+  onMouseMove: (e: React.MouseEvent) => void;
+}) {
+  const leftColRooms = rooms.filter((_, idx) => idx % 2 === 0);
+  const rightColRooms = rooms.filter((_, idx) => idx % 2 === 1);
+
+  return (
+    <div className="flex flex-col md:flex-row gap-2.5 sm:gap-3.5">
+      {/* Left Mosaic Column: Tall, Short, Tall, Short */}
+      <div className="w-full md:w-1/2 flex flex-col gap-2.5 sm:gap-3.5">
+        {leftColRooms.map((room, colIdx) => (
+          <MosaicRoomItem
+            key={room.id}
+            room={room}
+            isTall={colIdx % 2 === 0}
+            onHoverChange={onHoverChange}
+            onMouseMove={onMouseMove}
+          />
+        ))}
+      </div>
+
+      {/* Right Mosaic Column: Short, Tall, Short, Tall */}
+      <div className="w-full md:w-1/2 flex flex-col gap-2.5 sm:gap-3.5">
+        {rightColRooms.map((room, colIdx) => (
+          <MosaicRoomItem
+            key={room.id}
+            room={room}
+            isTall={colIdx % 2 === 1}
+            onHoverChange={onHoverChange}
+            onMouseMove={onMouseMove}
+          />
+        ))}
+      </div>
     </div>
   );
 }
@@ -126,7 +161,7 @@ export default function RoomGrid({ initialRooms }: { initialRooms: RoomWithImage
   const [isHoveringPhoto, setIsHoveringPhoto] = useState<boolean>(false);
   const [mousePos, setMousePos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
 
-  const contentStartRef = useRef<HTMLDivElement>(null);
+  const notchTrackRef = useRef<HTMLDivElement>(null);
 
   // Lock page scrolling until hero animation reaches stage 3
   useEffect(() => {
@@ -148,16 +183,27 @@ export default function RoomGrid({ initialRooms }: { initialRooms: RoomWithImage
     };
   }, []);
 
-  // Drive Dynamic Island expansion on scroll
+  // Stationary scroll track for the Dynamic Island Notch:
+  // When the notch reaches its stationary position on screen, scrolling expands it from 0 -> 1 before scrolling further down
   useEffect(() => {
     const handleScroll = () => {
-      const scrollY = window.scrollY;
+      if (!notchTrackRef.current) return;
+      const rect = notchTrackRef.current.getBoundingClientRect();
       const windowH = window.innerHeight;
-      // Starts expanding as user scrolls past 15% of hero, fully expanded by 65% of hero height
-      const start = windowH * 0.12;
-      const end = windowH * 0.58;
-      const raw = (scrollY - start) / (end - start);
-      setIslandProgress(Math.max(0, Math.min(1, raw)));
+      const pinTop = 96; // top-24 (96px)
+      const totalPinnedScroll = Math.max(1, rect.height - 90);
+
+      if (rect.top > windowH * 0.75) {
+        setIslandProgress(0);
+      } else if (rect.top <= pinTop) {
+        const scrolled = pinTop - rect.top;
+        const raw = 0.25 + (scrolled / totalPinnedScroll) * 0.75;
+        setIslandProgress(Math.max(0, Math.min(1, raw)));
+      } else {
+        // Pre-expansion as it approaches pinTop
+        const approachRaw = ((windowH * 0.75 - rect.top) / (windowH * 0.75 - pinTop)) * 0.25;
+        setIslandProgress(Math.max(0, Math.min(0.25, approachRaw)));
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -195,10 +241,10 @@ export default function RoomGrid({ initialRooms }: { initialRooms: RoomWithImage
     return 'translate(22vw, 24vh)';
   };
 
-  // Interpolate Dynamic Island dimensions from small notch (96x28) to full interactive island (340x52)
-  const islandWidth = Math.round(96 + islandProgress * 254);
-  const islandHeight = Math.round(28 + islandProgress * 26);
-  const isIslandExpanded = islandProgress > 0.65;
+  // Interpolate Dynamic Island dimensions from small notch (92x26) to full interactive island (350x52)
+  const islandWidth = Math.round(92 + islandProgress * 258);
+  const islandHeight = Math.round(26 + islandProgress * 26);
+  const isIslandExpanded = islandProgress > 0.7;
 
   return (
     <div className="w-full">
@@ -216,9 +262,9 @@ export default function RoomGrid({ initialRooms }: { initialRooms: RoomWithImage
       </div>
 
       {/* 1. Choreographed Dark Intro Hero ("Apartments & Suites") */}
-      <section className="relative h-screen w-full bg-[#160807] overflow-hidden flex items-center justify-center select-none">
+      <section className="relative h-screen w-full bg-[#090a0c]/95 overflow-hidden flex items-center justify-center select-none border-b border-white/10">
         <div
-          className={`absolute w-[440px] h-[440px] rounded-full bg-bordeaux/60 blur-[130px] transition-opacity duration-1000 ${
+          className={`absolute w-[440px] h-[440px] rounded-full bg-white/5 blur-[130px] transition-opacity duration-1000 ${
             heroStage >= 2 ? 'opacity-100' : 'opacity-35'
           }`}
         />
@@ -262,112 +308,102 @@ export default function RoomGrid({ initialRooms }: { initialRooms: RoomWithImage
         </div>
       </section>
 
-      {/* 2. Apple Dynamic Island Notch + Mosaic Content Section */}
-      <div ref={contentStartRef} className="relative pt-8 pb-28 px-4 sm:px-8 md:px-12 max-w-[1400px] mx-auto">
+      {/* 2. Stationary Apple Dynamic Island Notch + Tight Mosaic Content Section */}
+      <div className="relative pt-8 pb-28 px-3 sm:px-6 md:px-10 max-w-[1440px] mx-auto">
         
-        {/* Sticky Apple Dynamic Island Notch that grows on scroll into the Suites / Apartments Toggle */}
-        <div className="sticky top-24 z-40 flex justify-center mb-12 pointer-events-none">
-          <div
-            style={{
-              width: `${islandWidth}px`,
-              height: `${islandHeight}px`,
-            }}
-            className="pointer-events-auto bg-[#0c0706]/95 backdrop-blur-xl rounded-full border border-cream/20 shadow-[0_14px_40px_rgba(0,0,0,0.65)] flex items-center justify-center p-1.5 overflow-hidden transition-[background-color,border-color,box-shadow] duration-300"
-          >
-            {/* Compact Notch Indicator (visible when island is small) */}
-            {!isIslandExpanded && (
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-villa-red animate-pulse" />
-                <span className="w-6 h-1 rounded-full bg-cream/30" />
-              </div>
-            )}
+        {/* Dedicated Scroll Track: Notch stays stationary while opening, and once open stays stationary at the top of the section */}
+        <div ref={notchTrackRef} className="relative h-[48vh] mb-6">
+          <div className="sticky top-24 z-30 flex justify-center">
+            <div
+              style={{
+                width: `${islandWidth}px`,
+                height: `${islandHeight}px`,
+              }}
+              className="bg-[#050607]/95 backdrop-blur-xl rounded-full border border-white/15 shadow-[0_14px_40px_rgba(0,0,0,0.8)] flex items-center justify-center p-1.5 overflow-hidden"
+            >
+              {/* Compact Notch Indicator (visible while opening) */}
+              {!isIslandExpanded && (
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-cream/80 animate-pulse" />
+                  <span className="w-6 h-1 rounded-full bg-white/25" />
+                </div>
+              )}
 
-            {/* Expanded Toggle Buttons: Suites | Apartments (clicking active button resets to 'all') */}
-            {isIslandExpanded && (
-              <div className="w-full h-full grid grid-cols-2 gap-1.5 items-center animate-fadeIn">
-                <button
-                  type="button"
-                  onClick={() => handleToggleClick('suites')}
-                  className={`h-full rounded-full font-sans text-xs tracking-[0.2em] uppercase transition-all duration-300 cursor-pointer ${
-                    activeFilter === 'suites'
-                      ? 'bg-cream text-[#160807] font-semibold shadow-md'
-                      : 'text-cream/80 hover:text-white hover:bg-white/10'
-                  }`}
-                >
-                  Suites
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleToggleClick('apartments')}
-                  className={`h-full rounded-full font-sans text-xs tracking-[0.2em] uppercase transition-all duration-300 cursor-pointer ${
-                    activeFilter === 'apartments'
-                      ? 'bg-cream text-[#160807] font-semibold shadow-md'
-                      : 'text-cream/80 hover:text-white hover:bg-white/10'
-                  }`}
-                >
-                  Apartments
-                </button>
-              </div>
-            )}
+              {/* Expanded Toggle Buttons: Suites | Apartments (clicking active button resets to 'all') */}
+              {isIslandExpanded && (
+                <div className="w-full h-full grid grid-cols-2 gap-1.5 items-center">
+                  <button
+                    type="button"
+                    onClick={() => handleToggleClick('suites')}
+                    className={`h-full rounded-full font-sans text-xs tracking-[0.2em] uppercase transition-all duration-300 cursor-pointer ${
+                      activeFilter === 'suites'
+                        ? 'bg-cream text-[#090a0c] font-semibold shadow-md'
+                        : 'text-cream/80 hover:text-white hover:bg-white/10'
+                    }`}
+                  >
+                    Suites
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleToggleClick('apartments')}
+                    className={`h-full rounded-full font-sans text-xs tracking-[0.2em] uppercase transition-all duration-300 cursor-pointer ${
+                      activeFilter === 'apartments'
+                        ? 'bg-cream text-[#090a0c] font-semibold shadow-md'
+                        : 'text-cream/80 hover:text-white hover:bg-white/10'
+                    }`}
+                  >
+                    Apartments
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
-        {/* 3. SUITES MOSAIC (Shown First) */}
+        {/* 3. SUITES MOSAIC (Shown First, with narrow spacing between images) */}
         {showSuites && (
-          <div className="mb-16">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="font-villa-editorial text-2xl sm:text-3xl text-cream uppercase tracking-[0.22em]">
+          <div className="mb-10">
+            <div className="flex items-center justify-between mb-4 px-1">
+              <h2 className="font-villa-editorial text-xl sm:text-2xl text-cream uppercase tracking-[0.22em]">
                 Suites
               </h2>
-              <span className="font-sans text-[11px] tracking-[0.25em] uppercase text-cream/65">
-                {suitesList.length} Units
+              <span className="font-sans text-[10px] tracking-[0.25em] uppercase text-cream/60">
+                {suitesList.length} Suites
               </span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
-              {suitesList.map((room, idx) => (
-                <MosaicRoomItem
-                  key={room.id}
-                  room={room}
-                  index={idx}
-                  onHoverChange={setIsHoveringPhoto}
-                  onMouseMove={handlePhotoMouseMove}
-                />
-              ))}
-            </div>
+            <TwoColumnMosaic
+              rooms={suitesList}
+              onHoverChange={setIsHoveringPhoto}
+              onMouseMove={handlePhotoMouseMove}
+            />
           </div>
         )}
 
         {/* Thin Horizontal Line Divider between Suites and Apartments */}
         {showSuites && showApartments && (
-          <div className="my-16 md:my-24">
-            <div className="w-full h-px bg-cream/35" />
+          <div className="my-10 md:my-14">
+            <div className="w-full h-px bg-white/25" />
           </div>
         )}
 
-        {/* 4. APARTMENTS MOSAIC (Shown Second) */}
+        {/* 4. APARTMENTS MOSAIC (Shown Second, with narrow spacing between images) */}
         {showApartments && (
           <div>
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="font-villa-editorial text-2xl sm:text-3xl text-cream uppercase tracking-[0.22em]">
+            <div className="flex items-center justify-between mb-4 px-1">
+              <h2 className="font-villa-editorial text-xl sm:text-2xl text-cream uppercase tracking-[0.22em]">
                 Apartments
               </h2>
-              <span className="font-sans text-[11px] tracking-[0.25em] uppercase text-cream/65">
-                {apartmentsList.length} Units
+              <span className="font-sans text-[10px] tracking-[0.25em] uppercase text-cream/60">
+                {apartmentsList.length} Apartments
               </span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
-              {apartmentsList.map((room, idx) => (
-                <MosaicRoomItem
-                  key={room.id}
-                  room={room}
-                  index={idx}
-                  onHoverChange={setIsHoveringPhoto}
-                  onMouseMove={handlePhotoMouseMove}
-                />
-              ))}
-            </div>
+            <TwoColumnMosaic
+              rooms={apartmentsList}
+              onHoverChange={setIsHoveringPhoto}
+              onMouseMove={handlePhotoMouseMove}
+            />
           </div>
         )}
 
