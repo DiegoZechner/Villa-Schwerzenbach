@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import EventInquiry from '@/components/events/EventInquiry';
+import ChoreographedHero from '@/components/ui/ChoreographedHero';
 
 const upcomingEvents = [
   {
@@ -48,8 +49,6 @@ const sloganLines = [
 ];
 
 export default function EventsPage() {
-  // Hero animation stage: 0 = initial hidden, 1 = rise from bottom to center, 2 = split left/right, 3 = move to top-left & bottom-right corners (scroll unlocked)
-  const [heroStage, setHeroStage] = useState<number>(0);
   const [scrollProgress, setScrollProgress] = useState<number>(0);
   const [timelineProgress, setTimelineProgress] = useState<number>(0);
   const [bookingModalEvent, setBookingModalEvent] = useState<(typeof upcomingEvents)[0] | null>(null);
@@ -58,26 +57,6 @@ export default function EventsPage() {
   const sloganTrackRef = useRef<HTMLDivElement>(null);
   const upcomingTrackRef = useRef<HTMLDivElement>(null);
   const upcomingCardsRef = useRef<HTMLDivElement>(null);
-
-  // Lock page scrolling until hero animation reaches stage 3
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    document.body.style.overflow = 'hidden';
-
-    const t1 = setTimeout(() => setHeroStage(1), 150);
-    const t2 = setTimeout(() => setHeroStage(2), 1200);
-    const t3 = setTimeout(() => {
-      setHeroStage(3);
-      document.body.style.overflow = '';
-    }, 2300);
-
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
-      document.body.style.overflow = '';
-    };
-  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -135,69 +114,15 @@ export default function EventsPage() {
   // Fill bar goes from 0% (at Point 1 = 1.0) to 100% (at Point 3 = 3.0), and holds at 100% until 3.2
   const timelineFillPercent = Math.min(100, Math.max(0, ((timelineStep - 1.0) / 2.0) * 100));
 
-  const getEventsTransform = () => {
-    if (heroStage === 0) return 'translate(0px, 120px)';
-    if (heroStage === 1) return 'translate(0px, 0px)';
-    if (heroStage === 2) return 'translate(-26vw, 0px)';
-    return 'translate(-26vw, -24vh)';
-  };
-
-  const getExperiencesTransform = () => {
-    if (heroStage === 0) return 'translate(0px, 120px)';
-    if (heroStage === 1) return 'translate(0px, 0px)';
-    if (heroStage === 2) return 'translate(22vw, 0px)';
-    return 'translate(22vw, 24vh)';
-  };
-
   return (
     <div className="flex flex-col min-h-screen relative z-10 font-sans">
       
-      {/* 1. Choreographed Dark Intro Hero (Scroll is locked until animation completes) */}
-      <section className="relative h-screen w-full bg-[#160108] overflow-hidden flex items-center justify-center select-none">
-        <div
-          className={`absolute w-[420px] h-[420px] rounded-full bg-miva-purple/50 blur-[120px] transition-opacity duration-1000 ${
-            heroStage >= 2 ? 'opacity-100' : 'opacity-30'
-          }`}
-        />
-
-        <div className="relative w-full h-full flex flex-col items-center justify-center px-6">
-          <div
-            style={{
-              transform: getEventsTransform(),
-              opacity: heroStage === 0 ? 0 : 1,
-              transition: 'transform 1000ms cubic-bezier(0.22, 1, 0.36, 1), opacity 800ms ease-out',
-            }}
-            className="font-miva-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-white tracking-wider uppercase"
-          >
-            Events
-          </div>
-
-          <div
-            style={{
-              transform: getExperiencesTransform(),
-              opacity: heroStage === 0 ? 0 : 1,
-              transition: 'transform 1000ms cubic-bezier(0.22, 1, 0.36, 1), opacity 800ms ease-out',
-            }}
-            className="font-miva-display italic text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-miva-lilac tracking-wide mt-2"
-          >
-            &amp; Experiences
-          </div>
-
-          <div
-            className={`absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-all duration-1000 px-6 text-center ${
-              heroStage === 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-            }`}
-          >
-            <p className="font-sans text-xs md:text-sm tracking-[0.35em] uppercase text-white/70 mb-6">
-              VILLA SCHWERZENBACH BY MIVA.
-            </p>
-            <div className="flex flex-col items-center gap-3 text-miva-lilac/80">
-              <span className="font-sans text-[10px] tracking-[0.3em] uppercase">Scroll to Explore</span>
-              <div className="w-px h-12 bg-gradient-to-b from-miva-lilac to-transparent animate-pulse" />
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* 1. Choreographed Dark Intro Hero */}
+      <ChoreographedHero
+        primaryText="Events"
+        secondaryText="& Experiences"
+        subtitle="VILLA SCHWERZENBACH BY MIVA."
+      />
 
       {/* 2. 95% Width, Compact-Height Staggered Slogan Widget with Shorter Words & Slower Scroll Reading */}
       <section ref={sloganTrackRef} className="relative md:h-[95vh] pt-4 pb-8">
