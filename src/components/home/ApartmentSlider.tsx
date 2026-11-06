@@ -25,7 +25,6 @@ export default function ApartmentSlider() {
       {/* Top Bar with Arrows */}
       <div className="flex justify-between items-center px-6 md:px-12 py-10 md:py-14">
         <div>
-          <span className="font-script text-2xl text-villa-red block mb-1">A home full of life</span>
           <h2 className="font-villa-editorial text-2xl md:text-3xl tracking-[0.2em] uppercase text-espresso">
             Unsere Apartments
           </h2>

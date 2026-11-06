@@ -33,7 +33,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer ref={footerRef} className="bg-espresso text-cream-light py-16 border-t border-[#1a100d] overflow-hidden">
+    <footer ref={footerRef} className="bg-bordeaux text-cream-light py-16 border-t border-white/15 overflow-hidden">
       <div className={`container mx-auto px-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-12 md:gap-4 transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}>
         
         {/* Left: Logo */}

@@ -32,7 +32,7 @@ const greatVibes = Great_Vibes({
 });
 
 export const metadata: Metadata = {
-  title: 'Villa Schwerzenbach by MIVA | A Home Full of Life',
+  title: 'Villa Schwerzenbach by MIVA',
   description: 'A beautiful boutique residence & event location in Bregenz. STAY · EAT · MEET · CELEBRATE · DANCE.',
 };
 

@@ -25,7 +25,7 @@ export default function RoomGrid({ initialRooms }: { initialRooms: RoomData[] })
   return (
     <div>
       {/* Filter Bar */}
-      <div className="-mt-16 md:-mt-24 relative z-20 bg-cream-light p-6 md:p-8 shadow-md border border-espresso/15 mb-24 max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-end md:items-center gap-6">
+      <div className="relative z-20 bg-cream-light p-6 md:p-8 shadow-md border border-espresso/15 mb-20 max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-end md:items-center gap-6">
         
         <div className="flex-1 w-full flex flex-col gap-2">
           <label className="font-sans font-medium text-[10px] tracking-[0.2em] uppercase text-espresso/60">Check-In</label>

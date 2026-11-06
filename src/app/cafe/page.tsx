@@ -8,7 +8,7 @@ export default function CafePage() {
     <div className="flex flex-col min-h-screen relative z-10 font-sans">
       <PageHero 
         title="Café Schwerzenbach" 
-        subtitle="A home full of life" 
+        subtitle="Kaffee, Kuchen & Begegnungen" 
         image="/images/home/eat.jpg"
         brand="villa"
       />

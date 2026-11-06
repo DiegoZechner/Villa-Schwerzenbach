@@ -68,7 +68,6 @@ function BookingContent() {
       {/* Summary Sidebar */}
       <div className="w-full lg:w-96">
         <div className="bg-cream-light p-8 border border-espresso/15 sticky top-24">
-          <span className="font-script text-2xl text-villa-red block mb-1">A home full of life</span>
           <h3 className="font-villa-editorial text-xl text-bordeaux uppercase tracking-[0.15em] mb-4 border-b border-espresso/15 pb-4">Zusammenfassung</h3>
           
           <div className="space-y-4 mb-6 text-espresso/85 text-sm">

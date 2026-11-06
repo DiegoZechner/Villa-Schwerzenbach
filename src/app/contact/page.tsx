@@ -6,7 +6,6 @@ export default function ContactPage() {
       <div className="container mx-auto px-6 md:px-12 max-w-6xl">
         <div className="bg-cream p-8 md:p-16 shadow-2xl border border-cream-light">
           <div className="text-center mb-16">
-            <span className="font-script text-3xl text-villa-red block mb-2">A home full of life</span>
             <h1 className="font-villa-editorial text-4xl md:text-6xl tracking-[0.2em] uppercase text-espresso">
               Contact
             </h1>

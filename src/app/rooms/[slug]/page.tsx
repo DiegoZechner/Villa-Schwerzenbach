@@ -148,7 +148,6 @@ export default async function RoomDetailPage({ params }: { params: Promise<{ slu
             {/* Right: Arch-Accented Amenities Card */}
             <div className="w-full lg:w-2/5">
               <div className="bg-cream-light p-8 md:p-10 border border-espresso/10 shadow-sm">
-                <span className="font-script text-2xl text-villa-red block mb-1">A home full of life</span>
                 <h3 className="font-villa-editorial text-2xl text-espresso mb-8 uppercase tracking-[0.15em]">
                   Highlights &amp; Ausstattung
                 </h3>

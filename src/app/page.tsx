@@ -25,12 +25,9 @@ export default function Home() {
             <span className="font-sans text-[10px] tracking-[0.3em] uppercase text-[#d9c8b9] mb-3 px-4 py-1.5 border border-[#d9c8b9]/40">
               VILLA SCHWERZENBACH
             </span>
-            <h2 className="text-white font-villa-editorial text-4xl md:text-6xl uppercase tracking-[0.18em] mb-3">
+            <h2 className="text-white font-villa-editorial text-4xl md:text-6xl uppercase tracking-[0.18em]">
               Our Apartments
             </h2>
-            <p className="font-script text-2xl md:text-3xl text-[#d9c8b9] opacity-95">
-              A home full of life
-            </p>
           </div>
         </Link>
         
@@ -90,12 +87,9 @@ export default function Home() {
             <span className="font-sans text-[10px] tracking-[0.3em] uppercase text-villa-red font-semibold mb-3">
               STAY • RELAX • ENJOY
             </span>
-            <h2 className="font-villa-editorial text-4xl md:text-6xl text-espresso uppercase tracking-[0.15em] mb-4 leading-tight">
+            <h2 className="font-villa-editorial text-4xl md:text-6xl text-espresso uppercase tracking-[0.15em] mb-6 leading-tight">
               Zeitlose Eleganz
             </h2>
-            <p className="font-script text-3xl text-villa-blue mb-6">
-              A home full of life
-            </p>
             <p className="font-sans text-sm md:text-base text-espresso/80 leading-loose mb-10 max-w-lg">
               Unsere 11 individuell gestalteten Apartments (Top 02 bis Top 12) vereinen den historischen Glanz der Belle Époque mit zeitgenössischem Komfort. Warme Erdtöne, lichtdurchflutete Räume und die charakteristischen Rundbögen machen jeden Aufenthalt einzigartig.
             </p>

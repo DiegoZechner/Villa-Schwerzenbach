@@ -101,9 +101,6 @@ export default function DiscoverPage() {
         
         {/* Title */}
         <div className={`absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500 ${activeSeason === 'summer' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-          {activeSeason === 'none' && (
-            <span className="font-script text-3xl text-cream mb-2">A home full of life</span>
-          )}
           <h2 
             className="text-white font-villa-editorial text-4xl md:text-6xl tracking-[0.2em] uppercase transition-transform duration-1000" 
             style={{ writingMode: activeSeason === 'winter' ? 'vertical-rl' : 'horizontal-tb' }}
@@ -173,7 +170,6 @@ export default function DiscoverPage() {
         {/* Expanded Content (Editorial Layout with Arch Masks) */}
         <div className={`absolute inset-0 bg-espresso overflow-y-auto hide-scrollbar transition-all duration-1000 ${activeSeason === 'winter' ? 'opacity-100 z-10' : 'opacity-0 pointer-events-none z-[-1]'}`}>
           <div className="container mx-auto px-6 md:px-12 max-w-5xl py-32">
-            <p className="font-script text-3xl text-villa-blue text-center mb-2">A home full of life</p>
             <h2 className="font-villa-editorial text-5xl md:text-7xl tracking-[0.2em] uppercase text-cream mb-24 text-center">
               Winter
             </h2>

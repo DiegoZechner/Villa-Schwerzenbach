@@ -43,9 +43,9 @@ export default function Header() {
 
   const scrolledBg = isMivaWorld
     ? 'bg-miva-purple/95 backdrop-blur-md shadow-md'
-    : 'bg-cream/95 backdrop-blur-md shadow-sm';
+    : 'bg-bordeaux/95 backdrop-blur-md shadow-md';
 
-  const scrolledText = isMivaWorld ? 'text-white' : 'text-espresso';
+  const scrolledText = 'text-white';
 
   return (
     <>
@@ -64,9 +64,7 @@ export default function Header() {
                 alt="Villa Schwerzenbach" 
                 width={200} 
                 height={40} 
-                className={`h-6 md:h-8 w-auto object-contain transition-all duration-300 ${
-                  lastScrollY > 10 && !isMivaWorld ? 'opacity-100' : 'brightness-0 invert'
-                }`}
+                className="h-6 md:h-8 w-auto object-contain transition-all duration-300 brightness-0 invert"
               />
             </Link>
             {isMivaWorld && (
@@ -140,9 +138,9 @@ export default function Header() {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle Menu"
             >
-              <div className={`w-6 h-px mb-1.5 transition-all ${isMobileMenuOpen || (lastScrollY > 10 && !isMivaWorld) ? 'bg-espresso' : 'bg-white'} ${isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></div>
-              <div className={`w-6 h-px mb-1.5 transition-all ${isMobileMenuOpen || (lastScrollY > 10 && !isMivaWorld) ? 'bg-espresso' : 'bg-white'} ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`}></div>
-              <div className={`w-6 h-px transition-all ${isMobileMenuOpen || (lastScrollY > 10 && !isMivaWorld) ? 'bg-espresso' : 'bg-white'} ${isMobileMenuOpen ? '-rotate-45 -translate-y-1' : ''}`}></div>
+              <div className={`w-6 h-px mb-1.5 transition-all ${isMobileMenuOpen ? 'bg-espresso rotate-45 translate-y-2' : 'bg-white'}`}></div>
+              <div className={`w-6 h-px mb-1.5 transition-all ${isMobileMenuOpen ? 'bg-espresso opacity-0' : 'bg-white opacity-100'}`}></div>
+              <div className={`w-6 h-px transition-all ${isMobileMenuOpen ? 'bg-espresso -rotate-45 -translate-y-1' : 'bg-white'}`}></div>
             </button>
           </div>
         </div>

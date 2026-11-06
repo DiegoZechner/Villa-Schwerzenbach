@@ -18,7 +18,7 @@ export async function sendBookingConfirmation(
         <li><strong>Check-in:</strong> ${checkIn}</li>
         <li><strong>Check-out:</strong> ${checkOut}</li>
       </ul>
-      <p>A House Full of Life. We look forward to your stay!</p>
+      <p>We look forward to your stay!</p>
     </div>
   `;
 
