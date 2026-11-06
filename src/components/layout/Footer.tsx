@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
+const underlineSpan = (
+  <span className="absolute -bottom-1 left-0 w-full h-px bg-current origin-center scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
+);
+
 export default function Footer() {
   return (
     <footer className="w-full bg-[#120606]/95 border-t border-[#d9c8b9]/15 py-20 md:py-28 flex justify-center items-center px-4">
@@ -19,12 +23,13 @@ export default function Footer() {
 
         {/* Obere Reihe: Links (Kontakt in Montserrat) & Rechts (Villa Rundbogen-Signet & Brand) */}
         <div className="relative z-10 flex justify-between items-start gap-4">
-          <div className="font-sans text-[10px] sm:text-xs tracking-[0.18em] uppercase text-[#4b1716] font-medium flex flex-col gap-1">
+          <div className="font-sans text-[10px] sm:text-xs tracking-[0.18em] uppercase text-[#4b1716] font-medium flex flex-col items-start gap-1">
             <a
               href="mailto:hallo@villaschwerzenbach.at"
-              className="hover:text-[#932b28] transition-colors"
+              className="group relative hover:text-[#932b28] transition-colors"
             >
               hallo@villaschwerzenbach.at
+              {underlineSpan}
             </a>
             <span className="text-[9px] sm:text-[10px] tracking-[0.22em] text-[#6b889f]">
               Bregenz • Bodensee
@@ -34,7 +39,7 @@ export default function Footer() {
           <div className="text-right flex flex-col items-end">
             <Link
               href="/"
-              className="group inline-flex items-center gap-2.5 font-villa-editorial uppercase tracking-[0.22em] text-sm sm:text-base md:text-lg text-[#4b1716] hover:text-[#932b28] transition-colors"
+              className="group relative inline-flex items-center gap-2.5 font-villa-editorial uppercase tracking-[0.22em] text-sm sm:text-base md:text-lg text-[#4b1716] hover:text-[#932b28] transition-colors"
             >
               <Image
                 src="/images/logos/brand-6.svg"
@@ -44,8 +49,9 @@ export default function Footer() {
                 className="w-4 h-4 sm:w-5 sm:h-5 object-contain opacity-85"
               />
               <span>Villa Schwerzenbach</span>
+              {underlineSpan}
             </Link>
-            <span className="inline-flex items-center gap-1.5 font-sans uppercase tracking-[0.22em] text-[8px] sm:text-[9px] text-[#932b28] font-semibold mt-1">
+            <span className="inline-flex items-center gap-1.5 font-sans uppercase tracking-[0.22em] text-[8px] sm:text-[9px] text-[#932b28] font-semibold mt-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[#ea2d39]" />
               <span>by MIVA • Suites &amp; Events</span>
             </span>
@@ -56,22 +62,26 @@ export default function Footer() {
         <div className="relative z-10 text-center flex flex-col items-center justify-center my-auto py-2">
           <Link
             href="/rooms"
-            className="font-villa-editorial uppercase tracking-[0.22em] text-xl sm:text-2xl md:text-3xl text-[#4b1716] hover:text-[#932b28] transition-colors"
+            className="group relative font-villa-editorial uppercase tracking-[0.22em] text-xl sm:text-2xl md:text-3xl text-[#4b1716] hover:text-[#932b28] transition-colors"
           >
             Suites &amp; Apartments Buchen
+            {underlineSpan}
           </Link>
 
-          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 mt-2.5 font-sans text-[9px] sm:text-[11px] uppercase tracking-[0.22em] text-[#35271f]/80">
-            <Link href="/events" className="hover:text-[#4e041c] transition-colors">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mt-3.5 font-sans text-[9px] sm:text-[11px] uppercase tracking-[0.22em] text-[#35271f]/80">
+            <Link href="/events" className="group relative hover:text-[#4e041c] transition-colors">
               Events &amp; Experience
+              {underlineSpan}
             </Link>
             <span className="text-[#932b28]">•</span>
-            <Link href="/discover" className="hover:text-[#932b28] transition-colors">
+            <Link href="/discover" className="group relative hover:text-[#932b28] transition-colors">
               Discover
+              {underlineSpan}
             </Link>
             <span className="text-[#932b28]">•</span>
-            <Link href="/contact" className="hover:text-[#932b28] transition-colors">
+            <Link href="/contact" className="group relative hover:text-[#932b28] transition-colors">
               Kontakt &amp; Anfahrt
+              {underlineSpan}
             </Link>
           </div>
         </div>
@@ -81,16 +91,19 @@ export default function Footer() {
           <span className="text-[#4b1716]/80">Schwerzenbachstraße 9 • 6900 Bregenz</span>
 
           <div className="flex items-center gap-x-2.5 sm:gap-x-4">
-            <Link href="/impressum" className="hover:text-[#932b28] transition-colors">
+            <Link href="/impressum" className="group relative hover:text-[#932b28] transition-colors">
               Impressum
+              {underlineSpan}
             </Link>
             <span className="text-[#932b28]">•</span>
-            <Link href="/datenschutz" className="hover:text-[#932b28] transition-colors">
+            <Link href="/datenschutz" className="group relative hover:text-[#932b28] transition-colors">
               Datenschutz
+              {underlineSpan}
             </Link>
             <span className="text-[#932b28]">•</span>
-            <Link href="/impressum" className="hover:text-[#932b28] transition-colors">
+            <Link href="/impressum" className="group relative hover:text-[#932b28] transition-colors">
               AGB
+              {underlineSpan}
             </Link>
           </div>
         </div>
