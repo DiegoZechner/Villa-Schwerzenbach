@@ -36,11 +36,16 @@ const upcomingEvents = [
   },
 ];
 
-const sloganText =
-  'Wir schaffen lebendige Räume und unvergessliche Momente, die Menschen zusammenbringen – spontan, kreativ und voller Leben für ein farbenfroheres Morgen.';
+const sloganLines = [
+  'Wir schaffen',
+  'lebendige Räume und',
+  'unvergessliche Momente,',
+  'die Menschen verbinden',
+  'und lange bleiben.',
+];
 
 export default function EventsPage() {
-  // Hero animation stage: 0 = initial hidden, 1 = rise from bottom to center, 2 = split left/right, 3 = move to top-left & bottom-right corners
+  // Hero animation stage: 0 = initial hidden, 1 = rise from bottom to center, 2 = split left/right, 3 = move to top-left & bottom-right corners (scroll unlocked)
   const [heroStage, setHeroStage] = useState<number>(0);
   const [scrollProgress, setScrollProgress] = useState<number>(0);
   const [bookingModalEvent, setBookingModalEvent] = useState<(typeof upcomingEvents)[0] | null>(null);
@@ -48,14 +53,23 @@ export default function EventsPage() {
 
   const sloganSectionRef = useRef<HTMLDivElement>(null);
 
+  // Lock page scrolling until hero animation reaches stage 3
   useEffect(() => {
+    window.scrollTo(0, 0);
+    document.body.style.overflow = 'hidden';
+
     const t1 = setTimeout(() => setHeroStage(1), 150);
-    const t2 = setTimeout(() => setHeroStage(2), 1250);
-    const t3 = setTimeout(() => setHeroStage(3), 2350);
+    const t2 = setTimeout(() => setHeroStage(2), 1200);
+    const t3 = setTimeout(() => {
+      setHeroStage(3);
+      document.body.style.overflow = '';
+    }, 2300);
+
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
       clearTimeout(t3);
+      document.body.style.overflow = '';
     };
   }, []);
 
@@ -64,9 +78,8 @@ export default function EventsPage() {
       if (!sloganSectionRef.current) return;
       const rect = sloganSectionRef.current.getBoundingClientRect();
       const windowH = window.innerHeight;
-      // Calculate progress from when section top enters 80% of viewport to when it reaches 15%
-      const start = windowH * 0.8;
-      const end = windowH * 0.15;
+      const start = windowH * 0.82;
+      const end = windowH * 0.2;
       const raw = (start - rect.top) / (start - end);
       const clamped = Math.max(0, Math.min(1, raw));
       setScrollProgress(clamped);
@@ -77,7 +90,8 @@ export default function EventsPage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const words = sloganText.split(' ');
+  const totalWords = sloganLines.reduce((acc, line) => acc + line.split(' ').length, 0);
+  let globalWordCounter = 0;
 
   // Compute transform styles for "EVENTS" and "& EXPERIENCES"
   const getEventsTransform = () => {
@@ -97,7 +111,7 @@ export default function EventsPage() {
   return (
     <div className="flex flex-col min-h-screen relative z-10 font-sans">
       
-      {/* 1. Choreographed Dark Intro Hero */}
+      {/* 1. Choreographed Dark Intro Hero (Scroll is locked until animation completes) */}
       <section className="relative h-screen w-full bg-[#160108] overflow-hidden flex items-center justify-center select-none">
         {/* Subtle ambient glow */}
         <div
@@ -148,33 +162,45 @@ export default function EventsPage() {
         </div>
       </section>
 
-      {/* 2. Scroll-Scrubbed Word-by-Word Slogan Section */}
-      <section
-        ref={sloganSectionRef}
-        className="w-full bg-miva-purple py-32 md:py-44 px-6 md:px-12 border-t border-white/10"
-      >
-        <div className="container mx-auto max-w-4xl text-center">
-          <p className="font-miva-display text-2xl sm:text-4xl md:text-5xl leading-relaxed md:leading-snug flex flex-wrap justify-center gap-x-3 gap-y-2">
-            {words.map((word, index) => {
-              const wordThreshold = index / words.length;
-              const isLit = scrollProgress > wordThreshold;
+      {/* 2. Compact Staggered Slogan Widget (Each line shifted progressively to the right) */}
+      <section className="py-16 md:py-24 px-4 md:px-8">
+        <div
+          ref={sloganSectionRef}
+          className="container mx-auto max-w-3xl bg-[#160108] px-8 sm:px-14 md:px-20 py-14 md:py-20 rounded-3xl shadow-2xl border border-miva-lilac/15"
+        >
+          <div className="flex flex-col gap-1.5 sm:gap-2 font-sans font-light text-2xl sm:text-3xl md:text-4xl tracking-tight leading-snug">
+            {sloganLines.map((line, lineIdx) => {
+              const lineWords = line.split(' ');
               return (
-                <span
-                  key={index}
-                  className={`transition-colors duration-300 ${
-                    isLit ? 'text-miva-lilac' : 'text-white/20'
-                  }`}
+                <div
+                  key={lineIdx}
+                  style={{ paddingLeft: `${lineIdx * 11}%` }}
+                  className="flex flex-wrap gap-x-2.5"
                 >
-                  {word}
-                </span>
+                  {lineWords.map((word, wIdx) => {
+                    const currentWordIndex = globalWordCounter++;
+                    const wordThreshold = currentWordIndex / totalWords;
+                    const isLit = scrollProgress > wordThreshold;
+                    return (
+                      <span
+                        key={wIdx}
+                        className={`transition-colors duration-300 ${
+                          isLit ? 'text-miva-lilac' : 'text-miva-lilac/25'
+                        }`}
+                      >
+                        {word}
+                      </span>
+                    );
+                  })}
+                </div>
               );
             })}
-          </p>
+          </div>
         </div>
       </section>
 
       {/* 3. Main MIVA Content: Upcoming Events + Event Inquiry */}
-      <section className="py-16 md:py-24">
+      <section className="pb-16 md:pb-24">
         <div className="container mx-auto px-4 md:px-8 max-w-6xl space-y-20">
           
           {/* UPCOMING EVENTS (Future Events to View & Book) */}
