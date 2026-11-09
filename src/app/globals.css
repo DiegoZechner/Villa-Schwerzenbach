@@ -99,3 +99,26 @@ html {
   width: max-content;
   animation: footer-marquee 26s linear infinite;
 }
+
+@keyframes arrow-shoot {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  45% {
+    transform: translateX(14px);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(-12px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.group:hover .animate-arrow-shoot {
+  animation: arrow-shoot 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}

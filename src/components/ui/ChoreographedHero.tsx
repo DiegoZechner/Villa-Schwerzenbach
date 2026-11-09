@@ -28,25 +28,26 @@ export default function ChoreographedHero({
   scrollLineClassName = 'from-miva-lilac',
   leftSplitVw = -26,
 }: ChoreographedHeroProps) {
-  // 0 = hidden, 1 = rise from bottom to center, 2 = split left/right, 3 = move to corners (scroll unlocked)
+  // 0 = hidden, 1 = rise from bottom to center, 2 = split left/right, 3 = move to corners (always skippable by scrolling)
   const [heroStage, setHeroStage] = useState<number>(0);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    document.body.style.overflow = 'hidden';
+    const t1 = setTimeout(() => setHeroStage((prev) => Math.max(prev, 1)), 150);
+    const t2 = setTimeout(() => setHeroStage((prev) => Math.max(prev, 2)), 1100);
+    const t3 = setTimeout(() => setHeroStage(3), 2100);
 
-    const t1 = setTimeout(() => setHeroStage(1), 150);
-    const t2 = setTimeout(() => setHeroStage(2), 1200);
-    const t3 = setTimeout(() => {
-      setHeroStage(3);
-      document.body.style.overflow = '';
-    }, 2300);
+    const handleScrollSkip = () => {
+      if (window.scrollY > 15) {
+        setHeroStage(3);
+      }
+    };
 
+    window.addEventListener('scroll', handleScrollSkip, { passive: true });
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
       clearTimeout(t3);
-      document.body.style.overflow = '';
+      window.removeEventListener('scroll', handleScrollSkip);
     };
   }, []);
 
