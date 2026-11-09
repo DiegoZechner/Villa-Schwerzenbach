@@ -42,7 +42,7 @@ export function RoomPhotoTile({
   onHoverChange: (hovering: boolean) => void;
   onMouseMove: (e: React.MouseEvent) => void;
 }) {
-  const formattedSize = `${room.size.toString().replace('.', ',')} m²`;
+  const formattedSize = `${Math.floor(room.size)} m²`;
 
   return (
     <Link

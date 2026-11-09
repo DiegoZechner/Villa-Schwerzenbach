@@ -9,6 +9,83 @@ export function generateStaticParams() {
   return allRooms.map((r) => ({ slug: r.slug }));
 }
 
+function DoubleBedIcon() {
+  return (
+    <svg
+      className="w-5 h-5 text-cream shrink-0"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {/* Headboard */}
+      <path d="M3 11V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5" />
+      {/* Two pillows side-by-side (Double Bed) */}
+      <rect x="5" y="7.5" width="6" height="3.5" rx="1" />
+      <rect x="13" y="7.5" width="6" height="3.5" rx="1" />
+      {/* Mattress & Frame */}
+      <rect x="2" y="11" width="20" height="6" rx="1.5" />
+      {/* Legs */}
+      <path d="M4 17v3M20 17v3" />
+    </svg>
+  );
+}
+
+function SingleBedIcon() {
+  return (
+    <svg
+      className="w-5 h-5 text-cream shrink-0"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {/* Narrower Headboard */}
+      <path d="M6 11V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v5" />
+      {/* Single centered pillow (Single Bed) */}
+      <rect x="8.5" y="7.5" width="7" height="3.5" rx="1" />
+      {/* Narrower Mattress & Frame */}
+      <rect x="5" y="11" width="14" height="6" rx="1.5" />
+      {/* Legs */}
+      <path d="M7 17v3M17 17v3" />
+    </svg>
+  );
+}
+
+function getBedItems(topNumber: string): {
+  bedroomLabel: string;
+  beds: { type: 'double' | 'single'; label: string }[];
+} {
+  if (topNumber === '04') {
+    return {
+      bedroomLabel: '2 Schlafzimmer',
+      beds: [
+        { type: 'double', label: '1x Doppelbett' },
+        { type: 'single', label: '1x Einzelbett' },
+      ],
+    };
+  }
+  if (topNumber === '11') {
+    return {
+      bedroomLabel: '2 Schlafzimmer',
+      beds: [
+        { type: 'double', label: '2x Doppelbett' },
+        { type: 'single', label: '1x Einzelbett' },
+      ],
+    };
+  }
+  return {
+    bedroomLabel: '1 Schlafzimmer',
+    beds: [{ type: 'double', label: '1x Doppelbett' }],
+  };
+}
+
 export default async function RoomDetailPage({
   params,
 }: {
@@ -51,11 +128,13 @@ export default async function RoomDetailPage({
   };
 
   const images = getGalleryImages(roomBase.topNumber, roomBase.image);
+  const bedInfo = getBedItems(roomBase.topNumber);
+  const roundedSize = Math.floor(roomBase.size);
 
   return (
     <div className="min-h-screen relative z-10 font-sans pb-16 text-white">
-      {/* 1. Header Banner (Stays at the top) */}
-      <div className="w-full bg-[#090a0c]/95 pt-32 pb-12 px-6 md:px-12 border-b border-white/15">
+      {/* 1. Header Banner (Stays at the top, without tagline subheader) */}
+      <div className="w-full bg-[#090a0c]/95 pt-32 pb-10 px-6 md:px-12 border-b border-white/15">
         <div className="container mx-auto max-w-7xl flex flex-col items-start">
           <Link
             href="/rooms"
@@ -66,11 +145,6 @@ export default async function RoomDetailPage({
           <h1 className="font-villa-editorial text-3xl sm:text-4xl md:text-5xl text-cream uppercase tracking-[0.18em] leading-tight">
             {roomBase.name}
           </h1>
-          {roomBase.tagline && (
-            <p className="font-script text-2xl md:text-3xl text-white/85 mt-1">
-              {roomBase.tagline}
-            </p>
-          )}
         </div>
       </div>
 
@@ -110,7 +184,7 @@ export default async function RoomDetailPage({
                   Fläche
                 </span>
                 <strong className="font-sans text-base sm:text-lg text-white font-medium">
-                  {roomBase.size.toString().replace('.', ',')} m²
+                  {roundedSize} m²
                 </strong>
               </div>
 
@@ -143,11 +217,19 @@ export default async function RoomDetailPage({
 
               <div>
                 <span className="block font-sans text-[10px] tracking-[0.22em] uppercase text-white/50 mb-1.5">
-                  Schlafzimmer / Betten
+                  {bedInfo.bedroomLabel}
                 </span>
-                <strong className="font-sans text-sm sm:text-base text-white font-medium">
-                  {roomBase.bedrooms} ({roomBase.beds} {roomBase.beds === 1 ? 'Bett' : 'Betten'})
-                </strong>
+                <div className="flex flex-col gap-1.5 mt-1">
+                  {bedInfo.beds.map((bed, idx) => (
+                    <div
+                      key={idx}
+                      className="inline-flex items-center gap-2 font-sans text-xs sm:text-sm text-white font-medium"
+                    >
+                      {bed.type === 'double' ? <DoubleBedIcon /> : <SingleBedIcon />}
+                      <span>{bed.label}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <div>
@@ -183,17 +265,14 @@ export default async function RoomDetailPage({
           {/* Divider */}
           <div className="w-full h-px bg-white/15" />
 
-          {/* SECOND: The Text on the Room */}
+          {/* SECOND: The Text on the Room (Without tagline subheader) */}
           <div className="max-w-4xl">
             <span className="font-sans text-[10px] tracking-[0.35em] uppercase text-cream/60 block mb-3">
               02 / THE EXPERIENCE
             </span>
-            <h2 className="font-villa-editorial text-2xl sm:text-4xl text-cream uppercase tracking-[0.18em] mb-2">
+            <h2 className="font-villa-editorial text-2xl sm:text-4xl text-cream uppercase tracking-[0.18em] mb-6">
               {roomBase.shortName}
             </h2>
-            <p className="font-script text-2xl sm:text-3xl text-white/80 mb-6">
-              {roomBase.tagline}
-            </p>
             <p className="font-sans font-light text-base sm:text-lg text-white/85 leading-relaxed mb-8">
               {roomBase.description}
             </p>
