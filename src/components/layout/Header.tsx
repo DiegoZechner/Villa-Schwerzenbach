@@ -62,9 +62,9 @@ export default function Header() {
               <Image 
                 src="/images/logos/secondary-3.svg" 
                 alt="Villa Schwerzenbach" 
-                width={200} 
-                height={40} 
-                className="h-6 md:h-8 w-auto object-contain transition-all duration-300 brightness-0 invert"
+                width={260} 
+                height={64} 
+                className="h-10 sm:h-11 md:h-14 w-auto object-contain transition-all duration-300 brightness-0 invert"
               />
             </Link>
           </div>
