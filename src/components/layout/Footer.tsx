@@ -16,8 +16,8 @@ const rightLinks = [
 export default function Footer() {
   return (
     <footer className="w-full bg-[#191919] text-white border-t border-white/10 pt-8 md:pt-10 pb-0 overflow-hidden select-none">
-      {/* Obere Leiste: Links Navigation/Socials, Rechts Rechtliches & Copyright */}
-      <div className="w-full px-5 sm:px-8 md:px-12 pb-10 md:pb-14 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+      {/* Obere Leiste: Links Navigation/Socials, Rechts Rechtliches & Copyright bündig am rechten Rand */}
+      <div className="w-full px-5 sm:px-8 md:px-10 pb-10 md:pb-14 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         
         {/* Links */}
         <div className="flex flex-wrap items-center gap-x-6 sm:gap-x-8 gap-y-3">
@@ -33,8 +33,8 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Rechts */}
-        <div className="flex flex-wrap items-center gap-x-6 sm:gap-x-8 gap-y-3">
+        {/* Rechts (ganz rechts bündig) */}
+        <div className="w-full md:w-auto md:ml-auto flex flex-wrap items-center justify-end text-right gap-x-6 sm:gap-x-8 gap-y-3">
           {rightLinks.map((link) => (
             <Link
               key={link.name}

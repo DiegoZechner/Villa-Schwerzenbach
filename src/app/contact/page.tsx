@@ -2,7 +2,7 @@
 
 export default function ContactPage() {
   return (
-    <main className="min-h-screen pt-40 pb-28 px-6 md:px-12 font-sans">
+    <main className="pt-32 pb-8 md:pb-10 px-6 md:px-12 font-sans">
       <div className="container mx-auto max-w-4xl">
         <div className="bg-cream p-8 md:p-12 shadow-2xl">
           <div className="text-center mb-12">

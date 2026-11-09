@@ -127,14 +127,14 @@ export default function EventInquiry() {
             <div className="absolute top-[56%] right-[14%] w-24 h-1 bg-white/15 blur-[1px] rotate-2" />
           </div>
 
-          {/* Top Bar: Minimal Museum Chapter Header */}
+          {/* Top Bar: Larger Museum Chapter Header & Inquiry Jump Button */}
           <div className="absolute top-24 left-6 md:left-12 right-6 md:right-12 z-40 flex items-center justify-between pointer-events-none">
-            <div className="flex items-center gap-3">
-              <span className="font-sans font-light text-[11px] tracking-[0.35em] uppercase text-white/75">
+            <div className="flex items-center gap-4">
+              <span className="font-sans font-medium text-sm sm:text-lg md:text-2xl tracking-[0.3em] uppercase text-white">
                 MIVA
               </span>
-              <span className="w-6 h-px bg-white/25" />
-              <span className="font-sans font-extralight text-[11px] tracking-[0.25em] uppercase text-miva-lilac">
+              <span className="w-8 sm:w-10 h-px bg-white/35" />
+              <span className="font-sans font-light text-sm sm:text-lg md:text-2xl tracking-[0.25em] uppercase text-miva-lilac">
                 {currentItem.chapter}
               </span>
             </div>
@@ -142,10 +142,10 @@ export default function EventInquiry() {
             <button
               type="button"
               onClick={() => handleSelectAndScrollToForm(currentItem.id)}
-              className="pointer-events-auto font-sans font-light text-[10px] tracking-[0.28em] uppercase text-white/75 hover:text-miva-lilac transition-colors flex items-center gap-2 cursor-pointer"
+              className="pointer-events-auto font-sans font-medium text-xs sm:text-sm md:text-base tracking-[0.22em] uppercase text-white hover:text-miva-purple hover:bg-miva-lilac border border-white/30 hover:border-miva-lilac px-4 sm:px-6 py-2 sm:py-2.5 rounded-full transition-all flex items-center gap-2.5 cursor-pointer backdrop-blur-md bg-white/5"
             >
               <span>CHAPTERS / ANFRAGEN</span>
-              <span className="text-xs">↓</span>
+              <span className="text-sm sm:text-base">↓</span>
             </button>
           </div>
 
@@ -229,8 +229,8 @@ export default function EventInquiry() {
         </div>
       </div>
 
-      {/* 2. Event Request Form Section (Same 95% width as the widgets above) */}
-      <section ref={formSectionRef} className="py-16 md:py-24">
+      {/* 2. Event Request Form Section (Same 95% width as the widgets above, compact top/bottom gap) */}
+      <section ref={formSectionRef} className="pt-5 pb-8 md:pt-7 md:pb-10">
         <div className="w-[95%] mx-auto">
           <div className="bg-miva-purple text-white p-8 sm:p-12 md:p-16 rounded-3xl shadow-2xl relative overflow-hidden border border-miva-lilac/20">
             <div className="text-center mb-12 relative z-10">

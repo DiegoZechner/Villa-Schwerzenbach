@@ -67,38 +67,21 @@ export default function Header() {
                 className="h-6 md:h-8 w-auto object-contain transition-all duration-300 brightness-0 invert"
               />
             </Link>
-            {isMivaWorld && (
-              <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-miva-red text-white text-[9px] font-medium tracking-[0.2em] uppercase">
-                <span className="w-1.5 h-1.5 rounded-full bg-miva-lilac animate-pulse"></span>
-                MIVA World
-              </span>
-            )}
           </div>
           
           {/* Center: Navigation (Desktop) */}
           <nav className="hidden lg:flex flex-[1.5] justify-center items-center gap-8 xl:gap-10">
             {navLinks.map(link => {
-              const isActive = pathname === link.href || (link.href !== '/' && pathname?.startsWith(link.href));
-              const isEventLink = link.brand === 'miva';
               return (
                 <Link 
                   key={link.name} 
                   href={link.href} 
-                  className={`group relative font-sans font-medium text-[10px] xl:text-xs tracking-[0.22em] uppercase whitespace-nowrap transition-all duration-300 flex items-center gap-1.5 ${
-                    isEventLink && isActive
-                      ? 'px-4 py-1.5 rounded-full bg-miva-red text-white'
-                      : lastScrollY > 10
-                        ? scrolledText
-                        : 'text-white'
+                  className={`group relative font-sans font-medium text-[10px] xl:text-xs tracking-[0.22em] uppercase whitespace-nowrap transition-all duration-300 flex items-center ${
+                    lastScrollY > 10 ? scrolledText : 'text-white'
                   }`}
                 >
-                  {isEventLink && (
-                    <span className={`w-1.5 h-1.5 rounded-full ${isActive ? 'bg-miva-lilac' : 'bg-miva-red'}`}></span>
-                  )}
                   {link.name}
-                  {!(isEventLink && isActive) && (
-                    <span className="absolute -bottom-2 left-0 w-full h-px bg-current origin-center scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
-                  )}
+                  <span className="absolute -bottom-2 left-0 w-full h-px bg-current origin-center scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
                 </Link>
               );
             })}

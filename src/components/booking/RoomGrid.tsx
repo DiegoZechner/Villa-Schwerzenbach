@@ -107,22 +107,13 @@ export default function RoomGrid({ initialRooms }: { initialRooms: RoomData[] })
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!notchTrackRef.current) return;
-      const rect = notchTrackRef.current.getBoundingClientRect();
       const windowH = window.innerHeight;
-      const pinTop = 96;
-      const totalPinnedScroll = Math.max(1, rect.height - 90);
-
-      if (rect.top > windowH * 0.75) {
-        setIslandProgress(0);
-      } else if (rect.top <= pinTop) {
-        const scrolled = pinTop - rect.top;
-        const raw = 0.25 + (scrolled / totalPinnedScroll) * 0.75;
-        setIslandProgress(Math.max(0, Math.min(1, raw)));
-      } else {
-        const approachRaw = ((windowH * 0.75 - rect.top) / (windowH * 0.75 - pinTop)) * 0.25;
-        setIslandProgress(Math.max(0, Math.min(0.25, approachRaw)));
-      }
+      const scrollY = window.scrollY;
+      // Fast expansion as soon as user starts scrolling down from hero
+      const start = windowH * 0.04;
+      const end = windowH * 0.24;
+      const raw = (scrollY - start) / (end - start);
+      setIslandProgress(Math.max(0, Math.min(1, raw)));
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -166,50 +157,41 @@ export default function RoomGrid({ initialRooms }: { initialRooms: RoomData[] })
         leftSplitVw={-24}
       />
 
-      <div className="relative pt-8 pb-28 px-3 sm:px-6 md:px-10 max-w-[1440px] mx-auto">
-        <div ref={notchTrackRef} className="relative h-[48vh] mb-6">
-          <div className="sticky top-24 z-30 flex justify-center">
-            <div
-              style={{
-                width: `${islandWidth}px`,
-                height: `${islandHeight}px`,
-              }}
-              className="bg-[#050607]/95 backdrop-blur-xl rounded-full border border-white/15 shadow-[0_14px_40px_rgba(0,0,0,0.8)] flex items-center justify-center p-1.5 overflow-hidden"
-            >
-              {!isIslandExpanded && (
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-cream/80 animate-pulse" />
-                  <span className="w-6 h-1 rounded-full bg-white/25" />
-                </div>
-              )}
-
-              {isIslandExpanded && (
-                <div className="w-full h-full grid grid-cols-2 gap-1.5 items-center">
-                  <button
-                    type="button"
-                    onClick={() => handleToggleClick('suites')}
-                    className={`h-full rounded-full font-sans text-xs tracking-[0.2em] uppercase transition-all duration-300 cursor-pointer ${
-                      activeFilter === 'suites'
-                        ? 'bg-cream text-[#090a0c] font-semibold shadow-md'
-                        : 'text-cream/80 hover:text-white hover:bg-white/10'
-                    }`}
-                  >
-                    Suites
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleToggleClick('apartments')}
-                    className={`h-full rounded-full font-sans text-xs tracking-[0.2em] uppercase transition-all duration-300 cursor-pointer ${
-                      activeFilter === 'apartments'
-                        ? 'bg-cream text-[#090a0c] font-semibold shadow-md'
-                        : 'text-cream/80 hover:text-white hover:bg-white/10'
-                    }`}
-                  >
-                    Apartments
-                  </button>
-                </div>
-              )}
-            </div>
+      <div className="relative pt-6 pb-20 px-3 sm:px-6 md:px-10 max-w-[1440px] mx-auto">
+        <div ref={notchTrackRef} className="flex justify-center mb-6">
+          <div
+            style={{
+              width: `${islandWidth}px`,
+              height: `${islandHeight}px`,
+            }}
+            className="bg-[#050607]/95 backdrop-blur-xl rounded-full border border-white/15 shadow-[0_14px_40px_rgba(0,0,0,0.8)] flex items-center justify-center p-1.5 overflow-hidden"
+          >
+            {isIslandExpanded && (
+              <div className="w-full h-full grid grid-cols-2 gap-1.5 items-center">
+                <button
+                  type="button"
+                  onClick={() => handleToggleClick('suites')}
+                  className={`h-full rounded-full font-sans text-xs tracking-[0.2em] uppercase transition-all duration-300 cursor-pointer ${
+                    activeFilter === 'suites'
+                      ? 'bg-cream text-[#090a0c] font-semibold shadow-md'
+                      : 'text-cream/80 hover:text-white hover:bg-white/10'
+                  }`}
+                >
+                  Suites
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleToggleClick('apartments')}
+                  className={`h-full rounded-full font-sans text-xs tracking-[0.2em] uppercase transition-all duration-300 cursor-pointer ${
+                    activeFilter === 'apartments'
+                      ? 'bg-cream text-[#090a0c] font-semibold shadow-md'
+                      : 'text-cream/80 hover:text-white hover:bg-white/10'
+                  }`}
+                >
+                  Apartments
+                </button>
+              </div>
+            )}
           </div>
         </div>
 

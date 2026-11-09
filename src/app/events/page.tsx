@@ -64,9 +64,8 @@ export default function EventsPage() {
 
       if (sloganTrackRef.current) {
         const rect = sloganTrackRef.current.getBoundingClientRect();
-        // Slower reading across the slogan track
-        const start = windowH * 0.88;
-        const end = -windowH * 0.45;
+        const start = windowH * 0.94;
+        const end = windowH * 0.14;
         const raw = (start - rect.top) / (start - end);
         setScrollProgress(Math.max(0, Math.min(1, raw)));
       }
@@ -124,9 +123,9 @@ export default function EventsPage() {
         subtitle="VILLA SCHWERZENBACH BY MIVA."
       />
 
-      {/* 2. 95% Width, Compact-Height Staggered Slogan Widget with Shorter Words & Slower Scroll Reading */}
-      <section ref={sloganTrackRef} className="relative md:h-[95vh] pt-4 pb-8">
-        <div className="md:sticky md:top-24 w-[95%] mx-auto bg-[#160108] px-6 sm:px-12 md:px-16 py-5 md:py-7 rounded-3xl shadow-2xl border border-miva-lilac/15">
+      {/* 2. 95% Width, Compact-Height Staggered Slogan Widget with No Excess Bottom Gap */}
+      <section ref={sloganTrackRef} className="py-4">
+        <div className="w-[95%] mx-auto bg-[#160108] px-6 sm:px-12 md:px-16 py-5 md:py-7 rounded-3xl shadow-2xl border border-miva-lilac/15">
           <div className="flex flex-col gap-0.5 sm:gap-1 font-sans font-light text-2xl sm:text-4xl md:text-5xl tracking-tight leading-[1.06]">
             {sloganLines.map((line, lineIdx) => {
               const lineWords = line.split(' ');
@@ -158,8 +157,8 @@ export default function EventsPage() {
         </div>
       </section>
 
-      {/* 3. UPCOMING EVENTS (Same 95% width as Slogan Widget above, starts timeline when cards are completely visible, ends at virtual point 3.2) */}
-      <section ref={upcomingTrackRef} className="relative md:h-[165vh] pb-14 md:pb-20">
+      {/* 3. UPCOMING EVENTS (Same 95% width, shorter scroll distance & minimal bottom gap) */}
+      <section ref={upcomingTrackRef} className="relative md:h-[132vh] pb-4 md:pb-6">
         <div className="md:sticky md:top-6 w-[95%] mx-auto bg-miva-gray p-5 md:p-7 rounded-3xl shadow-2xl">
           <div className="text-center max-w-2xl mx-auto mb-4">
             <p className="font-sans font-semibold text-[10px] tracking-[0.3em] uppercase text-miva-red">
