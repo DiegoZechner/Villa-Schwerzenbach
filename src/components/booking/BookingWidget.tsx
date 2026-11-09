@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { differenceInDays } from 'date-fns';
+import CustomDatePicker from '@/components/ui/CustomDatePicker';
+import CustomDropdown from '@/components/ui/CustomDropdown';
 
 export default function BookingWidget({
   roomId,
@@ -17,12 +19,19 @@ export default function BookingWidget({
   const router = useRouter();
   const [checkIn, setCheckIn] = useState<string>('');
   const [checkOut, setCheckOut] = useState<string>('');
-  const [guests, setGuests] = useState<number>(1);
+  const [guests, setGuests] = useState<string>('1');
 
   const nights =
     checkIn && checkOut
       ? Math.max(0, differenceInDays(new Date(checkOut), new Date(checkIn)))
       : 0;
+
+  const handleCheckInChange = (val: string) => {
+    setCheckIn(val);
+    if (checkOut && val && val >= checkOut) {
+      setCheckOut('');
+    }
+  };
 
   const handleBook = () => {
     if (!checkIn || !checkOut || nights <= 0) {
@@ -34,12 +43,18 @@ export default function BookingWidget({
       roomName,
       checkIn: new Date(checkIn).toISOString(),
       checkOut: new Date(checkOut).toISOString(),
-      guests: guests.toString(),
+      guests,
     });
     router.push(`/booking?${params.toString()}`);
   };
 
-  const guestOptions = Array.from({ length: Math.max(2, maxGuests) }, (_, i) => i + 1);
+  const guestOptions = Array.from({ length: Math.max(2, maxGuests) }, (_, i) => {
+    const count = i + 1;
+    return {
+      value: String(count),
+      label: `${count} ${count === 1 ? 'Guest' : 'Guests'}`,
+    };
+  });
 
   return (
     <div className="w-full bg-[#111316] border border-white/15 p-6 sm:p-8 flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-6 shadow-2xl">
@@ -61,49 +76,36 @@ export default function BookingWidget({
         )}
       </div>
 
-      {/* Check-in, Check-out & Guests */}
+      {/* Custom Check-in Calendar, Check-out Calendar & Custom Guests Dropdown */}
       <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-6 items-center">
-        <div>
-          <label className="block font-sans text-[10px] tracking-[0.25em] uppercase text-cream/60 mb-2">
-            Check-In
-          </label>
-          <input
-            type="date"
-            value={checkIn}
-            onChange={(e) => setCheckIn(e.target.value)}
-            className="w-full bg-transparent border-b border-white/25 pb-2 font-sans text-sm text-white focus:outline-none focus:border-cream transition-colors cursor-pointer [color-scheme:dark]"
-          />
-        </div>
+        <CustomDatePicker
+          label="Check-In"
+          value={checkIn}
+          onChange={handleCheckInChange}
+          rangeStart={checkIn}
+          rangeEnd={checkOut}
+          placeholder="Datum wählen"
+          variant="villa"
+        />
 
-        <div>
-          <label className="block font-sans text-[10px] tracking-[0.25em] uppercase text-cream/60 mb-2">
-            Check-Out
-          </label>
-          <input
-            type="date"
-            value={checkOut}
-            min={checkIn || undefined}
-            onChange={(e) => setCheckOut(e.target.value)}
-            className="w-full bg-transparent border-b border-white/25 pb-2 font-sans text-sm text-white focus:outline-none focus:border-cream transition-colors cursor-pointer [color-scheme:dark]"
-          />
-        </div>
+        <CustomDatePicker
+          label="Check-Out"
+          value={checkOut}
+          onChange={setCheckOut}
+          minDate={checkIn || undefined}
+          rangeStart={checkIn}
+          rangeEnd={checkOut}
+          placeholder="Datum wählen"
+          variant="villa"
+        />
 
-        <div>
-          <label className="block font-sans text-[10px] tracking-[0.25em] uppercase text-cream/60 mb-2">
-            Guests
-          </label>
-          <select
-            value={guests}
-            onChange={(e) => setGuests(Number(e.target.value))}
-            className="w-full bg-[#111316] border-b border-white/25 pb-2 font-sans text-sm text-white focus:outline-none focus:border-cream transition-colors cursor-pointer"
-          >
-            {guestOptions.map((n) => (
-              <option key={n} value={n} className="bg-[#111316] text-white">
-                {n} {n === 1 ? 'Guest' : 'Guests'}
-              </option>
-            ))}
-          </select>
-        </div>
+        <CustomDropdown
+          label="Guests"
+          value={guests}
+          onChange={setGuests}
+          options={guestOptions}
+          variant="villa"
+        />
       </div>
 
       {/* Book Now Button */}

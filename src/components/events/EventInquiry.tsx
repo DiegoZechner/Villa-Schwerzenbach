@@ -1,6 +1,8 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import CustomDatePicker from '@/components/ui/CustomDatePicker';
+import CustomDropdown from '@/components/ui/CustomDropdown';
 
 const eventCategories = [
   {
@@ -61,6 +63,7 @@ const eventCategories = [
 
 export default function EventInquiry() {
   const [selectedEvent, setSelectedEvent] = useState<string>('');
+  const [eventDate, setEventDate] = useState<string>('');
   const [galleryProgress, setGalleryProgress] = useState<number>(0);
 
   const trackRef = useRef<HTMLDivElement>(null);
@@ -232,7 +235,7 @@ export default function EventInquiry() {
       {/* 2. Event Request Form Section (Same 95% width as the widgets above, compact top/bottom gap) */}
       <section ref={formSectionRef} className="pt-5 pb-8 md:pt-7 md:pb-10">
         <div className="w-[95%] mx-auto">
-          <div className="bg-miva-purple text-white p-8 sm:p-12 md:p-16 rounded-3xl shadow-2xl relative overflow-hidden border border-miva-lilac/20">
+          <div className="bg-miva-purple text-white p-8 sm:p-12 md:p-16 rounded-3xl shadow-2xl relative border border-miva-lilac/20">
             <div className="text-center mb-12 relative z-10">
               <p className="font-sans font-light text-[10px] tracking-[0.35em] uppercase text-miva-lilac mb-3">
                 PRIVATE &amp; CORPORATE INQUIRY
@@ -249,30 +252,29 @@ export default function EventInquiry() {
               className="space-y-8 relative z-10"
               onSubmit={(e) => {
                 e.preventDefault();
+                if (!selectedEvent) {
+                  alert('Bitte wählen Sie eine Event Art aus.');
+                  return;
+                }
                 alert('Vielen Dank für Ihre Anfrage! Unser Event-Team meldet sich in Kürze.');
                 setSelectedEvent('');
+                setEventDate('');
               }}
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
-                  <label className="block font-sans font-light text-[10px] tracking-[0.25em] uppercase text-miva-lilac mb-2">
-                    Event Art
-                  </label>
-                  <select
+                  <CustomDropdown
+                    label="Event Art"
                     value={selectedEvent}
-                    onChange={(e) => setSelectedEvent(e.target.value)}
-                    className="w-full bg-transparent border-b border-white/30 pb-2 font-sans text-sm text-white focus:outline-none focus:border-miva-lilac cursor-pointer"
-                    required
-                  >
-                    <option value="" disabled className="text-miva-purple">
-                      Bitte wählen...
-                    </option>
-                    {eventCategories.map((c) => (
-                      <option key={c.id} value={c.id} className="text-miva-purple">
-                        {c.title}
-                      </option>
-                    ))}
-                  </select>
+                    onChange={setSelectedEvent}
+                    placeholder="Bitte wählen..."
+                    variant="miva"
+                    options={eventCategories.map((c) => ({
+                      value: c.id,
+                      label: c.title,
+                      sublabel: c.subtitle,
+                    }))}
+                  />
                 </div>
 
                 <div>
@@ -289,12 +291,12 @@ export default function EventInquiry() {
                 </div>
 
                 <div>
-                  <label className="block font-sans font-light text-[10px] tracking-[0.25em] uppercase text-miva-lilac mb-2">
-                    Wunschdatum
-                  </label>
-                  <input
-                    type="date"
-                    className="w-full bg-transparent border-b border-white/30 pb-2 font-sans text-sm text-white focus:outline-none focus:border-miva-lilac"
+                  <CustomDatePicker
+                    label="Wunschdatum"
+                    value={eventDate}
+                    onChange={setEventDate}
+                    placeholder="Datum wählen"
+                    variant="miva"
                   />
                 </div>
 
